@@ -1,3 +1,7 @@
 .astro/
 dist/
 node_modules/
+.vscode/
+package.json
+pnpm-lock.yaml
+tsconfig.json
