@@ -75,4 +75,74 @@ const IJTypography = ({
   );
 };
 
-export { IJTypography };
+export const IJCharacterCodes = {
+  ArrowLeft: "Ǡ",
+  ArrowRight: "ǡ",
+  ArrowUp: "Ǣ",
+  ArrowDown: "ǣ",
+  Spade: "Ǥ",
+  Heart: "ǥ",
+  Club: "Ǧ",
+  Diamond: "ǧ",
+  Circle: "Ǩ",
+  Ball: "ǩ",
+  Ten: "Ǫ",
+  RiceBall: "ǫ",
+  Cat: "Ǭ",
+  Jellyfish: "ǭ",
+  Note: "Ǯ",
+  AtMark: "ǯ",
+  Plane: "ǰ",
+  UFO: "Ǳ",
+  Beam: "ǲ",
+  Helicopter: "ǳ",
+  Virus: "Ǵ",
+  Coin: "ǵ",
+  TreasureBox: "Ƕ",
+  UpStairs: "Ƿ",
+  DownStairs: "Ǹ",
+  Human: "ǹ",
+  StandingHuman: "Ǻ",
+  RunningHumanRight: "ǻ",
+  SquareBracketLeft: "Ǽ",
+  RunningHumanLeft: "ǽ",
+  SquareBracketRight: "Ǿ",
+  Strawberry: "ǿ",
+} as const;
+
+type IJCharacterProps = {
+  characterCodes: string[];
+  fontSize?:
+    | "xs"
+    | "sm"
+    | "base"
+    | "lg"
+    | "xl"
+    | "2xl"
+    | "3xl"
+    | "4xl"
+    | "5xl"
+    | "6xl"
+    | "7xl"
+    | "8xl"
+    | "9xl";
+};
+
+const IJCharacter = ({ characterCodes, fontSize }: IJCharacterProps) => {
+  const concatenatedCodes = characterCodes.join("");
+  if (!concatenatedCodes) {
+    return null;
+  }
+
+  return (
+    <IJTypography fontSize={fontSize}>
+      {concatenatedCodes.split("").map((code, index) => (
+        <span key={index} className="ichigojam-character">
+          {IJCharacterCodes[code as keyof typeof IJCharacterCodes] || code}
+        </span>
+      ))}
+    </IJTypography>
+  );
+};
+
+export { IJTypography, IJCharacter };
