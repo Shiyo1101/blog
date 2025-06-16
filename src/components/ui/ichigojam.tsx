@@ -17,12 +17,14 @@ type IJTypographyProps = {
     | "7xl"
     | "8xl"
     | "9xl";
+  addCursor?: boolean;
 };
 
 const IJTypography = ({
   children,
   color = "default",
   fontSize = "base",
+  addCursor = false,
 }: IJTypographyProps) => {
   const textSize = (() => {
     switch (fontSize) {
@@ -71,7 +73,10 @@ const IJTypography = ({
   })();
 
   return (
-    <div className={cn(textColor, textSize, "font-ichigojam")}>{children}</div>
+    <div className={cn(textColor, textSize, "font-ichigojam")}>
+      {children}
+      {addCursor && <span className="ml-1 animate-blink">Ē</span>}
+    </div>
   );
 };
 
@@ -110,8 +115,10 @@ export const IJCharacterCodes = {
   Strawberry: "ǿ",
 } as const;
 
+type IJCharacterCode = keyof typeof IJCharacterCodes;
+
 type IJCharacterProps = {
-  characterCodes: string[];
+  characterCodes: IJCharacterCode[];
   fontSize?:
     | "xs"
     | "sm"
@@ -129,14 +136,13 @@ type IJCharacterProps = {
 };
 
 const IJCharacter = ({ characterCodes, fontSize }: IJCharacterProps) => {
-  const concatenatedCodes = characterCodes.join("");
-  if (!concatenatedCodes) {
+  if (!characterCodes || characterCodes.length === 0) {
     return null;
   }
 
   return (
     <IJTypography fontSize={fontSize}>
-      {concatenatedCodes.split("").map((code, index) => (
+      {characterCodes.map((code, index) => (
         <span key={index} className="ichigojam-character">
           {IJCharacterCodes[code as keyof typeof IJCharacterCodes] || code}
         </span>
