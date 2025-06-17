@@ -79,11 +79,9 @@ const Typewriter = ({
       setDisplayedText((prev) => prev + char);
       charIndexRef.current += 1;
 
-      // `typingSpeed` の間隔で次の文字をタイプ
       timeoutRef.current = setTimeout(type, typingSpeed);
     };
 
-    // `delay` 後に最初のタイピングを開始
     timeoutRef.current = setTimeout(type, delay);
 
     // クリーンアップ関数
@@ -95,7 +93,6 @@ const Typewriter = ({
       textIndexRef.current = 0;
       charIndexRef.current = 0;
     };
-    // ★変更点: 依存配列に`loop`を追加
   }, [texts, delay, duration, typingSpeed, loop]);
 
   return (
@@ -104,7 +101,7 @@ const Typewriter = ({
       {cursorVisible && (
         <span
           className={cn("ml-1", {
-            // ★変更点: 完了していない、またはループ中は点滅
+            // 完了していない、またはループ中は点滅
             "animate-blink": !isDone,
           })}
         >
