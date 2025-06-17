@@ -1,3 +1,8 @@
+import {
+  IchigoJamCharacterOfCursor,
+  IJCharacterCodes,
+  type IJCharacterCode,
+} from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 type IJTypographyProps = {
@@ -75,47 +80,12 @@ const IJTypography = ({
   return (
     <div className={cn(textColor, textSize, "font-ichigojam")}>
       {children}
-      {addCursor && <span className="ml-1 animate-blink">Ē</span>}
+      {addCursor && (
+        <span className="ml-1 animate-blink">{IchigoJamCharacterOfCursor}</span>
+      )}
     </div>
   );
 };
-
-export const IJCharacterCodes = {
-  ArrowLeft: "Ǡ",
-  ArrowRight: "ǡ",
-  ArrowUp: "Ǣ",
-  ArrowDown: "ǣ",
-  Spade: "Ǥ",
-  Heart: "ǥ",
-  Club: "Ǧ",
-  Diamond: "ǧ",
-  Circle: "Ǩ",
-  Ball: "ǩ",
-  Ten: "Ǫ",
-  RiceBall: "ǫ",
-  Cat: "Ǭ",
-  Jellyfish: "ǭ",
-  Note: "Ǯ",
-  AtMark: "ǯ",
-  Plane: "ǰ",
-  UFO: "Ǳ",
-  Beam: "ǲ",
-  Helicopter: "ǳ",
-  Virus: "Ǵ",
-  Coin: "ǵ",
-  TreasureBox: "Ƕ",
-  UpStairs: "Ƿ",
-  DownStairs: "Ǹ",
-  Human: "ǹ",
-  StandingHuman: "Ǻ",
-  RunningHumanRight: "ǻ",
-  SquareBracketLeft: "Ǽ",
-  RunningHumanLeft: "ǽ",
-  SquareBracketRight: "Ǿ",
-  Strawberry: "ǿ",
-} as const;
-
-type IJCharacterCode = keyof typeof IJCharacterCodes;
 
 type IJCharacterProps = {
   characterCodes: IJCharacterCode[];
@@ -143,7 +113,7 @@ const IJCharacter = ({ characterCodes, fontSize }: IJCharacterProps) => {
   return (
     <IJTypography fontSize={fontSize}>
       {characterCodes.map((code, index) => (
-        <span key={index} className="ichigojam-character">
+        <span key={index}>
           {IJCharacterCodes[code as keyof typeof IJCharacterCodes] || code}
         </span>
       ))}
