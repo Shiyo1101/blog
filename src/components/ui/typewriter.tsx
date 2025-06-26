@@ -98,15 +98,8 @@ const Typewriter = ({
   return (
     <p className={cn("text-xl", className)}>
       <span>{displayedText}</span>
-      {cursorVisible && (
-        <span
-          className={cn("ml-1", {
-            // 完了していない、またはループ中は点滅
-            "animate-blink": !isDone,
-          })}
-        >
-          {cursorString}
-        </span>
+      {cursorVisible && !isDone && (
+        <span className={cn("ml-1 animate-blink")}>{cursorString}</span>
       )}
     </p>
   );
