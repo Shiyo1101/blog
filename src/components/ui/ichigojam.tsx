@@ -1,3 +1,8 @@
+import {
+  IchigoJamCharacterOfCursor,
+  IJCharacterCodes,
+  type IJCharacterCode,
+} from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 type IJTypographyProps = {
@@ -17,12 +22,14 @@ type IJTypographyProps = {
     | "7xl"
     | "8xl"
     | "9xl";
+  addCursor?: boolean;
 };
 
 const IJTypography = ({
   children,
   color = "default",
   fontSize = "base",
+  addCursor = false,
 }: IJTypographyProps) => {
   const textSize = (() => {
     switch (fontSize) {
@@ -71,47 +78,19 @@ const IJTypography = ({
   })();
 
   return (
-    <div className={cn(textColor, textSize, "font-ichigojam")}>{children}</div>
+    <div className={cn(textColor, textSize, "font-ichigojam")}>
+      {children}
+      {addCursor && (
+        <span className="ml-1 -mr-4 animate-blink">
+          {IchigoJamCharacterOfCursor}
+        </span>
+      )}
+    </div>
   );
 };
 
-export const IJCharacterCodes = {
-  ArrowLeft: "Ǡ",
-  ArrowRight: "ǡ",
-  ArrowUp: "Ǣ",
-  ArrowDown: "ǣ",
-  Spade: "Ǥ",
-  Heart: "ǥ",
-  Club: "Ǧ",
-  Diamond: "ǧ",
-  Circle: "Ǩ",
-  Ball: "ǩ",
-  Ten: "Ǫ",
-  RiceBall: "ǫ",
-  Cat: "Ǭ",
-  Jellyfish: "ǭ",
-  Note: "Ǯ",
-  AtMark: "ǯ",
-  Plane: "ǰ",
-  UFO: "Ǳ",
-  Beam: "ǲ",
-  Helicopter: "ǳ",
-  Virus: "Ǵ",
-  Coin: "ǵ",
-  TreasureBox: "Ƕ",
-  UpStairs: "Ƿ",
-  DownStairs: "Ǹ",
-  Human: "ǹ",
-  StandingHuman: "Ǻ",
-  RunningHumanRight: "ǻ",
-  SquareBracketLeft: "Ǽ",
-  RunningHumanLeft: "ǽ",
-  SquareBracketRight: "Ǿ",
-  Strawberry: "ǿ",
-} as const;
-
 type IJCharacterProps = {
-  characterCodes: string[];
+  characterCodes: IJCharacterCode[];
   fontSize?:
     | "xs"
     | "sm"
@@ -129,15 +108,14 @@ type IJCharacterProps = {
 };
 
 const IJCharacter = ({ characterCodes, fontSize }: IJCharacterProps) => {
-  const concatenatedCodes = characterCodes.join("");
-  if (!concatenatedCodes) {
+  if (!characterCodes || characterCodes.length === 0) {
     return null;
   }
 
   return (
     <IJTypography fontSize={fontSize}>
-      {concatenatedCodes.split("").map((code, index) => (
-        <span key={index} className="ichigojam-character">
+      {characterCodes.map((code, index) => (
+        <span key={index}>
           {IJCharacterCodes[code as keyof typeof IJCharacterCodes] || code}
         </span>
       ))}

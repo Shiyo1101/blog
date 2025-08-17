@@ -1,7 +1,10 @@
 ---
 import Header from "@/components/Base/Header.astro";
+import ClickShatterBlock from "@/components/ui/click-shatter-block";
 import "@/styles/global.css";
 const { title } = Astro.props;
+
+const isTopPage = Astro.url.pathname === "/";
 ---
 
 <script is:inline>
@@ -36,8 +39,10 @@ const { title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body>
-    <Header />
-    <slot />
+  <body class={isTopPage ? "overflow-hidden h-screen" : ""}>
+    <ClickShatterBlock client:load>
+      <Header />
+      <slot />
+    </ClickShatterBlock>
   </body>
 </html>
