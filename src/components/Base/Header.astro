@@ -1,22 +1,23 @@
 ---
-import { IJTypography } from "../ui/ichigojam";
-
+import HeaderMotionWrapper from "@/components/Base/HeaderMotionWrapper";
+import { IJTypography } from "@/components/ui/ichigojam";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+
+const { pathname } = Astro.url;
+const isTopPage = pathname === "/";
 ---
 
-<header
-  class="fixed flex items-center justify-between p-2 border-4 h-16 w-full"
->
+<HeaderMotionWrapper client:load isTopPage={isTopPage}>
   <nav class="p-2">
     <ul class="flex items-center gap-4 text-[8cqi]">
       <li>
         <a href="/" class="text-lg font-bold">
-          <IJTypography addCursor>Home</IJTypography>
+          <IJTypography addCursor={isTopPage}>Home</IJTypography>
         </a>
       </li>
       <li>
-        <a href="/about" class="text-lg font-bold">
-          <IJTypography>About</IJTypography>
+        <a href="/blog" class="text-lg font-bold">
+          <IJTypography>Blog</IJTypography>
         </a>
       </li>
       <li>
@@ -27,4 +28,4 @@ import { ModeToggle } from "@/components/ui/mode-toggle";
     </ul>
   </nav>
   <ModeToggle client:load />
-</header>
+</HeaderMotionWrapper>
