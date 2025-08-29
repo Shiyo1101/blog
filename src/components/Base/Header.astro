@@ -10,19 +10,19 @@ const isTopPage = pathname === "/";
 <HeaderMotionWrapper client:load isTopPage={isTopPage}>
   <nav class="p-2">
     <ul class="flex items-center gap-4 text-[8cqi]">
-      <li>
+      <li class="w-18">
         <a href="/" class="text-lg font-bold">
           <IJTypography addCursor={isTopPage}>Home</IJTypography>
         </a>
       </li>
-      <li>
+      <li class="w-18">
         <a href="/blog" class="text-lg font-bold">
           <IJTypography addCursor={pathname.startsWith("/blog")}
             >Blog</IJTypography
           >
         </a>
       </li>
-      <li>
+      <li class="w-18">
         <a href="/contact" class="text-lg font-bold">
           <IJTypography addCursor={pathname.startsWith("/contact")}
             >Contact</IJTypography
