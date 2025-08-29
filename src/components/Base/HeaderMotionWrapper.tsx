@@ -41,7 +41,7 @@ const HeaderMotionWrapper = ({ children, isTopPage }: Props) => {
       }`}
       variants={headerVariants}
       animate={isTopPage ? "visible" : hidden ? "hidden" : "visible"}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       {children}
     </motion.header>
