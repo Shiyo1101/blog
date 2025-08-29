@@ -26,9 +26,9 @@ const { Content, headings } = await post.render();
       <article class="prose dark:prose-invert max-w-none">
         <h1 class="text-4xl font-bold mb-4">{post.data.title}</h1>
         {
-          post.data.heroImage && (
+          post.data.topImage && (
             <img
-              src={post.data.heroImage}
+              src={post.data.topImage}
               alt=""
               class="w-full h-auto rounded-lg mb-8"
             />

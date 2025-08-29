@@ -1,0 +1,15 @@
+---
+import BlogCardContent from "./BlogCardContent.tsx";
+
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+  post: CollectionEntry<"blog">;
+};
+
+const { post } = Astro.props;
+---
+
+<div class="relative group">
+  <BlogCardContent post={post} client:load />
+</div>
