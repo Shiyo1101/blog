@@ -5,14 +5,6 @@
 @custom-variant dark (&:is(.dark *));
 @plugin "@tailwindcss/typography";
 
-@font-face {
-  font-family: "IchigoJam";
-  src: url("/fonts/IchigoJam-1.4.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root {
   --background: oklch(0.9735 0.0261 90.0953);
   --foreground: oklch(0.3092 0.0518 219.6516);

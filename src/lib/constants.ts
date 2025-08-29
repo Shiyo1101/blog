@@ -2,7 +2,7 @@
  * IchigoJamにおけるカーソルの文字コード
  * @type {string}
  */
-export const IchigoJamCharacterOfCursor = "Ē";
+export const IchigoJamCharacterOfCursor = "ƒ";
 
 /**
  * IchigoJamの文字コードを定義するオブジェクト
