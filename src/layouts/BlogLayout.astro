@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+
 import type { CollectionEntry } from "astro:content";
 
 import ShareButtons from "@/components/Blog/ShareButtons.astro";
@@ -12,7 +14,7 @@ const { post } = Astro.props;
 const { Content, headings } = await post.render();
 ---
 
-<div class="pt-16 px-2 border-x-4">
+<div class="pt-16 px-2">
   <div class="grid grid-cols-12 gap-8 px-4 md:px-8">
     {/* SNS共有ボタン */}
     <aside class="hidden md:col-span-2 md:block">
@@ -27,10 +29,12 @@ const { Content, headings } = await post.render();
         <h1 class="text-4xl font-bold mb-4">{post.data.title}</h1>
         {
           post.data.topImage && (
-            <img
-              src={post.data.topImage}
-              alt=""
+            <Image
               class="w-full h-auto rounded-lg mb-8"
+              src={post.data.topImage}
+              alt={post.data.title}
+              width={1280}
+              height={720}
             />
           )
         }
