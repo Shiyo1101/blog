@@ -79,12 +79,14 @@ const IJTypography = ({
 
   return (
     <div className={cn(textColor, textSize, "font-ichigojam")}>
-      {children}
-      {addCursor && (
-        <span className="-ml-1 animate-blink">
-          {IchigoJamCharacterOfCursor}
-        </span>
-      )}
+      <span className="relative inline-block">
+        {children}
+        {addCursor && (
+          <span className="absolute left-[90%] top-0 animate-blink">
+            {IchigoJamCharacterOfCursor}
+          </span>
+        )}
+      </span>
     </div>
   );
 };
