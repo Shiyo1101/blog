@@ -5,34 +5,26 @@
 @custom-variant dark (&:is(.dark *));
 @plugin "@tailwindcss/typography";
 
-@font-face {
-  font-family: "IchigoJam";
-  src: url("/fonts/IchigoJam-1.4.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root {
   --background: oklch(0.9735 0.0261 90.0953);
   --foreground: oklch(0.3092 0.0518 219.6516);
-  --card: oklch(0.9306 0.026 92.402);
+  --card: oklch(0.9615 0.0372 97.0794);
   --card-foreground: oklch(0.3092 0.0518 219.6516);
   --popover: oklch(0.9306 0.026 92.402);
   --popover-foreground: oklch(0.3092 0.0518 219.6516);
-  --primary: oklch(0.5924 0.2025 355.8943);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.6437 0.1019 187.384);
-  --secondary-foreground: oklch(1 0 0);
+  --primary: oklch(0.7606 0.1934 145.3308);
+  --primary-foreground: oklch(0.3668 0.0041 17.3444);
+  --secondary: oklch(0.7463 0.1592 307.5139);
+  --secondary-foreground: oklch(0.3668 0.0041 17.3444);
   --muted: oklch(0.6979 0.0159 196.794);
   --muted-foreground: oklch(0.3092 0.0518 219.6516);
-  --accent: oklch(0.5808 0.1732 39.5003);
-  --accent-foreground: oklch(1 0 0);
+  --accent: oklch(0.747 0.1381 238.6555);
+  --accent-foreground: oklch(0.3668 0.0041 17.3444);
   --destructive: oklch(0.5863 0.2064 27.1172);
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.6537 0.0197 205.2618);
   --input: oklch(0.6537 0.0197 205.2618);
-  --ring: oklch(0.5924 0.2025 355.8943);
+  --ring: oklch(0.7606 0.1934 145.3308);
   --chart-1: oklch(0.6149 0.1394 244.9273);
   --chart-2: oklch(0.6437 0.1019 187.384);
   --chart-3: oklch(0.5924 0.2025 355.8943);
@@ -46,10 +38,7 @@
   --sidebar-accent-foreground: oklch(1 0 0);
   --sidebar-border: oklch(0.6537 0.0197 205.2618);
   --sidebar-ring: oklch(0.5924 0.2025 355.8943);
-  --font-sans: Outfit, sans-serif;
-  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-mono: Space Mono, monospace;
-  --radius: 0.25rem;
+  --radius: 0rem;
   --shadow-2xs: 2px 2px 4px 0px hsl(196 83% 10% / 0.07);
   --shadow-xs: 2px 2px 4px 0px hsl(196 83% 10% / 0.07);
   --shadow-sm:
@@ -79,19 +68,19 @@
   --card-foreground: oklch(0.6979 0.0159 196.794);
   --popover: oklch(0.3092 0.0518 219.6516);
   --popover-foreground: oklch(0.6979 0.0159 196.794);
-  --primary: oklch(0.5924 0.2025 355.8943);
+  --primary: oklch(0.5939 0.189 144.0454);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.6437 0.1019 187.384);
+  --secondary: oklch(0.5127 0.1549 306.6977);
   --secondary-foreground: oklch(1 0 0);
   --muted: oklch(0.523 0.0283 219.1365);
   --muted-foreground: oklch(0.6979 0.0159 196.794);
-  --accent: oklch(0.5808 0.1732 39.5003);
+  --accent: oklch(0.5672 0.1239 240.94);
   --accent-foreground: oklch(1 0 0);
   --destructive: oklch(0.5863 0.2064 27.1172);
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.523 0.0283 219.1365);
   --input: oklch(0.523 0.0283 219.1365);
-  --ring: oklch(0.5924 0.2025 355.8943);
+  --ring: oklch(0.5939 0.189 144.0454);
   --chart-1: oklch(0.6149 0.1394 244.9273);
   --chart-2: oklch(0.6437 0.1019 187.384);
   --chart-3: oklch(0.5924 0.2025 355.8943);
@@ -105,10 +94,7 @@
   --sidebar-accent-foreground: oklch(1 0 0);
   --sidebar-border: oklch(0.523 0.0283 219.1365);
   --sidebar-ring: oklch(0.5924 0.2025 355.8943);
-  --font-sans: Outfit, sans-serif;
-  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-mono: Space Mono, monospace;
-  --radius: 0.25rem;
+  --radius: 0rem;
   --shadow-2xs: 2px 2px 4px 0px hsl(196 83% 10% / 0.07);
   --shadow-xs: 2px 2px 4px 0px hsl(196 83% 10% / 0.07);
   --shadow-sm:
@@ -162,10 +148,6 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
-  --font-serif: var(--font-serif);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

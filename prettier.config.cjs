@@ -6,7 +6,7 @@ module.exports = {
       options: { parser: 'astro' },
     },
     {
-      files: ['*.ts', '*.tsx', '*.js', '*.mjs', '*.jsx', '*.json'],
+      files: ['*.ts', '*.tsx', '*.js', '*.mjs', '*.jsx'],
       options: { parser: 'typescript' },
     },
   ],

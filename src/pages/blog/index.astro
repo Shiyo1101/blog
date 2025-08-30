@@ -1,0 +1,34 @@
+---
+import { getCollection } from "astro:content";
+
+import BlogCard from "@/components/Blog/BlogCard.astro";
+import BlogCardWrapper from "@/components/Blog/BlogCardWrapper.astro";
+import Typewriter from "@/components/ui/typewriter";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ListLayout from "@/layouts/ListLayout.astro";
+
+// 下書きを除外してすべてのブログ記事を取得
+const allPosts = await getCollection("blog", ({ data }) => {
+  return data.draft !== true;
+});
+
+// 日付の新しい順にソート
+const sortedPosts = allPosts.sort(
+  (a, b) =>
+    new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf(),
+);
+---
+
+<BaseLayout title="ブログ" description="すべてのブログ記事一覧です。">
+  <ListLayout>
+    <Typewriter
+      client:load
+      className="h-8 text-4xl font-bold mb-8 text-center font-ichigojam"
+      texts={["Blog List"]}
+      delay={500}
+    />
+    <BlogCardWrapper>
+      {sortedPosts.map((post) => <BlogCard post={post} />)}
+    </BlogCardWrapper>
+  </ListLayout>
+</BaseLayout>

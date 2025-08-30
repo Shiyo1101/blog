@@ -1,0 +1,34 @@
+---
+import { Image } from "astro:assets";
+
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+  post: CollectionEntry<"blog">;
+};
+
+const { post } = Astro.props;
+---
+
+<div class="relative group">
+  <a
+    href={`/blog/${post.slug}`}
+    class="flex w-full flex-col gap-4 rounded-lg border-4 border-card-foreground bg-card p-4 shadow-[8px_8px_0_0]
+                 transition-all duration-200 ease-in-out
+                 hover:-translate-y-[5px] hover:shadow-none"
+  >
+    <div class="aspect-video overflow-hidden rounded-md bg-background">
+      <Image
+        class="h-full w-full object-cover"
+        src={post.data.topImage}
+        alt={post.data.title}
+        width={320}
+        height={180}
+      />
+    </div>
+    <div class="flex flex-col p-4">
+      <h2 class="mb-2 text-xl font-bold">{post.data.title}</h2>
+      <p class="text-foreground">{post.data.description}</p>
+    </div>
+  </a>
+</div>

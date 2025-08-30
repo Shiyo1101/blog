@@ -36,12 +36,12 @@ const HeaderMotionWrapper = ({ children, isTopPage }: Props) => {
   return (
     <motion.header
       id="site-header"
-      className={`flex items-center justify-between p-2 border-4 h-16 w-full z-50 bg-background/70 backdrop-blur-sm ${
-        isTopPage ? "fixed" : "sticky top-0"
+      className={`flex items-center justify-between px-4 py-2 border-b-4 h-16 w-full z-50 bg-background/70 backdrop-blur-sm ${
+        isTopPage ? "fixed border-r-8" : "sticky top-0"
       }`}
       variants={headerVariants}
       animate={isTopPage ? "visible" : hidden ? "hidden" : "visible"}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       {children}
     </motion.header>
