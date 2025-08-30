@@ -1,10 +1,11 @@
 ---
 import { getCollection } from "astro:content";
 
-import BaseLayout from "../../layouts/BaseLayout.astro";
-
 import BlogCard from "@/components/Blog/BlogCard.astro";
+import BlogCardWrapper from "@/components/Blog/BlogCardWrapper.astro";
 import Typewriter from "@/components/ui/typewriter";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ListLayout from "@/layouts/ListLayout.astro";
 
 // 下書きを除外してすべてのブログ記事を取得
 const allPosts = await getCollection("blog", ({ data }) => {
@@ -19,15 +20,15 @@ const sortedPosts = allPosts.sort(
 ---
 
 <BaseLayout title="ブログ" description="すべてのブログ記事一覧です。">
-  <main class="container mx-auto px-4 py-8">
+  <ListLayout>
     <Typewriter
       client:load
       className="h-8 text-4xl font-bold mb-8 text-center font-ichigojam"
       texts={["Blog List"]}
       delay={500}
     />
-    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+    <BlogCardWrapper>
       {sortedPosts.map((post) => <BlogCard post={post} />)}
-    </div>
-  </main>
+    </BlogCardWrapper>
+  </ListLayout>
 </BaseLayout>

@@ -1,0 +1,58 @@
+---
+import { getCollection } from "astro:content";
+
+import BlogCard from "@/components/Blog/BlogCard.astro";
+import BlogCardWrapper from "@/components/Blog/BlogCardWrapper.astro";
+import Typewriter from "@/components/ui/typewriter";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ListLayout from "@/layouts/ListLayout.astro";
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection("blog");
+
+  // 全てのタグを収集し、undefinedを除外して重複を削除
+  const allTags = allPosts
+    .flatMap((post) => post.data.tags ?? [])
+    .filter((tag) => typeof tag === "string");
+  const uniqueTags = [...new Set(allTags)];
+
+  // 各タグに対応するページを生成
+  return uniqueTags.map((tag) => {
+    // そのタグを持つ記事をフィルタリング
+    const filteredPosts = allPosts.filter((post) =>
+      post.data.tags?.includes(tag),
+    );
+
+    // 日付順にソート
+    const sortedPosts = filteredPosts.sort(
+      (a, b) =>
+        new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf(),
+    );
+
+    return {
+      params: { tag },
+      props: { posts: sortedPosts },
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+
+<BaseLayout title={`タグ検索: ${tag}`}>
+  <ListLayout>
+    <Typewriter
+      client:load
+      className="h-8 text-4xl font-bold mb-8 text-center font-ichigojam"
+      texts={[`Tag:${tag}`]}
+      delay={500}
+    />
+    <BlogCardWrapper>
+      {posts.map((post) => <BlogCard post={post} />)}
+    </BlogCardWrapper>
+    <div class="text-center mt-12">
+      <a href="/blog" class="hover:underline">すべての記事を見る</a>
+    </div>
+  </ListLayout>
+</BaseLayout>
