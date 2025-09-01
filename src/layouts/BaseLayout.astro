@@ -1,6 +1,4 @@
 ---
-import { Font } from "astro:assets";
-
 import Header from "@/components/Base/Header.astro";
 import ClickShatterBlock from "@/components/ui/click-shatter-block";
 import { cn } from "@/lib/utils";
@@ -37,7 +35,15 @@ const isTopPage = Astro.url.pathname === "/";
 
 <html lang="ja">
   <head>
-    <Font cssVariable="--font-ichigojam" preload />
+    <!-- IchigoJamフォントのプリロード -->
+    <link
+      rel="preload"
+      href="/src/assets/fonts/IchigoJam-1.4.woff"
+      as="font"
+      type="font/woff"
+      crossorigin="anonymous"
+    />
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
