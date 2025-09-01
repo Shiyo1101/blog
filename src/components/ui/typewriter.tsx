@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type JSX } from "react";
 
 import type { ClassValue } from "clsx";
 
@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
  * @param {boolean} [loop=false] - テキスト配列の表示を繰り返すかどうか
  * @param {boolean} [cursorVisible=false] - カーソルを表示するかどうか
  * @param {ClassValue} [className] - 追加のCSSクラス名（TailwindCSS対応）
+ * @param {keyof JSX.IntrinsicElements} [as="div"] - 使用するHTML要素のタイプ
  */
 type TypewriterProps = {
   texts: string[];
@@ -25,6 +26,7 @@ type TypewriterProps = {
   loop?: boolean;
   cursorVisible?: boolean;
   className?: ClassValue;
+  as?: keyof JSX.IntrinsicElements;
 };
 
 const Typewriter = ({
@@ -35,6 +37,7 @@ const Typewriter = ({
   loop = false,
   cursorVisible = false,
   className,
+  as: Component = "div",
 }: TypewriterProps) => {
   const [displayedText, setDisplayedText] = useState("");
   const [isDone, setIsDone] = useState(false);
@@ -98,12 +101,12 @@ const Typewriter = ({
   }, [texts, delay, duration, typingSpeed, loop]);
 
   return (
-    <p className={cn("text-xl", className)}>
-      <span>{displayedText}</span>
+    <Component className={cn("text-xl", className)}>
+      {displayedText}
       {cursorVisible && !isDone && (
         <span className={cn("ml-1 animate-blink")}>{cursorString}</span>
       )}
-    </p>
+    </Component>
   );
 };
 
