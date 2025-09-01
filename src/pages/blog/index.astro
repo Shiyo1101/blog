@@ -5,7 +5,7 @@ import BlogCard from "@/components/Blog/BlogCard.astro";
 import BlogCardWrapper from "@/components/Blog/BlogCardWrapper.astro";
 import Typewriter from "@/components/ui/typewriter";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import ListLayout from "@/layouts/ListLayout.astro";
+import GridLayout from "@/layouts/GridLayout.astro";
 
 // 下書きを除外してすべてのブログ記事を取得
 const allPosts = await getCollection("blog", ({ data }) => {
@@ -20,7 +20,7 @@ const sortedPosts = allPosts.sort(
 ---
 
 <BaseLayout title="ブログ" description="すべてのブログ記事一覧です。">
-  <ListLayout>
+  <GridLayout>
     <Typewriter
       client:load
       className="h-8 text-4xl font-bold mb-8 text-center font-ichigojam"
@@ -30,5 +30,5 @@ const sortedPosts = allPosts.sort(
     <BlogCardWrapper>
       {sortedPosts.map((post) => <BlogCard post={post} />)}
     </BlogCardWrapper>
-  </ListLayout>
+  </GridLayout>
 </BaseLayout>
