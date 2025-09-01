@@ -5,7 +5,7 @@ import BlogCard from "@/components/Blog/BlogCard.astro";
 import BlogCardWrapper from "@/components/Blog/BlogCardWrapper.astro";
 import Typewriter from "@/components/ui/typewriter";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import ListLayout from "@/layouts/ListLayout.astro";
+import GridLayout from "@/layouts/GridLayout.astro";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("blog");
@@ -41,7 +41,7 @@ const { posts } = Astro.props;
 ---
 
 <BaseLayout title={`タグ検索: ${tag}`}>
-  <ListLayout>
+  <GridLayout>
     <Typewriter
       client:load
       className="h-8 text-4xl font-bold mb-8 text-center font-ichigojam"
@@ -54,5 +54,5 @@ const { posts } = Astro.props;
     <div class="text-center mt-12">
       <a href="/blog" class="hover:underline">すべての記事を見る</a>
     </div>
-  </ListLayout>
+  </GridLayout>
 </BaseLayout>
