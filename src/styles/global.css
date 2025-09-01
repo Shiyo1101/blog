@@ -6,13 +6,14 @@
 @plugin "@tailwindcss/typography";
 
 /* IchigoJam Fontの読み込み */
-@font-face {
+/* TODO? BUG?：これを記述しないと、スマホでフォント適用がされない */
+/* @font-face {
   font-family: "IchigoJam";
   src: url("../assets/fonts/IchigoJam-1.4.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
-}
+} */
 
 :root {
   --background: oklch(0.9735 0.0261 90.0953);

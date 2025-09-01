@@ -1,7 +1,10 @@
 ---
+import { Font } from "astro:assets";
+
 import Header from "@/components/Base/Header.astro";
 import ClickShatterBlock from "@/components/ui/click-shatter-block";
 import { cn } from "@/lib/utils";
+
 import "@/styles/global.css";
 const { title } = Astro.props;
 
@@ -34,6 +37,7 @@ const isTopPage = Astro.url.pathname === "/";
 
 <html lang="ja">
   <head>
+    <Font cssVariable="--font-ichigojam" preload />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
