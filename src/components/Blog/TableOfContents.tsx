@@ -1,32 +1,19 @@
 "use client";
 
+import { TableOfContentsIcon } from "lucide-react";
 import { useState } from "react";
 
 import type { MarkdownHeading } from "astro";
 
-interface TocProps {
+type TocProps = {
   headings: MarkdownHeading[];
   isMobile?: boolean;
-}
+};
 
-const TableOfContents: React.FC<TocProps> = ({
-  headings,
-  isMobile = false,
-}) => {
+const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
   const [isOpen, setIsOpen] = useState(!isMobile);
 
   const filteredHeadings = headings.filter((h) => h.depth <= 2);
-
-  const handleScroll = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    slug: string,
-  ) => {
-    e.preventDefault();
-    const targetElement = document.getElementById(slug);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   const renderHeadings = () => (
     <ul className="space-y-2">
@@ -34,7 +21,6 @@ const TableOfContents: React.FC<TocProps> = ({
         <li key={heading.slug} className={`ml-${(heading.depth - 1) * 4}`}>
           <a
             href={`#${heading.slug}`}
-            onClick={(e) => handleScroll(e, heading.slug)}
             className="text-muted-foreground hover:text-foreground transition-colors"
           >
             {heading.text}
@@ -48,9 +34,10 @@ const TableOfContents: React.FC<TocProps> = ({
     return (
       <details className="border rounded-lg">
         <summary
-          className="p-4 font-bold cursor-pointer list-none text-secondary"
+          className="p-4 font-bold cursor-pointer list-none text-secondary flex items-center gap-2"
           onClick={() => setIsOpen(!isOpen)}
         >
+          <TableOfContentsIcon />
           目次
         </summary>
         <div className="p-4 border-t">{renderHeadings()}</div>
@@ -60,7 +47,10 @@ const TableOfContents: React.FC<TocProps> = ({
 
   return (
     <nav>
-      <h2 className="text-lg font-bold mb-4 text-secondary">目次</h2>
+      <h2 className="text-lg font-bold mb-4 text-secondary flex items-center gap-2">
+        <TableOfContentsIcon />
+        目次
+      </h2>
       {renderHeadings()}
     </nav>
   );
