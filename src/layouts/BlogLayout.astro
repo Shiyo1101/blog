@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import { CalendarDaysIcon } from "lucide-react";
 
 import type { CollectionEntry } from "astro:content";
 
@@ -35,7 +36,7 @@ const { Content, headings } = await post.render();
 
         {/* 投稿日 */}
         <div class="flex items-center gap-2 text-sm text-muted-foreground">
-          <span>📅</span>
+          <CalendarDaysIcon size={16} />
           <time datetime={post.data.pubDate.toISOString()}>
             {formatDate(post.data.pubDate)}
           </time>
