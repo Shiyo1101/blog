@@ -50,7 +50,7 @@ const isTopPage = Astro.url.pathname === "/";
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class={cn(isTopPage ? "overflow-hidden h-screen" : "", "border-4")}>
+  <body class={cn("border-4", isTopPage ? "overflow-hidden h-screen" : "")}>
     <ClickShatterBlock client:load>
       <Header />
       <slot />
