@@ -8,7 +8,7 @@
 /* IchigoJam Fontの読み込み */
 @font-face {
   font-family: "IchigoJam";
-  src: url("../assets/fonts/IchigoJam-1.4.woff") format("woff");
+  src: url("/fonts/IchigoJam-1.4.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
