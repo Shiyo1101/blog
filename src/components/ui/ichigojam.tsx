@@ -1,3 +1,5 @@
+import type { JSX } from "react";
+
 import {
   IchigoJamCharacterOfCursor,
   IJCharacterCodes,
@@ -7,6 +9,7 @@ import { cn } from "@/lib/utils";
 
 type IJTypographyProps = {
   children: React.ReactNode;
+  as?: keyof JSX.IntrinsicElements;
   color?: "default" | "primary" | "secondary";
   fontSize?:
     | "xs"
@@ -27,6 +30,7 @@ type IJTypographyProps = {
 
 const IJTypography = ({
   children,
+  as: Component = "div",
   color = "default",
   fontSize = "base",
   addCursor = false,
@@ -78,16 +82,20 @@ const IJTypography = ({
   })();
 
   return (
-    <div className={cn(textColor, textSize, "font-ichigojam")}>
-      <span className="relative inline-block">
-        {children}
-        {addCursor && (
-          <span className="absolute left-[90%] top-0 animate-blink">
-            {IchigoJamCharacterOfCursor}
-          </span>
-        )}
-      </span>
-    </div>
+    <Component
+      className={cn(
+        textColor,
+        textSize,
+        "font-ichigojam relative inline-block",
+      )}
+    >
+      {children}
+      {addCursor && (
+        <span className="absolute left-[93%] top-0 animate-blink">
+          {IchigoJamCharacterOfCursor}
+        </span>
+      )}
+    </Component>
   );
 };
 

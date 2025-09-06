@@ -1,37 +1,35 @@
 ---
-import { FacebookIcon } from "../ui/facebook";
-import { TwitterIcon } from "../ui/twitter";
+import { FacebookIcon } from "@/components/ui/facebook";
+import { TwitterIcon } from "@/components/ui/twitter";
 
-import { Button } from "@/components/ui/button";
-
-const { title } = Astro.props;
+const { title, showTitle = true } = Astro.props;
 const url = Astro.url.href;
 ---
 
-<div class="flex flex-col gap-2">
-  <h3 class="font-bold text-lg text-secondary mb-2">共有する</h3>
+<div class="flex flex-col gap-4 not-prose">
+  {showTitle && <h3 class="font-bold text-lg text-secondary">📤 共有する</h3>}
   <div class="flex flex-wrap items-center gap-2">
-    <Button asChild variant="outline" size="sm">
-      <a
-        href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-          url,
-        )}&text=${encodeURIComponent(title)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <TwitterIcon client:load />
-      </a>
-    </Button>
-    <Button asChild variant="outline" size="sm">
-      <a
-        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-          url,
-        )}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <FacebookIcon client:load />
-      </a>
-    </Button>
+    <a
+      class="group"
+      href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+        url,
+      )}&text=${encodeURIComponent(title)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <TwitterIcon className="group-hover:text-secondary" client:load />
+      <span class="group-hover:text-secondary">Twitter</span>
+    </a>
+    <a
+      class="group"
+      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        url,
+      )}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <FacebookIcon className="group-hover:text-secondary" client:load />
+      <span class="group-hover:text-secondary">Facebook</span>
+    </a>
   </div>
 </div>
