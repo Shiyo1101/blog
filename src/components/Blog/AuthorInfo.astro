@@ -1,29 +1,34 @@
+---
+import { BookOpenTextIcon, SquareUserRoundIcon } from "lucide-react";
+
+import { IJCharacter } from "@/components/ui/ichigojam";
+import { IJCharacterCodes } from "@/lib/constants";
+---
+
 <div
   class="border-4 p-6 border-card-foreground bg-card sm:shadow-[8px_8px_0_0] not- not-prose"
 >
-  <h3 class="flex items-center gap-2 mb-4 text-lg font-bold text-secondary">
-    <span class="text-2xl">👨‍💻</span>
-    <span>About Author</span>
+  <h3 class="flex items-center gap-1 mb-4 text-lg font-bold text-accent">
+    <SquareUserRoundIcon size={20} />
+    <span>About author</span>
   </h3>
 
   <div class="flex flex-col sm:flex-row gap-4">
-    <!-- アバター部分 -->
     <div class="flex-shrink-0">
       <div
         class="w-30 h-30 bg-primary/20 border-4 border-primary rounded-none flex items-center justify-center text-4xl"
       >
-        🎮
+        <IJCharacter
+          className="text-6xl"
+          characterCodes={IJCharacterCodes.Cat}
+        />
       </div>
     </div>
-
-    <!-- 情報部分 -->
     <div class="flex-1 space-y-2">
       <div class="font-bold text-lg">うっちー</div>
       <p class="text-sm text-muted-foreground leading-relaxed">
-        福井県鯖江市に生まれたしがないWebエンジニア。子供向けパソコンであるIchigoJamで初めてプログラミングを学んだ。
+        福井県鯖江市に生まれたWebエンジニア。高校生の時に子供向けパソコンであるIchigoJamでプログラミングを初めて学ぶ。趣味はツーリングとゲーム。
       </p>
-
-      <!-- 実績バッジ -->
       <div class="flex flex-wrap gap-2 mt-3">
         <span
           class="inline-block px-2 py-1 text-xs bg-primary text-primary-foreground border-2 border-primary shadow-[2px_2px_0_0] shadow-primary/30"
@@ -36,10 +41,11 @@
           📚 技術書執筆
         </span>
       </div>
-
-      <!-- 書籍情報 -->
       <div class="mt-4 p-3 bg-accent/10 border-2 border-accent">
-        <p class="font-bold mb-1 text-accent">📖 著書</p>
+        <p class="font-bold mb-1 text-accent">
+          <BookOpenTextIcon size={20} className="inline-block mr-1" />
+          著書
+        </p>
         <p class="text-sm font-bold mb-2">
           「FOR文と配列にチャレンジする Hana道場式プログラミング」
         </p>

@@ -1,4 +1,6 @@
 ---
+import { Share2Icon } from "lucide-react";
+
 import { FacebookIcon } from "@/components/ui/facebook";
 import { TwitterIcon } from "@/components/ui/twitter";
 
@@ -7,7 +9,14 @@ const url = Astro.url.href;
 ---
 
 <div class="flex flex-col gap-4 not-prose">
-  {showTitle && <h3 class="font-bold text-lg text-secondary">📤 共有する</h3>}
+  {
+    showTitle && (
+      <div class="flex items-center gap-2">
+        <Share2Icon size={16} />
+        <h3 class="font-bold text-lg text-secondary">共有する</h3>
+      </div>
+    )
+  }
   <div class="flex flex-wrap items-center gap-2">
     <a
       class="group"
