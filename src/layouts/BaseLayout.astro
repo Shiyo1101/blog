@@ -33,12 +33,12 @@ const isTopPage = Astro.url.pathname === "/";
   }
 </script>
 
-<html lang="ja">
+<html lang="ja" class="scroll-smooth">
   <head>
     <!-- IchigoJamフォントのプリロード -->
     <link
       rel="preload"
-      href="/public/fonts/IchigoJam-1.4.woff"
+      href="/fonts/IchigoJam-1.4.woff"
       as="font"
       type="font/woff"
       crossorigin="anonymous"
@@ -50,12 +50,7 @@ const isTopPage = Astro.url.pathname === "/";
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body
-    class={cn(
-      "border-4 scroll-smooth",
-      isTopPage ? "overflow-hidden h-screen" : "",
-    )}
-  >
+  <body class={cn("border-4", isTopPage ? "overflow-hidden h-screen" : "")}>
     <ClickShatterBlock client:load>
       <Header />
       <slot />

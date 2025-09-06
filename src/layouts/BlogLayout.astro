@@ -30,12 +30,12 @@ const { Content, headings } = await post.render();
     <main class="col-span-12 md:col-span-7">
       <article class="prose dark:prose-invert max-w-none">
         {/* タイトル */}
-        <h1 class="text-4xl border-b-4 pb-2">
+        <h1 class="text-3xl border-b-4 pb-2">
           {post.data.title}
         </h1>
 
         {/* 投稿日 */}
-        <div class="flex items-center gap-2 text-sm text-muted-foreground">
+        <div class="flex items-center gap-2 text-muted-foreground">
           <CalendarDaysIcon size={16} />
           <time datetime={post.data.pubDate.toISOString()}>
             {formatDate(post.data.pubDate)}

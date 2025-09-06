@@ -11,9 +11,9 @@ const url = Astro.url.href;
 <div class="flex flex-col gap-4 not-prose">
   {
     showTitle && (
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2 text-secondary">
         <Share2Icon size={16} />
-        <h3 class="font-bold text-lg text-secondary">共有する</h3>
+        <h3 class="font-bold text-lg">共有する</h3>
       </div>
     )
   }
@@ -26,8 +26,8 @@ const url = Astro.url.href;
       target="_blank"
       rel="noopener noreferrer"
     >
-      <TwitterIcon className="group-hover:text-secondary" client:load />
-      <span class="group-hover:text-secondary">Twitter</span>
+      <TwitterIcon className="group-hover:text-accent" client:load />
+      <span class="group-hover:text-accent">Twitter</span>
     </a>
     <a
       class="group"
@@ -37,8 +37,8 @@ const url = Astro.url.href;
       target="_blank"
       rel="noopener noreferrer"
     >
-      <FacebookIcon className="group-hover:text-secondary" client:load />
-      <span class="group-hover:text-secondary">Facebook</span>
+      <FacebookIcon className="group-hover:text-accent" client:load />
+      <span class="group-hover:text-accent">Facebook</span>
     </a>
   </div>
 </div>
