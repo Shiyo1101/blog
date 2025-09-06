@@ -1,7 +1,7 @@
 "use client";
 
 import { TableOfContentsIcon } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import type { MarkdownHeading } from "astro";
 
@@ -11,24 +11,44 @@ type TocProps = {
 };
 
 const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
+  const [activeId, setActiveId] = useState("");
   const [isOpen, setIsOpen] = useState(!isMobile);
+
+  useEffect(() => {
+    const updateActiveId = () => {
+      setActiveId(decodeURIComponent(window.location.hash));
+    };
+
+    updateActiveId();
+
+    window.addEventListener("hashchange", updateActiveId);
+
+    return () => {
+      window.removeEventListener("hashchange", updateActiveId);
+    };
+  }, []);
 
   const filteredHeadings = headings.filter((h) => h.depth <= 2);
 
-  const renderHeadings = () => (
-    <ul className="space-y-2">
-      {filteredHeadings.map((heading) => (
-        <li key={heading.slug} className={`ml-${(heading.depth - 1) * 4}`}>
-          <a
-            href={`#${heading.slug}`}
-            className="text-muted-foreground hover:text-foreground transition-colors"
-          >
-            {heading.text}
-          </a>
-        </li>
-      ))}
-    </ul>
-  );
+  const renderHeadings = () => {
+    return (
+      <ul className="space-y-2">
+        {filteredHeadings.map((heading) => {
+          const isActive = activeId === `#${heading.slug}`;
+          const linkClasses = `hover:text-accent/80 ${isActive ? "font-bold text-accent" : ""}`;
+          const marginLeftClass = `ml-${(heading.depth - 1) * 4}`;
+
+          return (
+            <li key={heading.slug} className={marginLeftClass}>
+              <a href={`#${heading.slug}`} className={linkClasses}>
+                {heading.text}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    );
+  };
 
   if (isMobile) {
     return (
