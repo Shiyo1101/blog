@@ -1,24 +1,30 @@
 ---
-title: "はじめての投稿"
+title: "ポートフォリオサイト開設しました！"
 pubDate: 2025-08-15
-description: "これはAstroブログの最初の投稿です。"
+description: "サイト初ののブログ投稿です"
 topImage: "./images/placeholder.png"
-author: "うっちー"
 tags: ["astro", "blog"]
 ---
 
 import { Button } from "@/components/ui/button";
 
-# これはH1見出しです
+# はじめに
 
-これはブログ投稿の最初の段落です。AstroとMDXを使って書かれています！
+ブログ
 
 ## これはH2見出しです
 
 ここに記事のコンテンツを記述します。
 MDXを使用しているので、Reactコンポーネントを直接埋め込むことができます。
 
-<Button>クリック！</Button>
+<div class="flex flex-wrap gap-4">
+  <Button>デフォルト</Button>
+  <Button variant="destructive">注意！</Button>
+  <Button variant="secondary">セカンダリ</Button>
+  <Button variant="ghost">ゴースト</Button>
+  <Button variant="link">リンク</Button>
+  <Button variant="outline">アウトライン</Button>
+</div>
 
 ### これはH3見出しです（目次には表示されません）
 
