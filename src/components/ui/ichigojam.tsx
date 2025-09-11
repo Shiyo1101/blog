@@ -35,21 +35,30 @@ const IJTypography = ({
 };
 
 type IJCharacterProps = {
+  as?: keyof JSX.IntrinsicElements;
   characterCodes: string | string[];
   className?: ClassValue;
 };
 
-const IJCharacter = ({ characterCodes, className }: IJCharacterProps) => {
+const IJCharacter = ({
+  as = "div",
+  characterCodes,
+  className,
+}: IJCharacterProps) => {
   if (!characterCodes || characterCodes.length === 0) {
     return null;
   }
 
   if (typeof characterCodes === "string") {
-    return <IJTypography className={className}>{characterCodes}</IJTypography>;
+    return (
+      <IJTypography as={as} className={className}>
+        {characterCodes}
+      </IJTypography>
+    );
   }
 
   return (
-    <IJTypography className={className}>
+    <IJTypography as={as} className={className}>
       {characterCodes.map((code, index) => (
         <span key={index}>
           {IJCharacterCodes[code as keyof typeof IJCharacterCodes] || code}
