@@ -3,6 +3,8 @@
 import { motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useRef, useState } from "react";
 
+import { cn } from "@/lib/utils";
+
 type Props = {
   children: React.ReactNode;
   isTopPage: boolean;
@@ -36,9 +38,10 @@ const HeaderMotionWrapper = ({ children, isTopPage }: Props) => {
   return (
     <motion.header
       id="site-header"
-      className={`flex items-center justify-between px-4 py-2 border-b-4 h-16 w-full z-50 bg-background/70 backdrop-blur-sm ${
-        isTopPage ? "fixed border-r-8" : "sticky top-0"
-      }`}
+      className={cn(
+        "flex items-center justify-between px-4 py-2 ring-4 ring-border h-16 w-full z-50 bg-background/70 backdrop-blur-sm",
+        isTopPage ? "fixed border-r-8" : "sticky top-0",
+      )}
       variants={headerVariants}
       animate={isTopPage ? "visible" : hidden ? "hidden" : "visible"}
       transition={{ duration: 0.5, ease: "easeInOut" }}

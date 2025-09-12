@@ -55,9 +55,7 @@ const AuthorCard = () => {
             </div>
             <div className="bg-background border-2 border-card-foreground p-2">
               <p className="text-xs sm:text-sm leading-relaxed mt-1">
-                福井県鯖江市に生まれたWebエンジニア。
-                高校生の時に子供向けパソコンであるIchigoJamで
-                プログラミングを初めて学ぶ。 趣味はツーリングとゲーム。
+                福井県鯖江市出身のWebアプリケーションエンジニア。趣味はツーリングとゲーム。
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -83,12 +81,10 @@ const AuthorCard = () => {
             >
               <div className="flex items-center gap-1 text-accent font-bold text-xs sm:text-sm mb-1">
                 <BookOpenTextIcon size={16} />
-                <span>PUBLICATION</span>
+                <span>書籍</span>
               </div>
               <p className="text-xs sm:text-sm font-bold">
-                「FOR文と配列にチャレンジする
-                <br className="sm:hidden" />
-                Hana道場式プログラミング」
+                「FOR文と配列にチャレンジする Hana道場式プログラミング」
               </p>
               <a
                 href="https://hanadojo.official.ec/items/90694010"
