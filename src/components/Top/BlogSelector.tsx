@@ -25,16 +25,18 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
     >
       <div className="bg-card border-4 border-card-foreground p-4 sm:p-6">
         <div className="bg-primary border-2 border-card-foreground -mx-2 -mt-2 px-3 py-1 mb-4">
-          <h3 className="text-primary-foreground flex items-center justify-between max-md:flex-col">
+          <div className="flex items-center justify-between max-md:flex-col">
             <IJCharacter
-              className="text-sm"
-              characterCodes="SELECT BLOG POST"
+              as="h3"
+              className="text-primary-foreground text-sm"
+              characterCodes="SELECT THE BLOG"
             />
             <IJCharacter
-              className="text-xs text-primary-foreground/50"
+              as="p"
+              className="text-xs text-primary-foreground/80"
               characterCodes={`${posts.length}POSTS`}
             />
-          </h3>
+          </div>
         </div>
         <div className="space-y-2">
           {posts.map((post, index) => (
@@ -116,7 +118,7 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
                           repeatDelay: 3,
                         }}
                       >
-                        <span className="inline-block px-2 py-1 bg-destructive text-destructive-foreground text-xs font-bold border-2 border-destructive-foreground">
+                        <span className="inline-block px-2 py-1 bg-destructive text-destructive-foreground text-xs font-bold border-2">
                           NEW!
                         </span>
                       </motion.div>
