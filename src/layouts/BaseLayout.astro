@@ -1,4 +1,5 @@
 ---
+import Footer from "@/components/Base/Footer.astro";
 import Header from "@/components/Base/Header.astro";
 import ClickShatterBlock from "@/components/ui/click-shatter-block";
 import { cn } from "@/lib/utils";
@@ -51,11 +52,12 @@ const isTopPage = Astro.url.pathname === "/";
     <title>{title}</title>
   </head>
   <body
-    class={cn("border-4", isTopPage ? "md:overflow-hidden md:h-screen" : "")}
+    class={cn("border-4", isTopPage ? "lg:overflow-hidden lg:h-screen" : "")}
   >
     <ClickShatterBlock client:load>
       <Header />
       <slot />
+      {!isTopPage && <Footer />}
     </ClickShatterBlock>
   </body>
 </html>
