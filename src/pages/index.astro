@@ -11,6 +11,7 @@ import TopLayout from "@/layouts/TopLayout.astro";
 const allPosts = await getCollection("blog", ({ data }) => {
   return data.draft !== true;
 });
+
 const recentPosts = allPosts
   .sort(
     (a, b) =>

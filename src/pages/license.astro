@@ -1,0 +1,193 @@
+---
+import { FileTextIcon, ScaleIcon, CodeIcon, BookOpenIcon } from "lucide-react";
+
+import Typewriter from "@/components/ui/typewriter";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import GridLayout from "@/layouts/GridLayout.astro";
+---
+
+<BaseLayout title="ライセンス情報">
+  <GridLayout>
+    <div class="max-w-4xl mx-auto">
+      <Typewriter
+        client:load
+        as="h2"
+        className="h-8 text-2xl md:text-4xl font-bold mb-8 text-center font-ichigojam"
+        texts={["LICENSE INFORMATION"]}
+        delay={500}
+      />
+      <div
+        class="border-4 border-card-foreground bg-card p-6 mb-8 sm:shadow-[8px_8px_0_0]"
+      >
+        <div
+          class="bg-primary border-2 border-card-foreground -mx-3 -mt-3 px-3 py-1 mb-4"
+        >
+          <h2 class="text-primary-foreground font-bold flex items-center gap-2">
+            <ScaleIcon size={20} />
+            本サイトのライセンス
+          </h2>
+        </div>
+
+        <div class="space-y-4">
+          <div class="bg-background border-2 border-card-foreground p-4">
+            <p class="text-sm leading-relaxed">
+              本ブログの記事や写真は「<strong>
+                Creative Commons — CC BY 4.0
+              </strong>」の下に提供します。
+            </p>
+            <p class="text-sm leading-relaxed mt-2">
+              記事内で紹介するプログラムや作品は、それぞれに記載されたライセンスを参照ください。
+            </p>
+          </div>
+
+          <div
+            class="bg-accent/10 border-2 border-accent p-4 flex items-start gap-3"
+          >
+            <FileTextIcon
+              size={20}
+              className="text-accent flex-shrink-0 mt-1"
+            />
+            <div>
+              <p class="font-bold text-sm">CC BY 内田吉紀 - Yoshiki Uchida</p>
+              <p class="text-xs text-muted-foreground mt-1">
+                あなたは適切なクレジットを表示し、ライセンスへのリンクを提供し、変更があったらその旨を示す限り、
+                素材を自由に共有・翻案できます。
+              </p>
+            </div>
+          </div>
+
+          <div class="text-center mt-4">
+            <a
+              href="https://creativecommons.org/licenses/by/4.0/deed.ja"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground border-2 border-primary shadow-[4px_4px_0_0] shadow-primary/50 hover:translate-y-[4px] hover:shadow-none transition-all"
+            >
+              <BookOpenIcon size={16} />
+              CC BY 4.0の詳細を見る
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="border-4 border-card-foreground bg-card p-6 mb-8 sm:shadow-[8px_8px_0_0]"
+      >
+        <div
+          class="bg-secondary border-2 border-card-foreground -mx-3 -mt-3 px-3 py-1 mb-4"
+        >
+          <h2
+            class="text-secondary-foreground font-bold flex items-center gap-2"
+          >
+            <CodeIcon size={20} />
+            使用フォント
+          </h2>
+        </div>
+
+        <div class="space-y-4">
+          <div class="bg-background border-2 border-card-foreground p-4">
+            <h3 class="font-bold text-lg mb-2 font-ichigojam">
+              IchigoJam FONT TrueType
+            </h3>
+            <p class="text-sm leading-relaxed">
+              CC BY ライセンスで提供されているフォントです。
+            </p>
+            <div class="mt-3 space-y-1">
+              <p class="text-xs text-muted-foreground">
+                提供元:
+                <a
+                  href="https://ichigojam.net/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-primary hover:text-primary/80 ml-1"
+                >
+                  IchigoJam
+                </a>
+                /
+                <a
+                  href="https://15jamrecipe.jimdofree.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-primary hover:text-primary/80"
+                >
+                  🎈 BALLOON | FU-SEN
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="border-4 border-card-foreground bg-card p-6 mb-8 sm:shadow-[8px_8px_0_0]"
+      >
+        <div
+          class="bg-accent border-2 border-card-foreground -mx-3 -mt-3 px-3 py-1 mb-4"
+        >
+          <h2 class="text-accent-foreground font-bold">その他のクレジット</h2>
+        </div>
+
+        <div class="space-y-4">
+          <div class="bg-background border-2 border-card-foreground p-4">
+            <h3 class="font-bold mb-2">使用技術</h3>
+            <ul class="text-sm space-y-1 list-disc list-inside">
+              <li>Astro - Static Site Generator</li>
+              <li>React - UI Components</li>
+              <li>Tailwind CSS - Styling</li>
+              <li>TypeScript - Type Safety</li>
+            </ul>
+          </div>
+
+          <div class="bg-background border-2 border-card-foreground p-4">
+            <h3 class="font-bold mb-2">アイコン</h3>
+            <p class="text-sm">
+              <a
+                href="https://lucide.dev/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-primary hover:text-primary/80"
+              >
+                Lucide React - MIT License
+              </a>
+            </p>
+            <p class="text-sm">
+              <a
+                href="https://github.com/pqoqubbw/icons"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-primary hover:text-primary/80"
+              >
+                pqoqubbw/icons - MIT License
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="border-4 border-card-foreground bg-card p-6 sm:shadow-[8px_8px_0_0]"
+      >
+        <div
+          class="bg-destructive border-2 border-card-foreground -mx-3 -mt-3 px-3 py-1 mb-4"
+        >
+          <h2 class="text-destructive-foreground font-bold">
+            ご利用にあたって
+          </h2>
+        </div>
+
+        <div class="bg-background border-2 border-card-foreground p-4">
+          <ul class="text-sm space-y-2 list-disc list-inside">
+            <li>
+              本サイトのコンテンツを利用する際は、適切なクレジット表記をお願いします
+            </li>
+            <li>
+              商用利用も可能ですが、内容の正確性については保証いたしかねます
+            </li>
+            <li>プログラムコードは特に記載がない限り、自由に利用可能です</li>
+            <li>
+              外部リンク先のコンテンツについては、それぞれのサイトの規約に従ってください
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </GridLayout>
+</BaseLayout>
