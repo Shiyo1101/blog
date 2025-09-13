@@ -38,7 +38,8 @@ const isTopPage = Astro.url.pathname === "/";
 
 <html lang="ja" class="scroll-smooth">
   <head>
-    <!-- IchigoJamフォントのプリロード -->
+    <!-- IchigoJamフォントのプリロードとプリコネクト -->
+    <link rel="preconnect" href="/fonts" crossorigin="anonymous" />
     <link
       rel="preload"
       href="/fonts/IchigoJam-1.4.woff"

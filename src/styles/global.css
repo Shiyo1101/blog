@@ -172,7 +172,7 @@
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
 
-  --font-ichigojam: "IchigoJam", sans-serif;
+  --font-ichigojam: "IchigoJam", monospace, sans-serif;
 
   --animate-blink: blink 1s step-end infinite;
 
