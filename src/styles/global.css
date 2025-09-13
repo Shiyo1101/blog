@@ -197,3 +197,72 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* View Transition用 */
+@layer base {
+  @keyframes scanline {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(100%);
+    }
+  }
+
+  @keyframes crt-flicker {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.96;
+    }
+  }
+
+  ::view-transition {
+    position: fixed;
+    inset: 0;
+  }
+
+  ::view-transition::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(transparent 50%, rgba(0, 0, 0, 0.03) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    animation: scanline 8s linear infinite;
+  }
+
+  @keyframes rgb-shift {
+    0%,
+    100% {
+      filter: none;
+    }
+    50% {
+      filter: drop-shadow(2px 0 0 rgba(255, 0, 0, 0.5))
+        drop-shadow(-2px 0 0 rgba(0, 255, 255, 0.5));
+    }
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    mix-blend-mode: normal;
+  }
+
+  /* View Transitionのフォールバック */
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+      animation: none !important;
+    }
+
+    ::view-transition::after {
+      display: none;
+    }
+  }
+}

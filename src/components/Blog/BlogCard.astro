@@ -10,12 +10,13 @@ type Props = {
 const { post } = Astro.props;
 ---
 
-<div class="relative group">
+<div class="relative group" transition:name={`blog-card-${post.slug}`}>
   <a
     href={`/blog/${post.slug}`}
     class="flex w-full flex-col gap-4 rounded-lg border-4 border-card-foreground bg-card p-4 sm:shadow-[8px_8px_0_0]
                  transition-all duration-200 ease-in-out
                  hover:translate-y-[5px] hover:shadow-none"
+    data-astro-prefetch="hover"
   >
     <div class="aspect-video overflow-hidden rounded-md bg-background">
       <Image
@@ -24,10 +25,16 @@ const { post } = Astro.props;
         alt={post.data.title}
         width={640}
         height={360}
+        transition:name={`blog-image-${post.slug}`}
       />
     </div>
     <div class="flex flex-col p-4">
-      <h2 class="mb-2 text-xl font-bold">{post.data.title}</h2>
+      <h2
+        class="mb-2 text-xl font-bold"
+        transition:name={`blog-title-${post.slug}`}
+      >
+        {post.data.title}
+      </h2>
       <p class="text-foreground">{post.data.description}</p>
     </div>
   </a>
