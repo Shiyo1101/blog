@@ -10,4 +10,5 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   integrations: [react(), mdx()],
+  site: "https://uchii-blog.netlify.app",
 });

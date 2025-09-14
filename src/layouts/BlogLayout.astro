@@ -23,7 +23,7 @@ const { Content, headings } = await post.render();
     {/* SNS共有ボタン - PC左サイド */}
     <aside class="hidden md:col-span-2 md:block">
       <div class="sticky top-20">
-        <ShareButtons title={post.data.title} />
+        <ShareButtons title={post.data.title} slug={post.slug} />
       </div>
     </aside>
 
@@ -79,7 +79,7 @@ const { Content, headings } = await post.render();
         class="md:hidden mt-8 p-6 border-4 border-card-foreground bg-card sm:shadow-[8px_8px_0_0]"
       >
         <div class="flex flex-wrap items-center gap-4">
-          <ShareButtons title={post.data.title} />
+          <ShareButtons title={post.data.title} slug={post.slug} />
         </div>
       </div>
     </main>
