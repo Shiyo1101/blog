@@ -1,7 +1,8 @@
 "use client";
 
-import { SquareXIcon, TableOfContentsIcon } from "lucide-react";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { List, SquareXIcon, TableOfContentsIcon } from "lucide-react";
+import { AnimatePresence, motion, type Variants } from "motion/react";
+import { useState, useEffect } from "react";
 
 import type { MarkdownHeading } from "astro";
 
@@ -10,140 +11,129 @@ type TocProps = {
   isMobile?: boolean;
 };
 
+const retroMenuVariants: Variants = {
+  hidden: {
+    clipPath: "inset(0 100% 100% 0)",
+    opacity: 0,
+    transition: {
+      duration: 0.3,
+      ease: "anticipate",
+    },
+  },
+  visible: {
+    clipPath: "inset(0 0 0 0)",
+    opacity: 1,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut",
+      when: "beforeChildren",
+      staggerChildren: 0.05,
+    },
+  },
+};
+
+const retroListItemVariants: Variants = {
+  hidden: { opacity: 0, x: -10 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      type: "spring",
+      stiffness: 500,
+      damping: 20,
+    },
+  },
+};
+
 const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
   const [activeId, setActiveId] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const isScrollingRef = useRef(false);
-  const isUserInteractionRef = useRef(false);
-
-  const filteredHeadings = headings.filter((h) => h.depth <= 2);
-
-  const setupObserver = useCallback(() => {
-    if (observerRef.current) {
-      observerRef.current.disconnect();
-    }
-
-    const headingElements: Element[] = [];
-
-    filteredHeadings.forEach((heading) => {
-      const element = document.getElementById(heading.slug);
-      if (element) {
-        headingElements.push(element);
-      }
-    });
-
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        if (isUserInteractionRef.current || isScrollingRef.current) {
-          return;
-        }
-
-        const visibleEntries = entries.filter((entry) => entry.isIntersecting);
-
-        if (visibleEntries.length > 0) {
-          const topEntry = visibleEntries.reduce((prev, current) => {
-            return prev.boundingClientRect.top < current.boundingClientRect.top
-              ? prev
-              : current;
-          });
-
-          setActiveId(`#${topEntry.target.id}`);
-          if (window.location.hash !== `#${topEntry.target.id}`) {
-            history.replaceState(null, "", `#${topEntry.target.id}`);
-          }
-        }
-      },
-      {
-        rootMargin: "-20% 0% -70% 0%",
-        threshold: [0, 0.5, 1.0],
-      },
-    );
-
-    headingElements.forEach((element) => {
-      observerRef.current?.observe(element);
-    });
-  }, [filteredHeadings]);
-
-  const initializeActiveId = useCallback(() => {
-    const hash = window.location.hash;
-    if (hash) {
-      const decodedHash = decodeURIComponent(hash);
-      setActiveId(decodedHash);
-    } else if (filteredHeadings.length > 0) {
-      setActiveId(`#${filteredHeadings[0].slug}`);
-    }
-  }, [filteredHeadings]);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    initializeActiveId();
+    // クライアントサイドでのみ実行
+    setIsClient(true);
 
-    const setupTimer = setTimeout(() => {
-      setupObserver();
-    }, 500);
+    // 初期ハッシュを設定
+    const hash = window.location.hash;
+    if (hash) {
+      setActiveId(decodeURIComponent(hash));
+    }
 
-    const handlePageLoad = () => {
-      initializeActiveId();
-      setTimeout(() => {
-        setupObserver();
-      }, 500);
+    // ハッシュ変更の監視
+    const handleHashChange = () => {
+      const newHash = window.location.hash;
+      setActiveId(newHash ? decodeURIComponent(newHash) : "");
     };
 
-    document.addEventListener("astro:page-load", handlePageLoad);
-
-    return () => {
-      clearTimeout(setupTimer);
-      document.removeEventListener("astro:page-load", handlePageLoad);
-      if (observerRef.current) {
-        observerRef.current.disconnect();
+    // クリックイベントの監視（View Transition対応）
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const link = target.closest('a[href^="#"]');
+      if (link) {
+        const href = link.getAttribute("href");
+        if (href) {
+          // 少し遅延させてハッシュを更新
+          setTimeout(() => {
+            setActiveId(decodeURIComponent(href));
+          }, 50);
+        }
       }
     };
-  }, [initializeActiveId, setupObserver]);
+
+    window.addEventListener("hashchange", handleHashChange);
+    document.addEventListener("click", handleClick);
+
+    // View Transition後の再設定
+    const handleAfterSwap = () => {
+      const currentHash = window.location.hash;
+      if (currentHash) {
+        setActiveId(decodeURIComponent(currentHash));
+      }
+    };
+
+    document.addEventListener("astro:after-swap", handleAfterSwap);
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+      document.removeEventListener("click", handleClick);
+      document.removeEventListener("astro:after-swap", handleAfterSwap);
+    };
+  }, []);
+
+  const filteredHeadings = headings.filter((h) => h.depth <= 2);
 
   const handleLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     slug: string,
   ) => {
-    e.preventDefault();
+    // ハッシュを即座に更新
+    setActiveId(`#${slug}`);
 
-    isUserInteractionRef.current = true;
-    isScrollingRef.current = true;
-
-    try {
-      const element = document.getElementById(slug);
-      if (element) {
-        setActiveId(`#${slug}`);
-
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
-
-        history.pushState(null, "", `#${slug}`);
-
-        setTimeout(() => {
-          isUserInteractionRef.current = false;
-          isScrollingRef.current = false;
-        }, 1000);
-      }
-    } catch (error) {
-      console.warn("Failed to navigate to heading:", error);
-      isUserInteractionRef.current = false;
-      isScrollingRef.current = false;
+    // モバイルの場合は目次を閉じる
+    if (isMobile) {
+      setTimeout(() => setIsOpen(false), 300);
     }
   };
 
   const renderHeadings = () => {
     return (
-      <ul className="space-y-2">
+      <motion.ul className="space-y-2" variants={retroMenuVariants}>
         {filteredHeadings.map((heading) => {
-          const isActive = activeId === `#${heading.slug}`;
-          const linkClasses = `block py-1 hover:text-accent/80 transition-colors ${
+          const isActive = isClient && activeId === `#${heading.slug}`;
+          const linkClasses = `block py-1 hover:text-accent transition-colors list-none ${
             isActive
-              ? "font-bold text-accent border-l-4 border-accent pl-2 -ml-2"
+              ? "font-bold text-accent border-l-4 border-accent pl-2 -ml-2 bg-accent/10"
               : "hover:pl-2 hover:-ml-2"
           }`;
           const marginLeftClass = heading.depth === 2 ? "ml-4" : "";
 
           return (
-            <li key={heading.slug} className={marginLeftClass}>
+            <motion.li
+              key={heading.slug}
+              className={marginLeftClass}
+              variants={retroListItemVariants}
+            >
               <a
                 href={`#${heading.slug}`}
                 className={linkClasses}
@@ -152,52 +142,56 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
               >
                 {heading.text}
               </a>
-            </li>
+            </motion.li>
           );
         })}
-      </ul>
+      </motion.ul>
     );
   };
 
   if (isMobile) {
     return (
-      <div className="border rounded-lg overflow-hidden">
+      <div className="border-2 bg-card overflow-hidden">
         <button
-          className="p-4 w-full font-bold cursor-pointer text-secondary flex items-center gap-2"
+          className="p-4 w-full font-bold cursor-pointer text-secondary flex items-center gap-2 hover:bg-accent/10 transition-colors"
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
-          aria-controls="mobile-toc"
+          aria-controls="toc-content"
         >
-          <div
-            className="transition-transform duration-300"
-            style={{ transform: isOpen ? "rotate(90deg)" : "rotate(0)" }}
+          <motion.div
+            animate={{ rotate: isOpen ? 90 : 0 }}
+            transition={{ duration: 0.3 }}
           >
             {isOpen ? <SquareXIcon /> : <TableOfContentsIcon />}
-          </div>
+          </motion.div>
           目次
         </button>
-        {isOpen && (
-          <div
-            id="mobile-toc"
-            className="p-4 border-t"
-            style={{
-              animation: "slideDown 0.3s ease-out forwards",
-            }}
-          >
-            {renderHeadings()}
-          </div>
-        )}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              className="p-4 border-t"
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              variants={retroMenuVariants}
+            >
+              {renderHeadings()}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     );
   }
 
   return (
-    <nav aria-label="目次">
-      <h2 className="text-lg font-bold mb-4 text-secondary flex items-center gap-2">
-        <TableOfContentsIcon />
-        目次
-      </h2>
-      {renderHeadings()}
+    <nav className="sticky top-20">
+      <div className="border-2 bg-card p-4">
+        <h2 className="text-lg font-bold mb-4 text-secondary flex items-center gap-2 border-b-2 pb-2">
+          <List size={20} />
+          目次
+        </h2>
+        {renderHeadings()}
+      </div>
     </nav>
   );
 };
