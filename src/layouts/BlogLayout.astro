@@ -23,13 +23,15 @@ const { Content, headings } = await post.render();
     {/* SNS共有ボタン - PC左サイド */}
     <aside class="hidden md:col-span-2 md:block">
       <div class="sticky top-20">
-        <ShareButtons title={post.data.title} />
+        <ShareButtons title={post.data.title} slug={post.slug} />
       </div>
     </aside>
 
     {/* 記事コンテンツ */}
     <main class="col-span-12 md:col-span-7">
-      <article class="prose dark:prose-invert max-w-none">
+      <article
+        class="prose dark:prose-invert prose-a:text-primary prose-a:hover:text-primary/80 prose-p:text-justify prose-img:rounded-xl max-w-none"
+      >
         <h1
           class="text-3xl border-b-4 pb-2"
           transition:name={`blog-title-${post.slug}`}
@@ -79,7 +81,7 @@ const { Content, headings } = await post.render();
         class="md:hidden mt-8 p-6 border-4 border-card-foreground bg-card sm:shadow-[8px_8px_0_0]"
       >
         <div class="flex flex-wrap items-center gap-4">
-          <ShareButtons title={post.data.title} />
+          <ShareButtons title={post.data.title} slug={post.slug} />
         </div>
       </div>
     </main>

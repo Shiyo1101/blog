@@ -4,8 +4,16 @@ import { Share2Icon } from "lucide-react";
 import { FacebookIcon } from "@/components/ui/facebook";
 import { TwitterIcon } from "@/components/ui/twitter";
 
-const { title, showTitle = true } = Astro.props;
-const url = Astro.url.href;
+type Props = {
+  title: string;
+  slug: string;
+  showTitle?: boolean;
+};
+
+const { title, slug, showTitle = true } = Astro.props;
+
+const appUrl = import.meta.env.PUBLIC_APP_URL || "http://localhost:4321";
+const shareUrl = `${appUrl}/blog/${slug}`;
 ---
 
 <div class="flex flex-col gap-4 not-prose">
@@ -21,7 +29,7 @@ const url = Astro.url.href;
     <a
       class="group"
       href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-        url,
+        shareUrl,
       )}&text=${encodeURIComponent(title)}`}
       target="_blank"
       rel="noopener noreferrer"
@@ -31,8 +39,8 @@ const url = Astro.url.href;
     </a>
     <a
       class="group"
-      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-        url,
+      href={`https://www.facebook.com/share.php?u=${encodeURIComponent(
+        shareUrl,
       )}`}
       target="_blank"
       rel="noopener noreferrer"
