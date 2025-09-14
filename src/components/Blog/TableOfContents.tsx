@@ -1,7 +1,7 @@
 "use client";
 
-import { SquareXIcon, TableOfContentsIcon } from "lucide-react";
-import { motion, AnimatePresence, type Variants } from "motion/react";
+import { List, SquareXIcon, TableOfContentsIcon } from "lucide-react";
+import { AnimatePresence, motion, type Variants } from "motion/react";
 import { useState, useEffect } from "react";
 
 import type { MarkdownHeading } from "astro";
@@ -48,28 +48,85 @@ const retroListItemVariants: Variants = {
 const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
   const [activeId, setActiveId] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    const updateActiveId = () => {
-      setActiveId(decodeURIComponent(window.location.hash));
+    // クライアントサイドでのみ実行
+    setIsClient(true);
+
+    // 初期ハッシュを設定
+    const hash = window.location.hash;
+    if (hash) {
+      setActiveId(decodeURIComponent(hash));
+    }
+
+    // ハッシュ変更の監視
+    const handleHashChange = () => {
+      const newHash = window.location.hash;
+      setActiveId(newHash ? decodeURIComponent(newHash) : "");
     };
 
-    updateActiveId();
-    window.addEventListener("hashchange", updateActiveId);
+    // クリックイベントの監視（View Transition対応）
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const link = target.closest('a[href^="#"]');
+      if (link) {
+        const href = link.getAttribute("href");
+        if (href) {
+          // 少し遅延させてハッシュを更新
+          setTimeout(() => {
+            setActiveId(decodeURIComponent(href));
+          }, 50);
+        }
+      }
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    document.addEventListener("click", handleClick);
+
+    // View Transition後の再設定
+    const handleAfterSwap = () => {
+      const currentHash = window.location.hash;
+      if (currentHash) {
+        setActiveId(decodeURIComponent(currentHash));
+      }
+    };
+
+    document.addEventListener("astro:after-swap", handleAfterSwap);
+
     return () => {
-      window.removeEventListener("hashchange", updateActiveId);
+      window.removeEventListener("hashchange", handleHashChange);
+      document.removeEventListener("click", handleClick);
+      document.removeEventListener("astro:after-swap", handleAfterSwap);
     };
   }, []);
 
   const filteredHeadings = headings.filter((h) => h.depth <= 2);
 
+  const handleLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    slug: string,
+  ) => {
+    // ハッシュを即座に更新
+    setActiveId(`#${slug}`);
+
+    // モバイルの場合は目次を閉じる
+    if (isMobile) {
+      setTimeout(() => setIsOpen(false), 300);
+    }
+  };
+
   const renderHeadings = () => {
     return (
       <motion.ul className="space-y-2" variants={retroMenuVariants}>
         {filteredHeadings.map((heading) => {
-          const isActive = activeId === `#${heading.slug}`;
-          const linkClasses = `hover:text-accent/80 transition-colors ${isActive ? "not-prose max-md:underline font-bold text-accent" : ""}`;
-          const marginLeftClass = `ml-${(heading.depth - 1) * 4}`;
+          const isActive = isClient && activeId === `#${heading.slug}`;
+          const linkClasses = `block py-1 hover:text-accent transition-colors list-none ${
+            isActive
+              ? "font-bold text-accent border-l-4 border-accent pl-2 -ml-2 bg-accent/10"
+              : "hover:pl-2 hover:-ml-2"
+          }`;
+          const marginLeftClass = heading.depth === 2 ? "ml-4" : "";
 
           return (
             <motion.li
@@ -77,7 +134,12 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
               className={marginLeftClass}
               variants={retroListItemVariants}
             >
-              <a href={`#${heading.slug}`} className={linkClasses}>
+              <a
+                href={`#${heading.slug}`}
+                className={linkClasses}
+                onClick={(e) => handleLinkClick(e, heading.slug)}
+                aria-current={isActive ? "location" : undefined}
+              >
                 {heading.text}
               </a>
             </motion.li>
@@ -89,10 +151,12 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
 
   if (isMobile) {
     return (
-      <div className="border rounded-lg overflow-hidden">
+      <div className="border-2 bg-card overflow-hidden">
         <button
-          className="p-4 w-full font-bold cursor-pointer text-secondary flex items-center gap-2"
+          className="p-4 w-full font-bold cursor-pointer text-secondary flex items-center gap-2 hover:bg-accent/10 transition-colors"
           onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+          aria-controls="toc-content"
         >
           <motion.div
             animate={{ rotate: isOpen ? 90 : 0 }}
@@ -120,12 +184,14 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
   }
 
   return (
-    <nav>
-      <h2 className="text-lg font-bold mb-4 text-secondary flex items-center gap-2">
-        <TableOfContentsIcon />
-        目次
-      </h2>
-      {renderHeadings()}
+    <nav className="sticky top-20">
+      <div className="border-2 bg-card p-4">
+        <h2 className="text-lg font-bold mb-4 text-secondary flex items-center gap-2 border-b-2 pb-2">
+          <List size={20} />
+          目次
+        </h2>
+        {renderHeadings()}
+      </div>
     </nav>
   );
 };

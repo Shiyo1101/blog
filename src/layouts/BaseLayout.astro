@@ -1,4 +1,6 @@
 ---
+import { ClientRouter } from "astro:transitions";
+
 import Footer from "@/components/Base/Footer.astro";
 import Header from "@/components/Base/Header.astro";
 import ClickShatterBlock from "@/components/ui/click-shatter-block";
@@ -36,7 +38,8 @@ const isTopPage = Astro.url.pathname === "/";
 
 <html lang="ja" class="scroll-smooth">
   <head>
-    <!-- IchigoJamフォントのプリロード -->
+    <!-- IchigoJamフォントのプリロードとプリコネクト -->
+    <link rel="preconnect" href="/fonts" crossorigin="anonymous" />
     <link
       rel="preload"
       href="/fonts/IchigoJam-1.4.woff"
@@ -50,14 +53,179 @@ const isTopPage = Astro.url.pathname === "/";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ClientRouter />
   </head>
   <body
     class={cn("border-4", isTopPage ? "lg:overflow-hidden lg:h-screen" : "")}
   >
     <ClickShatterBlock client:load>
-      <Header />
-      <slot />
+      <Header transition:persist />
+      <main transition:animate="slide">
+        <slot />
+      </main>
       {!isTopPage && <Footer />}
     </ClickShatterBlock>
   </body>
 </html>
+
+<style>
+  /* レトロゲーム風のピクセルトランジション */
+  @keyframes pixel-fade-in {
+    0% {
+      opacity: 0;
+      filter: contrast(5) brightness(0);
+      transform: scale(0.95) translateY(10px);
+    }
+    20% {
+      filter: contrast(3) brightness(0.3);
+    }
+    40% {
+      filter: contrast(2) brightness(0.6);
+    }
+    60% {
+      filter: contrast(1.5) brightness(0.8);
+    }
+    100% {
+      opacity: 1;
+      filter: contrast(1) brightness(1);
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @keyframes pixel-fade-out {
+    0% {
+      opacity: 1;
+      filter: contrast(1) brightness(1);
+      transform: scale(1) translateY(0);
+    }
+    40% {
+      filter: contrast(1.5) brightness(1.2);
+    }
+    60% {
+      filter: contrast(2) brightness(0.6);
+    }
+    80% {
+      filter: contrast(3) brightness(0.3);
+    }
+    100% {
+      opacity: 0;
+      filter: contrast(5) brightness(0);
+      transform: scale(0.95) translateY(-10px);
+    }
+  }
+
+  @keyframes retro-slide-in {
+    0% {
+      transform: translateX(100%);
+      filter: brightness(2) contrast(2) blur(2px);
+    }
+    50% {
+      filter: brightness(1.5) contrast(1.5) blur(1px);
+    }
+    100% {
+      transform: translateX(0);
+      filter: brightness(1) contrast(1) blur(0);
+    }
+  }
+
+  @keyframes retro-slide-out {
+    0% {
+      transform: translateX(0);
+      filter: brightness(1) contrast(1) blur(0);
+    }
+    50% {
+      filter: brightness(0.5) contrast(1.5) blur(1px);
+    }
+    100% {
+      transform: translateX(-100%);
+      filter: brightness(0) contrast(2) blur(2px);
+    }
+  }
+
+  /* 8ビットゲーム風グリッチエフェクト */
+  @keyframes glitch-effect {
+    0%,
+    100% {
+      transform: translate(0);
+      filter: hue-rotate(0deg);
+    }
+    10% {
+      transform: translate(-2px, 2px);
+      filter: hue-rotate(90deg) saturate(2);
+    }
+    20% {
+      transform: translate(-2px, -2px);
+      filter: hue-rotate(180deg) saturate(0.5);
+    }
+    30% {
+      transform: translate(2px, 2px);
+      filter: hue-rotate(270deg) saturate(1.5);
+    }
+    40% {
+      transform: translate(2px, -2px);
+      filter: hue-rotate(360deg) saturate(1);
+    }
+  }
+
+  /* デフォルトのスライドアニメーションをレトロ風に上書き */
+  ::view-transition-old(slide) {
+    animation: retro-slide-out 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ::view-transition-new(slide) {
+    animation: retro-slide-in 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* フェードアニメーションをピクセル風に上書き */
+  ::view-transition-old(fade) {
+    animation: pixel-fade-out 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ::view-transition-new(fade) {
+    animation: pixel-fade-in 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ブログカード専用のトランジション */
+  ::view-transition-old(blog-card) {
+    animation: pixel-fade-out 0.3s ease-out;
+  }
+
+  ::view-transition-new(blog-card) {
+    animation: pixel-fade-in 0.3s ease-out;
+  }
+
+  /* ページ全体のトランジション */
+  ::view-transition-old(page-content) {
+    animation:
+      glitch-effect 0.3s ease-out,
+      pixel-fade-out 0.4s ease-out;
+  }
+
+  ::view-transition-new(page-content) {
+    animation: pixel-fade-in 0.4s ease-out;
+  }
+
+  /* スケールアニメーション */
+  @keyframes scale-down {
+    to {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+  }
+
+  @keyframes scale-up {
+    from {
+      opacity: 0;
+      transform: scale(1.2);
+    }
+  }
+
+  /* アクセシビリティ: モーション設定を尊重 */
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+      animation: none !important;
+    }
+  }
+</style>
