@@ -71,7 +71,12 @@ const readingTime = calculateReadingTime(post.body);
 
         {/* モバイル用目次 */}
         <div class="md:hidden mb-8">
-          <TableOfContents client:load headings={headings} isMobile={true} />
+          <TableOfContents
+            client:load
+            headings={headings}
+            isMobile={true}
+            transition:persist
+          />
         </div>
 
         {/* 記事本文 */}
@@ -97,7 +102,7 @@ const readingTime = calculateReadingTime(post.body);
     {/* 目次 - PC右サイド */}
     <aside class="hidden md:col-span-3 md:block">
       <div class="sticky top-20">
-        <TableOfContents client:load headings={headings} />
+        <TableOfContents client:load headings={headings} transition:persist />
       </div>
     </aside>
   </div>
