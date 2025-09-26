@@ -1,15 +1,24 @@
 ---
+import { SEO } from "astro-seo";
 import { ClientRouter } from "astro:transitions";
 
 import Footer from "@/components/Base/Footer.astro";
 import Header from "@/components/Base/Header.astro";
 import ClickShatterBlock from "@/components/ui/click-shatter-block";
-import { cn } from "@/lib/utils";
 
 import "@/styles/global.css";
-const { title } = Astro.props;
 
-const isTopPage = Astro.url.pathname === "/";
+export type Props = {
+  title?: string;
+  description?: string;
+  image?: string;
+};
+
+const {
+  title = "うっちーのブログ - Uchii's Blog",
+  description = "うっちーの技術ブログ。IchigoJamやプログラミング、Web開発に関する記事を発信しています。",
+  image = "/ogp.png",
+} = Astro.props as Props;
 ---
 
 <script is:inline>
@@ -47,10 +56,36 @@ const isTopPage = Astro.url.pathname === "/";
     // Pass the incoming document to set the theme on it
     setDarkMode(ev.newDocument);
   });
+  /* ************************* */
 </script>
 
 <html lang="ja" class="scroll-smooth">
   <head>
+    <SEO
+      title={title}
+      description={description}
+      openGraph={{
+        basic: {
+          type: "website",
+          url: "https://uchii-blog.netlify.app",
+          title: title,
+          image: image,
+        },
+        optional: {
+          description: description,
+        },
+      }}
+      twitter={{
+        card: "summary_large_image",
+        // site: "@yoshiki_uchida",
+        creator: "@yoshiki_uchida",
+        title: title,
+        description: description,
+        image: image,
+        imageAlt: "Uchii's Blog | うっちーのブログ",
+      }}
+    />
+
     <!-- IchigoJamフォントのプリロードとプリコネクト -->
     <link rel="preconnect" href="/fonts" crossorigin="anonymous" />
     <link
@@ -61,176 +96,123 @@ const isTopPage = Astro.url.pathname === "/";
       crossorigin="anonymous"
     />
 
+    <!-- Sitemap -->
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
     <ClientRouter />
   </head>
-  <body
-    class={cn("border-4", isTopPage ? "lg:overflow-hidden lg:h-screen" : "")}
-  >
+  <body class="border-4">
     <ClickShatterBlock client:load>
       <Header transition:persist />
       <main transition:animate="slide">
         <slot />
       </main>
-      {!isTopPage && <Footer />}
+      <Footer />
     </ClickShatterBlock>
   </body>
 </html>
 
 <style>
-  /* レトロゲーム風のピクセルトランジション */
-  @keyframes pixel-fade-in {
-    0% {
+  /* モダンなフェードアニメーション */
+  @keyframes fade-in {
+    from {
       opacity: 0;
-      filter: contrast(5) brightness(0);
-      transform: scale(0.95) translateY(10px);
+      transform: translateY(8px);
     }
-    20% {
-      filter: contrast(3) brightness(0.3);
-    }
-    40% {
-      filter: contrast(2) brightness(0.6);
-    }
-    60% {
-      filter: contrast(1.5) brightness(0.8);
-    }
-    100% {
+    to {
       opacity: 1;
-      filter: contrast(1) brightness(1);
-      transform: scale(1) translateY(0);
+      transform: translateY(0);
     }
   }
 
-  @keyframes pixel-fade-out {
-    0% {
+  @keyframes fade-out {
+    from {
       opacity: 1;
-      filter: contrast(1) brightness(1);
-      transform: scale(1) translateY(0);
+      transform: translateY(0);
     }
-    40% {
-      filter: contrast(1.5) brightness(1.2);
-    }
-    60% {
-      filter: contrast(2) brightness(0.6);
-    }
-    80% {
-      filter: contrast(3) brightness(0.3);
-    }
-    100% {
+    to {
       opacity: 0;
-      filter: contrast(5) brightness(0);
-      transform: scale(0.95) translateY(-10px);
+      transform: translateY(-8px);
     }
   }
 
-  @keyframes retro-slide-in {
-    0% {
+  /* シンプルなスライドアニメーション */
+  @keyframes slide-in {
+    from {
       transform: translateX(100%);
-      filter: brightness(2) contrast(2) blur(2px);
     }
-    50% {
-      filter: brightness(1.5) contrast(1.5) blur(1px);
-    }
-    100% {
+    to {
       transform: translateX(0);
-      filter: brightness(1) contrast(1) blur(0);
     }
   }
 
-  @keyframes retro-slide-out {
-    0% {
+  @keyframes slide-out {
+    from {
       transform: translateX(0);
-      filter: brightness(1) contrast(1) blur(0);
     }
-    50% {
-      filter: brightness(0.5) contrast(1.5) blur(1px);
-    }
-    100% {
+    to {
       transform: translateX(-100%);
-      filter: brightness(0) contrast(2) blur(2px);
     }
-  }
-
-  /* 8ビットゲーム風グリッチエフェクト */
-  @keyframes glitch-effect {
-    0%,
-    100% {
-      transform: translate(0);
-      filter: hue-rotate(0deg);
-    }
-    10% {
-      transform: translate(-2px, 2px);
-      filter: hue-rotate(90deg) saturate(2);
-    }
-    20% {
-      transform: translate(-2px, -2px);
-      filter: hue-rotate(180deg) saturate(0.5);
-    }
-    30% {
-      transform: translate(2px, 2px);
-      filter: hue-rotate(270deg) saturate(1.5);
-    }
-    40% {
-      transform: translate(2px, -2px);
-      filter: hue-rotate(360deg) saturate(1);
-    }
-  }
-
-  /* デフォルトのスライドアニメーションをレトロ風に上書き */
-  ::view-transition-old(slide) {
-    animation: retro-slide-out 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  ::view-transition-new(slide) {
-    animation: retro-slide-in 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* フェードアニメーションをピクセル風に上書き */
-  ::view-transition-old(fade) {
-    animation: pixel-fade-out 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  ::view-transition-new(fade) {
-    animation: pixel-fade-in 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* ブログカード専用のトランジション */
-  ::view-transition-old(blog-card) {
-    animation: pixel-fade-out 0.3s ease-out;
-  }
-
-  ::view-transition-new(blog-card) {
-    animation: pixel-fade-in 0.3s ease-out;
-  }
-
-  /* ページ全体のトランジション */
-  ::view-transition-old(page-content) {
-    animation:
-      glitch-effect 0.3s ease-out,
-      pixel-fade-out 0.4s ease-out;
-  }
-
-  ::view-transition-new(page-content) {
-    animation: pixel-fade-in 0.4s ease-out;
   }
 
   /* スケールアニメーション */
-  @keyframes scale-down {
-    to {
+  @keyframes scale-in {
+    from {
       opacity: 0;
-      transform: scale(0.8);
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
     }
   }
 
-  @keyframes scale-up {
+  @keyframes scale-out {
     from {
-      opacity: 0;
-      transform: scale(1.2);
+      opacity: 1;
+      transform: scale(1);
     }
+    to {
+      opacity: 0;
+      transform: scale(1.05);
+    }
+  }
+
+  /* View Transition API のアニメーション定義 */
+  ::view-transition-old(slide) {
+    animation: slide-out 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ::view-transition-new(slide) {
+    animation: slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ::view-transition-old(fade) {
+    animation: fade-out 0.3s ease-out;
+  }
+
+  ::view-transition-new(fade) {
+    animation: fade-in 0.3s ease-out;
+  }
+
+  ::view-transition-old(blog-card) {
+    animation: scale-out 0.3s ease-out;
+  }
+
+  ::view-transition-new(blog-card) {
+    animation: scale-in 0.3s ease-out;
+  }
+
+  ::view-transition-old(page-content) {
+    animation: fade-out 0.3s ease-out;
+  }
+
+  ::view-transition-new(page-content) {
+    animation: fade-in 0.3s ease-out;
   }
 
   /* アクセシビリティ: モーション設定を尊重 */

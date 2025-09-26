@@ -1,14 +1,14 @@
 ---
 // src/layouts/BlogLayout.astro
 import { Image } from "astro:assets";
-import { CalendarDaysIcon } from "lucide-react";
+import { CalendarDaysIcon, TimerIcon } from "lucide-react";
 
 import type { CollectionEntry } from "astro:content";
 
 import AuthorInfo from "@/components/Blog/AuthorInfo.astro";
 import ShareButtons from "@/components/Blog/ShareButtons.astro";
 import TableOfContents from "@/components/Blog/TableOfContents";
-import { formatDate } from "@/lib/utils";
+import { formatDate, calculateReadingTime } from "@/lib/utils";
 
 type Props = {
   post: CollectionEntry<"blog">;
@@ -16,6 +16,7 @@ type Props = {
 
 const { post } = Astro.props;
 const { Content, headings } = await post.render();
+const readingTime = calculateReadingTime(post.body);
 ---
 
 <div class="py-16 px-2" transition:name="page-content">
@@ -39,16 +40,24 @@ const { Content, headings } = await post.render();
           {post.data.title}
         </h1>
 
-        <div class="flex items-center gap-2 text-muted-foreground">
-          <CalendarDaysIcon size={16} />
-          <time datetime={post.data.pubDate.toISOString()}>
-            {formatDate(post.data.pubDate)}
-          </time>
+        <div
+          class="flex items-center justify-between gap-4 text-muted-foreground"
+        >
+          <div class="flex items-center gap-2">
+            <CalendarDaysIcon size={16} />
+            <time datetime={post.data.pubDate.toISOString()}>
+              {formatDate(post.data.pubDate)}
+            </time>
+          </div>
+          <div class="flex items-center gap-1">
+            <TimerIcon size={16} />
+            約{readingTime}分で読めます
+          </div>
         </div>
 
         {
           post.data.topImage && (
-            <div transition:name={`blog-image-${post.slug}`}>
+            <figure transition:name={`blog-image-${post.slug}`}>
               <Image
                 class="w-full h-auto rounded-lg mb-8"
                 src={post.data.topImage}
@@ -56,13 +65,18 @@ const { Content, headings } = await post.render();
                 width={1280}
                 height={720}
               />
-            </div>
+            </figure>
           )
         }
 
         {/* モバイル用目次 */}
         <div class="md:hidden mb-8">
-          <TableOfContents client:load headings={headings} isMobile={true} />
+          <TableOfContents
+            client:load
+            headings={headings}
+            isMobile={true}
+            transition:persist
+          />
         </div>
 
         {/* 記事本文 */}
@@ -88,7 +102,7 @@ const { Content, headings } = await post.render();
     {/* 目次 - PC右サイド */}
     <aside class="hidden md:col-span-3 md:block">
       <div class="sticky top-20">
-        <TableOfContents client:load headings={headings} />
+        <TableOfContents client:load headings={headings} transition:persist />
       </div>
     </aside>
   </div>

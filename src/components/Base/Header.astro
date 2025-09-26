@@ -4,15 +4,14 @@ import { IJTypography } from "@/components/ui/ichigojam";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 
 const { pathname } = Astro.url;
-const isTopPage = pathname === "/";
 ---
 
-<HeaderMotionWrapper client:load isTopPage={isTopPage}>
+<HeaderMotionWrapper client:load>
   <nav class="flex items-center justify-start max-w-4xl w-full">
     <ul class="flex items-center gap-4">
       <li>
         <a href="/" class="text-lg font-bold">
-          <IJTypography addCursor={isTopPage}>Home</IJTypography>
+          <IJTypography addCursor={pathname === "/"}>Home</IJTypography>
         </a>
       </li>
       <li>

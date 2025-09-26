@@ -48,11 +48,24 @@ const retroListItemVariants: Variants = {
 const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
   const [activeId, setActiveId] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     // クライアントサイドでのみ実行
     setIsClient(true);
+
+    // ViewTransitionの検知
+    const handleViewTransitionStart = () => setIsTransitioning(true);
+    const handleViewTransitionEnd = () => setIsTransitioning(false);
+
+    document.addEventListener('astro:before-swap', handleViewTransitionStart);
+    document.addEventListener('astro:after-swap', handleViewTransitionEnd);
+
+    return () => {
+      document.removeEventListener('astro:before-swap', handleViewTransitionStart);
+      document.removeEventListener('astro:after-swap', handleViewTransitionEnd);
+    };
 
     // 初期ハッシュを設定
     const hash = window.location.hash;
@@ -160,7 +173,7 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
         >
           <motion.div
             animate={{ rotate: isOpen ? 90 : 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: isTransitioning ? 0 : 0.3 }}
           >
             {isOpen ? <SquareXIcon /> : <TableOfContentsIcon />}
           </motion.div>
@@ -173,7 +186,8 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
               initial="hidden"
               animate="visible"
               exit="hidden"
-              variants={retroMenuVariants}
+              variants={isTransitioning ? {} : retroMenuVariants}
+              transition={{ duration: isTransitioning ? 0 : undefined }}
             >
               {renderHeadings()}
             </motion.div>
