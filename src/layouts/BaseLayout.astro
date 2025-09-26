@@ -1,15 +1,24 @@
 ---
+import { SEO } from "astro-seo";
 import { ClientRouter } from "astro:transitions";
 
 import Footer from "@/components/Base/Footer.astro";
 import Header from "@/components/Base/Header.astro";
 import ClickShatterBlock from "@/components/ui/click-shatter-block";
-import { cn } from "@/lib/utils";
 
 import "@/styles/global.css";
-const { title } = Astro.props;
 
-const isTopPage = Astro.url.pathname === "/";
+export type Props = {
+  title?: string;
+  description?: string;
+  image?: string;
+};
+
+const {
+  title = "うっちーのブログ - Uchii's Blog",
+  description = "うっちーの技術ブログ。IchigoJamやプログラミング、Web開発に関する記事を発信しています。",
+  image = "/ogp.png",
+} = Astro.props as Props;
 ---
 
 <script is:inline>
@@ -47,10 +56,36 @@ const isTopPage = Astro.url.pathname === "/";
     // Pass the incoming document to set the theme on it
     setDarkMode(ev.newDocument);
   });
+  /* ************************* */
 </script>
 
 <html lang="ja" class="scroll-smooth">
   <head>
+    <SEO
+      title={title}
+      description={description}
+      openGraph={{
+        basic: {
+          type: "website",
+          url: "https://uchii-blog.netlify.app",
+          title: title,
+          image: image,
+        },
+        optional: {
+          description: description,
+        },
+      }}
+      twitter={{
+        card: "summary_large_image",
+        // site: "@yoshiki_uchida",
+        creator: "@yoshiki_uchida",
+        title: title,
+        description: description,
+        image: image,
+        imageAlt: "Uchii's Blog | うっちーのブログ",
+      }}
+    />
+
     <!-- IchigoJamフォントのプリロードとプリコネクト -->
     <link rel="preconnect" href="/fonts" crossorigin="anonymous" />
     <link
@@ -61,22 +96,22 @@ const isTopPage = Astro.url.pathname === "/";
       crossorigin="anonymous"
     />
 
+    <!-- Sitemap -->
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
     <ClientRouter />
   </head>
-  <body
-    class={cn("border-4", isTopPage ? "lg:overflow-hidden lg:h-screen" : "")}
-  >
+  <body class="border-4">
     <ClickShatterBlock client:load>
       <Header transition:persist />
       <main transition:animate="slide">
         <slot />
       </main>
-      {!isTopPage && <Footer />}
+      <Footer />
     </ClickShatterBlock>
   </body>
 </html>
