@@ -3,22 +3,17 @@
 import { motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useRef, useState } from "react";
 
-import { cn } from "@/lib/utils";
-
 type Props = {
   children: React.ReactNode;
-  isTopPage: boolean;
 };
 
-const HeaderMotionWrapper = ({ children, isTopPage }: Props) => {
+const HeaderMotionWrapper = ({ children }: Props) => {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const lastScrollY = useRef(0);
 
   // scrollYの変更を検知してヘッダーの表示/非表示を切り替える
   useMotionValueEvent(scrollY, "change", (latest) => {
-    if (isTopPage) return;
-
     const delta = latest - lastScrollY.current;
 
     if (latest > 100 && delta > 0) {
@@ -38,12 +33,9 @@ const HeaderMotionWrapper = ({ children, isTopPage }: Props) => {
   return (
     <motion.header
       id="site-header"
-      className={cn(
-        "flex items-center justify-between px-4 py-2 ring-4 ring-border h-16 w-full z-50 bg-background/70 backdrop-blur-sm",
-        isTopPage ? "fixed border-r-8" : "sticky top-0",
-      )}
+      className="sticky top-0 flex items-center justify-between px-4 py-2 ring-4 ring-border h-16 w-full z-50 bg-background/70 backdrop-blur-sm"
       variants={headerVariants}
-      animate={isTopPage ? "visible" : hidden ? "hidden" : "visible"}
+      animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       {children}
