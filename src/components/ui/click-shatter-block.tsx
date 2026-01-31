@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
-import { useState } from "react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ClickShatterBlockProps {
   shatterBlockSize?: number;

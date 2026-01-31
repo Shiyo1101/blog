@@ -1,12 +1,12 @@
 ---
-import { SEO } from "astro-seo";
+import "@/styles/global.css";
+
 import { ClientRouter } from "astro:transitions";
+import { SEO } from "astro-seo";
 
 import Footer from "@/components/Base/Footer.astro";
 import Header from "@/components/Base/Header.astro";
 import ClickShatterBlock from "@/components/ui/click-shatter-block";
-
-import "@/styles/global.css";
 
 export type Props = {
   title?: string;
@@ -86,8 +86,7 @@ const {
       }}
     />
 
-    <!-- IchigoJamフォントのプリロードとプリコネクト -->
-    <link rel="preconnect" href="/fonts" crossorigin="anonymous" />
+    <!-- IchigoJamフォントのプリロード -->
     <link
       rel="preload"
       href="/fonts/IchigoJam-1.4.woff"
@@ -108,7 +107,7 @@ const {
   <body class="border-4">
     <ClickShatterBlock client:load>
       <Header transition:persist />
-      <main transition:animate="slide">
+      <main transition:animate="fade">
         <slot />
       </main>
       <Footer />
@@ -117,104 +116,6 @@ const {
 </html>
 
 <style>
-  /* モダンなフェードアニメーション */
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes fade-out {
-    from {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    to {
-      opacity: 0;
-      transform: translateY(-8px);
-    }
-  }
-
-  /* シンプルなスライドアニメーション */
-  @keyframes slide-in {
-    from {
-      transform: translateX(100%);
-    }
-    to {
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes slide-out {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-100%);
-    }
-  }
-
-  /* スケールアニメーション */
-  @keyframes scale-in {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  @keyframes scale-out {
-    from {
-      opacity: 1;
-      transform: scale(1);
-    }
-    to {
-      opacity: 0;
-      transform: scale(1.05);
-    }
-  }
-
-  /* View Transition API のアニメーション定義 */
-  ::view-transition-old(slide) {
-    animation: slide-out 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  ::view-transition-new(slide) {
-    animation: slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  ::view-transition-old(fade) {
-    animation: fade-out 0.3s ease-out;
-  }
-
-  ::view-transition-new(fade) {
-    animation: fade-in 0.3s ease-out;
-  }
-
-  ::view-transition-old(blog-card) {
-    animation: scale-out 0.3s ease-out;
-  }
-
-  ::view-transition-new(blog-card) {
-    animation: scale-in 0.3s ease-out;
-  }
-
-  ::view-transition-old(page-content) {
-    animation: fade-out 0.3s ease-out;
-  }
-
-  ::view-transition-new(page-content) {
-    animation: fade-in 0.3s ease-out;
-  }
-
   /* アクセシビリティ: モーション設定を尊重 */
   @media (prefers-reduced-motion: reduce) {
     ::view-transition-group(*),

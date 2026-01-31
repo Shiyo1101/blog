@@ -1,10 +1,9 @@
 "use client";
 
+import type { MarkdownHeading } from "astro";
 import { List, SquareXIcon, TableOfContentsIcon } from "lucide-react";
 import { AnimatePresence, motion, type Variants } from "motion/react";
-import { useState, useEffect } from "react";
-
-import type { MarkdownHeading } from "astro";
+import { useEffect, useState } from "react";
 
 type TocProps = {
   headings: MarkdownHeading[];
@@ -59,13 +58,8 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
     const handleViewTransitionStart = () => setIsTransitioning(true);
     const handleViewTransitionEnd = () => setIsTransitioning(false);
 
-    document.addEventListener('astro:before-swap', handleViewTransitionStart);
-    document.addEventListener('astro:after-swap', handleViewTransitionEnd);
-
-    return () => {
-      document.removeEventListener('astro:before-swap', handleViewTransitionStart);
-      document.removeEventListener('astro:after-swap', handleViewTransitionEnd);
-    };
+    document.addEventListener("astro:before-swap", handleViewTransitionStart);
+    document.addEventListener("astro:after-swap", handleViewTransitionEnd);
 
     // 初期ハッシュを設定
     const hash = window.location.hash;
@@ -108,6 +102,11 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
     document.addEventListener("astro:after-swap", handleAfterSwap);
 
     return () => {
+      document.removeEventListener(
+        "astro:before-swap",
+        handleViewTransitionStart,
+      );
+      document.removeEventListener("astro:after-swap", handleViewTransitionEnd);
       window.removeEventListener("hashchange", handleHashChange);
       document.removeEventListener("click", handleClick);
       document.removeEventListener("astro:after-swap", handleAfterSwap);
@@ -117,7 +116,7 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
   const filteredHeadings = headings.filter((h) => h.depth <= 2);
 
   const handleLinkClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
+    _e: React.MouseEvent<HTMLAnchorElement>,
     slug: string,
   ) => {
     // ハッシュを即座に更新
@@ -166,6 +165,7 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
     return (
       <div className="border-2 bg-card overflow-hidden">
         <button
+          type="button"
           className="p-4 w-full font-bold cursor-pointer text-secondary flex items-center gap-2 hover:bg-accent/10 transition-colors"
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}

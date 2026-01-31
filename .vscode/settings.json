@@ -18,4 +18,5 @@
   "files.exclude": {
     "**/node_modules": true
   },
+  "cSpell.words": ["scanline", "rgba", "oklch", "oklab"]
 }

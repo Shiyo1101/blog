@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef, type JSX } from "react";
-
 import type { ClassValue } from "clsx";
+import { type JSX, useEffect, useRef, useState } from "react";
 
 import { IchigoJamCharacterOfCursor } from "@/lib/constants";
 import { cn } from "@/lib/utils";
