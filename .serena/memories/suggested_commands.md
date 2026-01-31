@@ -12,9 +12,11 @@
 
 | コマンド | 説明 |
 |---------|------|
-| `pnpm lint` | ESLintによるコードチェック |
-| `pnpm lint:fix` | ESLintの自動修正 |
-| `pnpm format` | Prettier + ESLintによるフォーマット |
+| `pnpm lint` | Biomeによるコードチェック |
+| `pnpm lint:fix` | Biomeによる自動修正 |
+| `pnpm format` | Biomeによるフォーマット |
+| `pnpm check` | Biomeによるリント+フォーマットチェック |
+| `pnpm check:fix` | Biomeによるリント+フォーマット自動修正 |
 
 ## shadcn/ui コンポーネント追加
 

@@ -5,42 +5,41 @@
 - `any`/`unknown` 型の使用禁止
 - `class` はエラー拡張などの必要な場合のみ使用
 
-## Prettier設定
-```javascript
+## Biome設定 (biome.json)
+
+### フォーマッター
+```json
 {
-  trailingComma: 'all',      // 末尾カンマ
-  tabWidth: 2,               // インデント幅
-  printWidth: 80,            // 行幅
-  singleQuote: false,        // ダブルクォート使用
-  arrowParens: 'always',     // アロー関数の括弧
-  bracketSpacing: true,      // オブジェクトリテラルのスペース
-  semi: true,                // セミコロン使用
-  endOfLine: 'lf',           // 改行コード
+  "formatter": {
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 80,
+    "lineEnding": "lf"
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double",
+      "trailingCommas": "all",
+      "semicolons": "always",
+      "arrowParentheses": "always",
+      "bracketSpacing": true
+    }
+  }
 }
 ```
 
-## ESLint ルール
+### リンター
+- recommendedルールを有効化
+- `noUnusedImports`: error（Astroファイルは除外）
+- `noUnusedVariables`: warn（Astroファイルは除外）
+- `useExhaustiveDependencies`: warn
+- `useHookAtTopLevel`: error
+- `noExplicitAny`: error
+- Tailwind CSSディレクティブ対応
 
 ### import順序
-```
-1. builtin (Node.js組み込み)
-2. external (外部パッケージ)
-3. internal (プロジェクト内部)
-4. parent, sibling (相対パス)
-5. index
-6. object
-7. type
-```
-- グループ間は空行で区切る
-- アルファベット順（大文字小文字区別なし）
-
-### 未使用変数
-- 未使用のインポートはエラー
-- `_` で始まる変数は無視される
-
-### React Hooks
-- `rules-of-hooks`: error
-- `exhaustive-deps`: warn
+- Biomeの`organizeImports`による自動ソート
+- アルファベット順
 
 ## ファイル命名規則
 - コンポーネント: PascalCase (`Button.tsx`, `BlogCard.astro`)
