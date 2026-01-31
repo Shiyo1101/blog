@@ -107,7 +107,7 @@ const {
   <body class="border-4">
     <ClickShatterBlock client:load>
       <Header transition:persist />
-      <main transition:animate="slide">
+      <main transition:animate="fade">
         <slot />
       </main>
       <Footer />
@@ -116,79 +116,6 @@ const {
 </html>
 
 <style>
-  /* モダンなフェードアニメーション */
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes fade-out {
-    from {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    to {
-      opacity: 0;
-      transform: translateY(-8px);
-    }
-  }
-
-  /* スケールアニメーション */
-  @keyframes scale-in {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  @keyframes scale-out {
-    from {
-      opacity: 1;
-      transform: scale(1);
-    }
-    to {
-      opacity: 0;
-      transform: scale(1.05);
-    }
-  }
-
-  /* View Transition API のアニメーション定義 */
-  /* slideアニメーションはAstroの組み込みに任せる（戻るナビゲーション時の方向を自動処理） */
-
-  ::view-transition-old(fade) {
-    animation: fade-out 0.3s ease-out;
-  }
-
-  ::view-transition-new(fade) {
-    animation: fade-in 0.3s ease-out;
-  }
-
-  ::view-transition-old(blog-card) {
-    animation: scale-out 0.3s ease-out;
-  }
-
-  ::view-transition-new(blog-card) {
-    animation: scale-in 0.3s ease-out;
-  }
-
-  ::view-transition-old(page-content) {
-    animation: fade-out 0.3s ease-out;
-  }
-
-  ::view-transition-new(page-content) {
-    animation: fade-in 0.3s ease-out;
-  }
-
   /* アクセシビリティ: モーション設定を尊重 */
   @media (prefers-reduced-motion: reduce) {
     ::view-transition-group(*),
