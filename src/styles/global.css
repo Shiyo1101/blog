@@ -11,7 +11,7 @@
   src: url("/fonts/IchigoJam-1.4.woff") format("woff");
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 :root {

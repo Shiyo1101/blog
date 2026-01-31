@@ -86,8 +86,7 @@ const {
       }}
     />
 
-    <!-- IchigoJamフォントのプリロードとプリコネクト -->
-    <link rel="preconnect" href="/fonts" crossorigin="anonymous" />
+    <!-- IchigoJamフォントのプリロード -->
     <link
       rel="preload"
       href="/fonts/IchigoJam-1.4.woff"
@@ -140,25 +139,6 @@ const {
     }
   }
 
-  /* シンプルなスライドアニメーション */
-  @keyframes slide-in {
-    from {
-      transform: translateX(100%);
-    }
-    to {
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes slide-out {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-100%);
-    }
-  }
-
   /* スケールアニメーション */
   @keyframes scale-in {
     from {
@@ -183,13 +163,7 @@ const {
   }
 
   /* View Transition API のアニメーション定義 */
-  ::view-transition-old(slide) {
-    animation: slide-out 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  ::view-transition-new(slide) {
-    animation: slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+  /* slideアニメーションはAstroの組み込みに任せる（戻るナビゲーション時の方向を自動処理） */
 
   ::view-transition-old(fade) {
     animation: fade-out 0.3s ease-out;
