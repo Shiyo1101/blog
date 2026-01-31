@@ -1,12 +1,12 @@
 ---
-import { SEO } from "astro-seo";
+import "@/styles/global.css";
+
 import { ClientRouter } from "astro:transitions";
+import { SEO } from "astro-seo";
 
 import Footer from "@/components/Base/Footer.astro";
 import Header from "@/components/Base/Header.astro";
 import ClickShatterBlock from "@/components/ui/click-shatter-block";
-
-import "@/styles/global.css";
 
 export type Props = {
   title?: string;

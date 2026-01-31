@@ -1,14 +1,14 @@
 ---
-// src/layouts/BlogLayout.astro
 import { Image } from "astro:assets";
-import { CalendarDaysIcon, TimerIcon } from "lucide-react";
 
 import type { CollectionEntry } from "astro:content";
+
+import { CalendarDaysIcon, TimerIcon } from "lucide-react";
 
 import AuthorInfo from "@/components/Blog/AuthorInfo.astro";
 import ShareButtons from "@/components/Blog/ShareButtons.astro";
 import TableOfContents from "@/components/Blog/TableOfContents";
-import { formatDate, calculateReadingTime } from "@/lib/utils";
+import { calculateReadingTime, formatDate } from "@/lib/utils";
 
 type Props = {
   post: CollectionEntry<"blog">;

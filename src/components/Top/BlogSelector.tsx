@@ -1,10 +1,9 @@
 "use client";
 
+import type { CollectionEntry } from "astro:content";
 import { CalendarDaysIcon, ChevronRightIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
-
-import type { CollectionEntry } from "astro:content";
 
 import { IJCharacter } from "@/components/ui/ichigojam";
 import { formatDate } from "@/lib/utils";
