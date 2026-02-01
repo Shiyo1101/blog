@@ -121,12 +121,7 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
   ) => {
     // ハッシュを即座に更新
     setActiveId(`#${slug}`);
-
-    // モバイルの場合は目次を閉じる
-    if (isMobile) {
-      setTimeout(() => setIsOpen(false), 300);
-    }
-  };
+  };;
 
   const renderHeadings = () => {
     return (
