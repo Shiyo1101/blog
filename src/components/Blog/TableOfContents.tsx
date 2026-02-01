@@ -121,11 +121,14 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
   ) => {
     // ハッシュを即座に更新
     setActiveId(`#${slug}`);
-  };;
+  };
 
   const renderHeadings = () => {
     return (
-      <motion.ul className="space-y-2 list-none pl-0" variants={retroMenuVariants}>
+      <motion.ul
+        className="space-y-2 list-none pl-0"
+        variants={retroMenuVariants}
+      >
         {filteredHeadings.map((heading) => {
           const isActive = isClient && activeId === `#${heading.slug}`;
           const linkClasses = `block py-1 text-foreground hover:text-accent transition-colors no-underline ${
