@@ -82,9 +82,22 @@ const currentYear = new Date().getFullYear();
         <span>© {currentYear} All rights reserved</span>
       </div>
       <div class="mt-2">
-        <a href="/license" class="text-xs hover:text-accent transition-colors">
-          本サイトのコンテンツはCC BY 4.0ライセンスで提供されています
-        </a>
+        <span class="text-xs">
+          本サイトのコンテンツは
+          <a
+            href="https://creativecommons.org/licenses/by/4.0/deed.ja"
+            target="_blank"
+            rel="license noopener noreferrer"
+            class="hover:text-accent transition-colors"
+          >
+            CC BY 4.0
+          </a>
+          のもとで提供されています（
+          <a href="/license" class="hover:text-accent transition-colors">
+            詳細
+          </a>
+          ）
+        </span>
       </div>
     </div>
   </div>
