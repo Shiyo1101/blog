@@ -196,6 +196,15 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* 目次からの移動時に見出しが見やすくなるよう上部に余白を追加 */
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    scroll-margin-top: 3rem;
+  }
 }
 
 /* View Transition用 */
