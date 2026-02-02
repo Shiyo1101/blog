@@ -1,59 +1,58 @@
 ---
 import { ChevronRightIcon, HomeIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export type BreadcrumbItem = {
-	name: string;
-	url: string;
+  name: string;
+  url: string;
 };
 
 type Props = {
-	items: BreadcrumbItem[];
+  items: BreadcrumbItem[];
 };
 
 const { items } = Astro.props;
 ---
 
 <nav aria-label="パンくずリスト" class="mb-8 px-2 md:px-8">
-	<ol class="flex flex-wrap items-center gap-1.5 text-sm">
-		{
-			items.map((item, index) => {
-				const isLast = index === items.length - 1;
-				const isFirst = index === 0;
-				return (
-					<li class="flex items-center gap-1.5">
-						{isLast ? (
-							<span
-								aria-current="page"
-								class="font-medium text-foreground px-2 py-1"
-							>
-								{item.name}
-							</span>
-						) : (
-							<>
-								<Button
-									variant="link"
-									size="sm"
-									asChild
-									client:load
-									className="h-auto px-2 py-1 text-muted-foreground hover:text-primary"
-								>
-									<a href={item.url} class="inline-flex items-center gap-1.5">
-										{isFirst && <HomeIcon size={14} className="shrink-0" />}
-										<span>{item.name}</span>
-									</a>
-								</Button>
-								<ChevronRightIcon
-									size={14}
-									className="text-muted-foreground/60 shrink-0"
-									aria-hidden="true"
-								/>
-							</>
-						)}
-					</li>
-				);
-			})
-		}
-	</ol>
+  <ol class="flex flex-wrap items-center gap-1.5 text-sm">
+    {
+      items.map((item, index) => {
+        const isLast = index === items.length - 1;
+        const isFirst = index === 0;
+        return (
+          <li class="flex items-center gap-1.5">
+            {isLast ? (
+              <span
+                aria-current="page"
+                class="font-medium text-foreground px-2 py-1"
+              >
+                {item.name}
+              </span>
+            ) : (
+              <>
+                <a
+                  href={item.url}
+                  class={cn(
+                    buttonVariants({ variant: "link", size: "sm" }),
+                    "inline-flex items-center gap-1.5 px-2 py-1 h-auto text-muted-foreground hover:text-primary",
+                  )}
+                >
+                  {isFirst && <HomeIcon size={14} className="shrink-0" />}
+                  <span>{item.name}</span>
+                </a>
+                <ChevronRightIcon
+                  size={14}
+                  className="text-muted-foreground/60 shrink-0"
+                  aria-hidden="true"
+                />
+              </>
+            )}
+          </li>
+        );
+      })
+    }
+  </ol>
 </nav>
