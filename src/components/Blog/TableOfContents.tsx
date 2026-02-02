@@ -126,12 +126,12 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
   const renderHeadings = () => {
     return (
       <motion.ul
-        className="space-y-2 list-none pl-0"
+        className="not-prose space-y-2 list-none pl-2 text-foreground hover:text-accent"
         variants={retroMenuVariants}
       >
         {filteredHeadings.map((heading) => {
           const isActive = isClient && activeId === `#${heading.slug}`;
-          const linkClasses = `block py-1 text-foreground hover:text-accent transition-colors no-underline ${
+          const linkClasses = `block py-1 transition-colors no-underline ${
             isActive
               ? "font-bold text-accent border-l-4 border-accent pl-2 -ml-2 bg-accent/10"
               : "hover:pl-2 hover:-ml-2"
@@ -164,7 +164,7 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
       <div className="border-2 bg-card overflow-hidden">
         <button
           type="button"
-          className="p-4 w-full text-lg font-bold cursor-pointer text-secondary flex items-center gap-2 hover:bg-accent/10 transition-colors border-b-2 pb-2"
+          className="p-4 w-full text-lg font-bold cursor-pointer text-secondary flex items-center gap-2 hover:bg-accent/10 transition-colors border-b-2"
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
           aria-controls="toc-content"
