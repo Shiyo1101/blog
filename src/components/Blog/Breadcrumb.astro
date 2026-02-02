@@ -1,5 +1,7 @@
 ---
-import { ChevronRightIcon } from "lucide-react";
+import { ChevronRightIcon, HomeIcon } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 export type BreadcrumbItem = {
 	name: string;
@@ -14,25 +16,39 @@ const { items } = Astro.props;
 ---
 
 <nav aria-label="パンくずリスト" class="mb-8 px-2 md:px-8">
-	<ol class="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+	<ol class="flex flex-wrap items-center gap-1.5 text-sm">
 		{
 			items.map((item, index) => {
 				const isLast = index === items.length - 1;
+				const isFirst = index === 0;
 				return (
-					<li class="flex items-center gap-2">
+					<li class="flex items-center gap-1.5">
 						{isLast ? (
-							<span aria-current="page" class="font-medium text-foreground">
+							<span
+								aria-current="page"
+								class="font-medium text-foreground px-2 py-1"
+							>
 								{item.name}
 							</span>
 						) : (
 							<>
-								<a
-									href={item.url}
-									class="hover:text-foreground transition-colors"
+								<Button
+									variant="link"
+									size="sm"
+									asChild
+									client:load
+									className="h-auto px-2 py-1 text-muted-foreground hover:text-primary"
 								>
-									{item.name}
-								</a>
-								<ChevronRightIcon size={16} aria-hidden="true" />
+									<a href={item.url} class="inline-flex items-center gap-1.5">
+										{isFirst && <HomeIcon size={14} className="shrink-0" />}
+										<span>{item.name}</span>
+									</a>
+								</Button>
+								<ChevronRightIcon
+									size={14}
+									className="text-muted-foreground/60 shrink-0"
+									aria-hidden="true"
+								/>
 							</>
 						)}
 					</li>
