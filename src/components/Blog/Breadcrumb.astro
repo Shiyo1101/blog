@@ -1,0 +1,43 @@
+---
+import { ChevronRightIcon } from "lucide-react";
+
+export type BreadcrumbItem = {
+	name: string;
+	url: string;
+};
+
+type Props = {
+	items: BreadcrumbItem[];
+};
+
+const { items } = Astro.props;
+---
+
+<nav aria-label="パンくずリスト" class="mb-8 px-2 md:px-8">
+	<ol class="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+		{
+			items.map((item, index) => {
+				const isLast = index === items.length - 1;
+				return (
+					<li class="flex items-center gap-2">
+						{isLast ? (
+							<span aria-current="page" class="font-medium text-foreground">
+								{item.name}
+							</span>
+						) : (
+							<>
+								<a
+									href={item.url}
+									class="hover:text-foreground transition-colors"
+								>
+									{item.name}
+								</a>
+								<ChevronRightIcon size={16} aria-hidden="true" />
+							</>
+						)}
+					</li>
+				);
+			})
+		}
+	</ol>
+</nav>
