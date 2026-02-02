@@ -1,24 +1,111 @@
 ---
 import { getCollection } from "astro:content";
+import { SEO } from "astro-seo";
 
+import JsonLd from "@/components/SEO/JsonLd.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import BlogLayout from "@/layouts/BlogLayout.astro";
 
 export async function getStaticPaths() {
-  const blogEntries = await getCollection("blog");
-  return blogEntries.map((entry) => ({
-    params: { slug: entry.slug },
-    props: { entry },
-  }));
+	const blogEntries = await getCollection("blog");
+	return blogEntries.map((entry) => ({
+		params: { slug: entry.slug },
+		props: { entry },
+	}));
 }
 
 const { entry } = Astro.props;
+
+const articleUrl = new URL(`/blog/${entry.slug}`, Astro.site).href;
+const articleImageUrl = new URL(entry.data.topImage.src, Astro.site).href;
+
+// Breadcrumb用の構造化データを生成
+const breadcrumbSchema = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	itemListElement: [
+		{
+			"@type": "ListItem",
+			position: 1,
+			name: "ホーム",
+			item: Astro.site!.href,
+		},
+		{
+			"@type": "ListItem",
+			position: 2,
+			name: "ブログ",
+			item: new URL("/blog", Astro.site).href,
+		},
+		{
+			"@type": "ListItem",
+			position: 3,
+			name: entry.data.title,
+			item: articleUrl,
+		},
+	],
+};
+
+// BlogPosting用の構造化データを生成
+const articleSchema = {
+	"@context": "https://schema.org",
+	"@type": "BlogPosting",
+	headline: entry.data.title,
+	description: entry.data.description,
+	image: articleImageUrl,
+	datePublished: entry.data.pubDate.toISOString(),
+	dateModified: entry.data.pubDate.toISOString(),
+	author: {
+		"@type": "Person",
+		name: "うっちー (Uchii)",
+		url: "https://uchii-blog.netlify.app",
+	},
+	publisher: {
+		"@type": "Person",
+		name: "うっちー (Uchii)",
+		url: "https://uchii-blog.netlify.app",
+	},
+	url: articleUrl,
+	mainEntityOfPage: {
+		"@type": "WebPage",
+		"@id": articleUrl,
+	},
+	keywords: entry.data.tags?.join(", "),
+	inLanguage: "ja",
+};
 ---
 
 <BaseLayout
-  title={entry.data.title}
-  description={entry.data.description}
-  image={entry.data.topImage ? entry.data.topImage.src : "/ogp.png"}
+	title={`${entry.data.title} | うっちーのブログ`}
+	description={entry.data.description}
+	image={entry.data.topImage ? entry.data.topImage.src : "/ogp.png"}
+	canonical={articleUrl}
 >
-  <BlogLayout post={entry} />
+	<Fragment slot="head">
+		<SEO
+			openGraph={{
+				basic: {
+					type: "article",
+					title: entry.data.title,
+					image: articleImageUrl,
+					url: articleUrl,
+				},
+				optional: {
+					description: entry.data.description,
+					locale: "ja_JP",
+					siteName: "うっちーのブログ - Uchii's Blog",
+				},
+				article: {
+					publishedTime: entry.data.pubDate.toISOString(),
+					authors: ["うっちー (Uchii)"],
+					section: "Technology",
+					tags: entry.data.tags,
+				},
+				image: {
+					alt: entry.data.title,
+				},
+			}}
+		/>
+		<JsonLd schema={[breadcrumbSchema, articleSchema]} />
+	</Fragment>
+	<BlogLayout post={entry} />
 </BaseLayout>
