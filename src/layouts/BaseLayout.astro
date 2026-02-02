@@ -6,19 +6,25 @@ import { SEO } from "astro-seo";
 
 import Footer from "@/components/Base/Footer.astro";
 import Header from "@/components/Base/Header.astro";
+import JsonLd from "@/components/SEO/JsonLd.astro";
 import ClickShatterBlock from "@/components/ui/click-shatter-block";
 
 export type Props = {
   title?: string;
   description?: string;
   image?: string;
+  canonical?: string;
 };
 
 const {
   title = "うっちーのブログ - Uchii's Blog",
   description = "うっちーの技術ブログ。IchigoJamやプログラミング、Web開発に関する記事を発信しています。",
   image = "/ogp.png",
+  canonical,
 } = Astro.props as Props;
+
+const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).href;
+const fullImageUrl = new URL(image, Astro.site).href;
 ---
 
 <script is:inline>
@@ -64,27 +70,50 @@ const {
     <SEO
       title={title}
       description={description}
+      canonical={canonicalURL}
       openGraph={{
         basic: {
           type: "website",
-          url: "https://uchii-blog.netlify.app",
+          url: canonicalURL,
           title: title,
-          image: image,
+          image: fullImageUrl,
         },
         optional: {
           description: description,
+          siteName: "うっちーのブログ - Uchii's Blog",
+          locale: "ja_JP",
+        },
+        image: {
+          alt: "Uchii's Blog | うっちーのブログ",
         },
       }}
       twitter={{
         card: "summary_large_image",
-        // site: "@yoshiki_uchida",
         creator: "@yoshiki_uchida",
         title: title,
         description: description,
-        image: image,
+        image: fullImageUrl,
         imageAlt: "Uchii's Blog | うっちーのブログ",
       }}
     />
+
+    <JsonLd
+      schema={{
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "うっちーのブログ - Uchii's Blog",
+        description: description,
+        url: canonicalURL,
+        author: {
+          "@type": "Person",
+          name: "うっちー (Uchii)",
+          url: "https://uchii-blog.netlify.app",
+        },
+        inLanguage: "ja",
+      }}
+    />
+
+    <slot name="head" />
 
     <!-- IchigoJamフォントのプリロード -->
     <link

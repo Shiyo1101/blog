@@ -205,6 +205,46 @@
   .prose h6 {
     scroll-margin-top: 3rem;
   }
+
+  /* カスタムスクロールバー - ピクセルアート風デザイン */
+  ::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+    border: none;
+    border-radius: 0;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--background);
+    border: 4px solid var(--border);
+    border-radius: 0;
+    background-clip: padding-box;
+    transition: border-color 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    border-color: var(--primary);
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    border-color: oklch(from var(--primary) calc(l + 0.1) c h);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: var(--background);
+    border: none;
+    border-radius: 0;
+  }
+
+  /* Firefox用のカスタムスクロールバー */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) var(--background);
+  }
 }
 
 /* View Transition用 */
