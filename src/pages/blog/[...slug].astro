@@ -7,11 +7,11 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import BlogLayout from "@/layouts/BlogLayout.astro";
 
 export async function getStaticPaths() {
-	const blogEntries = await getCollection("blog");
-	return blogEntries.map((entry) => ({
-		params: { slug: entry.slug },
-		props: { entry },
-	}));
+  const blogEntries = await getCollection("blog");
+  return blogEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
 }
 
 const { entry } = Astro.props;
@@ -21,56 +21,56 @@ const articleImageUrl = new URL(entry.data.topImage.src, Astro.site).href;
 
 // Breadcrumb用の構造化データを生成
 const breadcrumbSchema = {
-	"@context": "https://schema.org",
-	"@type": "BreadcrumbList",
-	itemListElement: [
-		{
-			"@type": "ListItem",
-			position: 1,
-			name: "ホーム",
-			item: Astro.site!.href,
-		},
-		{
-			"@type": "ListItem",
-			position: 2,
-			name: "ブログ",
-			item: new URL("/blog", Astro.site).href,
-		},
-		{
-			"@type": "ListItem",
-			position: 3,
-			name: entry.data.title,
-			item: articleUrl,
-		},
-	],
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "ホーム",
+      item: Astro.site!.href,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "ブログ",
+      item: new URL("/blog", Astro.site).href,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: entry.data.title,
+      item: articleUrl,
+    },
+  ],
 };
 
 // BlogPosting用の構造化データを生成
 const articleSchema = {
-	"@context": "https://schema.org",
-	"@type": "BlogPosting",
-	headline: entry.data.title,
-	description: entry.data.description,
-	image: articleImageUrl,
-	datePublished: entry.data.pubDate.toISOString(),
-	dateModified: entry.data.pubDate.toISOString(),
-	author: {
-		"@type": "Person",
-		name: "うっちー (Uchii)",
-		url: "https://uchii-blog.netlify.app",
-	},
-	publisher: {
-		"@type": "Person",
-		name: "うっちー (Uchii)",
-		url: "https://uchii-blog.netlify.app",
-	},
-	url: articleUrl,
-	mainEntityOfPage: {
-		"@type": "WebPage",
-		"@id": articleUrl,
-	},
-	keywords: entry.data.tags?.join(", "),
-	inLanguage: "ja",
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: entry.data.title,
+  description: entry.data.description,
+  image: articleImageUrl,
+  datePublished: entry.data.pubDate.toISOString(),
+  dateModified: entry.data.pubDate.toISOString(),
+  author: {
+    "@type": "Person",
+    name: "うっちー (Uchii)",
+    url: "https://uchii-blog.netlify.app",
+  },
+  publisher: {
+    "@type": "Person",
+    name: "うっちー (Uchii)",
+    url: "https://uchii-blog.netlify.app",
+  },
+  url: articleUrl,
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": articleUrl,
+  },
+  keywords: entry.data.tags?.join(", "),
+  inLanguage: "ja",
 };
 ---
 
