@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import BlogCard from "@/components/Blog/BlogCard.astro";
 import BlogCardWrapper from "@/components/Blog/BlogCardWrapper.astro";
+import TagSearchBar from "@/components/Blog/TagSearchBar.astro";
 import Typewriter from "@/components/ui/typewriter";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import GridLayout from "@/layouts/GridLayout.astro";
@@ -48,11 +49,16 @@ const { posts } = Astro.props;
       texts={[`Tag:${tag}`]}
       delay={500}
     />
+    <div class="mb-8">
+      <TagSearchBar currentTag={tag} />
+    </div>
     <BlogCardWrapper>
       {posts.map((post) => <BlogCard post={post} />)}
     </BlogCardWrapper>
-    <div class="text-center mt-12">
-      <a href="/blog" class="hover:underline">すべての記事を見る</a>
+    <div
+      class="text-center mt-12 text-primary underline-offset-4 hover:underline transition-all hover:translate-y-1"
+    >
+      <a href="/blog">すべての記事を見る</a>
     </div>
   </GridLayout>
 </BaseLayout>

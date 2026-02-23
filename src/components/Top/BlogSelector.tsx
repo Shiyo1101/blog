@@ -60,7 +60,7 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
                 `}
               >
                 <div className="flex items-start gap-2 sm:gap-3">
-                  <div className="mt-1 flex-shrink-0">
+                  <div className="mt-1 shrink-0">
                     <motion.div
                       animate={{
                         opacity: selectedIndex === index ? 1 : 0,
@@ -107,7 +107,7 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
                     );
                     return daysSincePublished <= 7 ? (
                       <motion.div
-                        className="flex-shrink-0"
+                        className="shrink-0"
                         animate={{
                           rotate: [0, -5, 5, -5, 0],
                         }}

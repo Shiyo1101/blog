@@ -9,6 +9,7 @@ import AuthorInfo from "@/components/Blog/AuthorInfo.astro";
 import Breadcrumb from "@/components/Blog/Breadcrumb.astro";
 import ShareButtons from "@/components/Blog/ShareButtons.astro";
 import TableOfContents from "@/components/Blog/TableOfContents";
+import TagSearchBar from "@/components/Blog/TagSearchBar.astro";
 import { calculateReadingTime, formatDate } from "@/lib/utils";
 
 type Props = {
@@ -123,8 +124,9 @@ const readingTime = calculateReadingTime(post.body);
     </main>
     {/* 目次 - PC右サイド */}
     <aside class="hidden md:col-span-3 md:block">
-      <div class="sticky top-20">
+      <div class="sticky top-20 space-y-4">
         <TableOfContents client:load headings={headings} />
+        <TagSearchBar />
       </div>
     </aside>
   </div>

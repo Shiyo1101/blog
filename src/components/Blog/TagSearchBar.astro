@@ -1,0 +1,19 @@
+---
+import { getCollection } from "astro:content";
+
+import TagSearchBarReact from "./TagSearchBar";
+
+type Props = {
+  currentTag?: string;
+};
+
+const { currentTag } = Astro.props;
+
+const allPosts = await getCollection("blog", ({ data }) => data.draft !== true);
+const allTags = allPosts
+  .flatMap((post) => post.data.tags ?? [])
+  .filter((tag): tag is string => typeof tag === "string");
+const uniqueTags = [...new Set(allTags)].sort();
+---
+
+<TagSearchBarReact client:load tags={uniqueTags} currentTag={currentTag} />
