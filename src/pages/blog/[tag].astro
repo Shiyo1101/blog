@@ -55,8 +55,10 @@ const { posts } = Astro.props;
     <BlogCardWrapper>
       {posts.map((post) => <BlogCard post={post} />)}
     </BlogCardWrapper>
-    <div class="text-center mt-12">
-      <a href="/blog" class="hover:underline">すべての記事を見る</a>
+    <div
+      class="text-center mt-12 text-primary underline-offset-4 hover:underline transition-all hover:translate-y-1"
+    >
+      <a href="/blog">すべての記事を見る</a>
     </div>
   </GridLayout>
 </BaseLayout>
