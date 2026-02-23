@@ -126,7 +126,7 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
   const renderHeadings = () => {
     return (
       <motion.ul
-        className="not-prose space-y-2 list-none pl-2 text-foreground hover:text-accent"
+        className="not-prose space-y-2 list-none pl-2 text-foreground"
         variants={retroMenuVariants}
       >
         {filteredHeadings.map((heading) => {
@@ -134,7 +134,7 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
           const linkClasses = `block py-1 transition-colors no-underline ${
             isActive
               ? "font-bold text-accent border-l-4 border-accent pl-2 -ml-2 bg-accent/10"
-              : "hover:pl-2 hover:-ml-2"
+              : "hover:text-accent hover:pl-2 hover:-ml-2"
           }`;
           const marginLeftClass = heading.depth === 2 ? "ml-4" : "";
 
