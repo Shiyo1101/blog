@@ -25,7 +25,7 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
       <div className="border-4 border-card-foreground bg-card p-4 sm:p-6">
         <div className="-mx-2 -mt-2 mb-4 border-2 border-card-foreground bg-primary px-3 py-1">
           <div className="flex items-center justify-between max-md:flex-col">
-            <IJTypography as="h3" className="text-sm text-primary-foreground">
+            <IJTypography as="h2" className="text-sm text-primary-foreground">
               SELECT THE BLOG
             </IJTypography>
             <IJTypography as="p" className="text-xs text-primary-foreground/80">
@@ -68,9 +68,9 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
                     </motion.div>
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h4 className="mb-1 truncate text-sm font-bold sm:text-base">
+                    <h3 className="mb-1 truncate text-sm font-bold sm:text-base">
                       {post.data.title}
-                    </h4>
+                    </h3>
                     <p className="mb-2 line-clamp-2 text-xs text-muted-foreground sm:text-sm">
                       {post.data.description}
                     </p>

@@ -19,7 +19,7 @@ const AuthorCard = () => {
     >
       <div className="relative border-4 border-card-foreground bg-card p-4 sm:p-6">
         <div className="-mx-2 -mt-2 mb-4 border-2 border-card-foreground bg-accent px-3 py-1">
-          <IJTypography as="h3" className="text-xs text-accent-foreground">
+          <IJTypography as="h2" className="text-xs text-accent-foreground">
             ABOUT THE CREATOR
           </IJTypography>
         </div>
