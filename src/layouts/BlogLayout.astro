@@ -28,14 +28,14 @@ const readingTime = calculateReadingTime(post.body ?? "");
   />
   <div class="grid grid-cols-12 gap-8 md:px-8">
     {/* SNS共有ボタン - PC左サイド */}
-    <aside class="hidden md:col-span-2 md:block">
+    <aside aria-label="記事の共有" class="hidden md:col-span-2 md:block">
       <div class="sticky top-20">
         <ShareButtons title={post.data.title} slug={post.id} />
       </div>
     </aside>
 
     {/* 記事コンテンツ */}
-    <main class="col-span-12 md:col-span-7">
+    <div class="col-span-12 md:col-span-7">
       <article class="prose max-w-none dark:prose-invert prose-p:text-justify prose-a:text-primary prose-a:hover:text-primary/80 prose-img:rounded-xl">
         <h1
           class="border-b-4 pb-2 text-3xl"
@@ -106,9 +106,9 @@ const readingTime = calculateReadingTime(post.body ?? "");
           <ShareButtons title={post.data.title} slug={post.id} />
         </div>
       </div>
-    </main>
+    </div>
     {/* 目次 - PC右サイド */}
-    <aside class="hidden md:col-span-3 md:block">
+    <aside aria-label="目次" class="hidden md:col-span-3 md:block">
       <div class="sticky top-20 space-y-4">
         <TableOfContents client:load headings={headings} />
       </div>
