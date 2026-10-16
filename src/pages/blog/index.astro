@@ -9,12 +9,10 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import GridLayout from "@/layouts/GridLayout.astro";
 
 // 下書きを除外してすべてのブログ記事を取得
-const allPosts = await getCollection("blog", ({ data }) => {
-  return data.draft !== true;
-});
+const allPosts = await getCollection("blog", ({ data }) => data.draft !== true);
 
 // 日付の新しい順にソート
-const sortedPosts = allPosts.sort(
+const sortedPosts = allPosts.toSorted(
   (a, b) =>
     new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf(),
 );
@@ -25,8 +23,8 @@ const sortedPosts = allPosts.sort(
     <div transition:name="blog-list-header">
       <Typewriter
         client:load
-        as="h2"
-        className="h-8 text-2xl md:text-4xl font-bold mb-8 text-center font-ichigojam"
+        as="h1"
+        className="mb-8 h-8 text-center font-ichigojam text-2xl font-bold md:text-4xl"
         texts={["Blog List"]}
         delay={500}
       />
@@ -36,7 +34,9 @@ const sortedPosts = allPosts.sort(
     </div>
     <div transition:name="blog-list-content">
       <BlogCardWrapper>
-        {sortedPosts.map((post) => <BlogCard post={post} />)}
+        {sortedPosts.map((post) => (
+          <BlogCard post={post} />
+        ))}
       </BlogCardWrapper>
     </div>
   </GridLayout>

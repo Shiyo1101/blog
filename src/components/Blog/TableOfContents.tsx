@@ -2,8 +2,8 @@
 
 import type { MarkdownHeading } from "astro";
 import { List, SquareXIcon, TableOfContentsIcon } from "lucide-react";
-import { AnimatePresence, motion, type Variants } from "motion/react";
-import { useEffect, useState } from "react";
+import { AnimatePresence, motion, stagger, type Variants } from "motion/react";
+import { useEffect, useId, useState, useSyncExternalStore } from "react";
 
 type TocProps = {
   headings: MarkdownHeading[];
@@ -26,7 +26,7 @@ const retroMenuVariants: Variants = {
       duration: 0.4,
       ease: "easeOut",
       when: "beforeChildren",
-      staggerChildren: 0.05,
+      delayChildren: stagger(0.05),
     },
   },
 };
@@ -44,62 +44,64 @@ const retroListItemVariants: Variants = {
   },
 };
 
+/** 目次に表示する見出しの最小レベル */
+const MIN_TOC_DEPTH = 2;
+/** 目次に表示する見出しの最大レベル */
+const MAX_TOC_DEPTH = 3;
+
+/** ページ内リンクのクリック後、ハッシュの更新を待つ時間（ms） */
+const HASH_UPDATE_DELAY_MS = 50;
+
+// URL のハッシュを外部ストアとして購読する
+const subscribeLocationHash = (onChange: () => void) => {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+  // View Transition 中はハッシュ変更イベントが発火しない場合があるため、ページ内リンクのクリックも監視する
+  const handleClick = (e: MouseEvent) => {
+    if (
+      e.target instanceof Element &&
+      e.target.closest('a[href^="#"]') !== null
+    ) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(onChange, HASH_UPDATE_DELAY_MS);
+    }
+  };
+
+  globalThis.addEventListener("hashchange", onChange);
+  document.addEventListener("astro:after-swap", onChange);
+  document.addEventListener("click", handleClick);
+
+  return () => {
+    clearTimeout(timeoutId);
+    globalThis.removeEventListener("hashchange", onChange);
+    document.removeEventListener("astro:after-swap", onChange);
+    document.removeEventListener("click", handleClick);
+  };
+};
+
+const getLocationHash = () => decodeURIComponent(globalThis.location.hash);
+
+// サーバーではハッシュを取得できないため、未選択として描画する
+const getServerLocationHash = () => "";
+
 const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
-  const [activeId, setActiveId] = useState("");
+  const activeId = useSyncExternalStore(
+    subscribeLocationHash,
+    getLocationHash,
+    getServerLocationHash,
+  );
   const [isOpen, setIsOpen] = useState(false);
+  const contentId = useId();
+  const headingId = useId();
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isClient, setIsClient] = useState(false);
 
+  // ViewTransitionの検知
   useEffect(() => {
-    // クライアントサイドでのみ実行
-    setIsClient(true);
-
-    // ViewTransitionの検知
     const handleViewTransitionStart = () => setIsTransitioning(true);
     const handleViewTransitionEnd = () => setIsTransitioning(false);
 
     document.addEventListener("astro:before-swap", handleViewTransitionStart);
     document.addEventListener("astro:after-swap", handleViewTransitionEnd);
-
-    // 初期ハッシュを設定
-    const hash = window.location.hash;
-    if (hash) {
-      setActiveId(decodeURIComponent(hash));
-    }
-
-    // ハッシュ変更の監視
-    const handleHashChange = () => {
-      const newHash = window.location.hash;
-      setActiveId(newHash ? decodeURIComponent(newHash) : "");
-    };
-
-    // クリックイベントの監視（View Transition対応）
-    const handleClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const link = target.closest('a[href^="#"]');
-      if (link) {
-        const href = link.getAttribute("href");
-        if (href) {
-          // 少し遅延させてハッシュを更新
-          setTimeout(() => {
-            setActiveId(decodeURIComponent(href));
-          }, 50);
-        }
-      }
-    };
-
-    window.addEventListener("hashchange", handleHashChange);
-    document.addEventListener("click", handleClick);
-
-    // View Transition後の再設定
-    const handleAfterSwap = () => {
-      const currentHash = window.location.hash;
-      if (currentHash) {
-        setActiveId(decodeURIComponent(currentHash));
-      }
-    };
-
-    document.addEventListener("astro:after-swap", handleAfterSwap);
 
     return () => {
       document.removeEventListener(
@@ -107,98 +109,92 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
         handleViewTransitionStart,
       );
       document.removeEventListener("astro:after-swap", handleViewTransitionEnd);
-      window.removeEventListener("hashchange", handleHashChange);
-      document.removeEventListener("click", handleClick);
-      document.removeEventListener("astro:after-swap", handleAfterSwap);
     };
   }, []);
 
-  const filteredHeadings = headings.filter((h) => h.depth <= 2);
+  // 記事タイトルが h1 のため、本文の h2・h3 を目次に表示する
+  const filteredHeadings = headings.filter(
+    (h) => h.depth >= MIN_TOC_DEPTH && h.depth <= MAX_TOC_DEPTH,
+  );
 
-  const handleLinkClick = (
-    _e: React.MouseEvent<HTMLAnchorElement>,
-    slug: string,
-  ) => {
-    // ハッシュを即座に更新
-    setActiveId(`#${slug}`);
-  };
+  const renderHeadings = () => (
+    <motion.ul
+      className="not-prose list-none space-y-2 pl-2 text-foreground"
+      variants={retroMenuVariants}
+    >
+      {filteredHeadings.map((heading) => {
+        const isActive = activeId === `#${heading.slug}`;
+        const linkClasses = `block py-1 transition-colors no-underline ${
+          isActive
+            ? "font-bold text-accent border-l-4 border-accent pl-2 -ml-2 bg-accent/10"
+            : "hover:text-accent hover:pl-2 hover:-ml-2"
+        }`;
+        const marginLeftClass = heading.depth > MIN_TOC_DEPTH ? "ml-4" : "";
 
-  const renderHeadings = () => {
-    return (
-      <motion.ul
-        className="not-prose space-y-2 list-none pl-2 text-foreground"
-        variants={retroMenuVariants}
-      >
-        {filteredHeadings.map((heading) => {
-          const isActive = isClient && activeId === `#${heading.slug}`;
-          const linkClasses = `block py-1 transition-colors no-underline ${
-            isActive
-              ? "font-bold text-accent border-l-4 border-accent pl-2 -ml-2 bg-accent/10"
-              : "hover:text-accent hover:pl-2 hover:-ml-2"
-          }`;
-          const marginLeftClass = heading.depth === 2 ? "ml-4" : "";
-
-          return (
-            <motion.li
-              key={heading.slug}
-              className={`${marginLeftClass} list-none`}
-              variants={retroListItemVariants}
+        return (
+          <motion.li
+            key={heading.slug}
+            className={`${marginLeftClass} list-none`}
+            variants={retroListItemVariants}
+          >
+            <a
+              href={`#${heading.slug}`}
+              className={linkClasses}
+              aria-current={isActive ? "location" : undefined}
             >
-              <a
-                href={`#${heading.slug}`}
-                className={linkClasses}
-                onClick={(e) => handleLinkClick(e, heading.slug)}
-                aria-current={isActive ? "location" : undefined}
-              >
-                {heading.text}
-              </a>
-            </motion.li>
-          );
-        })}
-      </motion.ul>
-    );
-  };
+              {heading.text}
+            </a>
+          </motion.li>
+        );
+      })}
+    </motion.ul>
+  );
 
   if (isMobile) {
     return (
-      <div className="border-2 bg-card overflow-hidden">
+      <div className="overflow-hidden border-2 bg-card">
         <button
           type="button"
-          className="p-4 w-full text-lg font-bold cursor-pointer text-secondary flex items-center gap-2 hover:bg-accent/10 transition-colors border-b-2"
+          className="flex w-full cursor-pointer items-center gap-2 border-b-2 p-4 text-lg font-bold text-secondary transition-colors hover:bg-accent/10"
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
-          aria-controls="toc-content"
+          aria-controls={contentId}
         >
-          <motion.div
+          <motion.span
             animate={{ rotate: isOpen ? 90 : 0 }}
             transition={{ duration: isTransitioning ? 0 : 0.3 }}
           >
             {isOpen ? <SquareXIcon /> : <TableOfContentsIcon />}
-          </motion.div>
+          </motion.span>
           目次
         </button>
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              className="p-4"
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              variants={isTransitioning ? {} : retroMenuVariants}
-              transition={{ duration: isTransitioning ? 0 : undefined }}
-            >
-              {renderHeadings()}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div id={contentId}>
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                className="p-4"
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                variants={isTransitioning ? {} : retroMenuVariants}
+                transition={{ duration: isTransitioning ? 0 : undefined }}
+              >
+                {renderHeadings()}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     );
   }
 
   return (
-    <nav className="sticky top-20">
+    <nav className="sticky top-20" aria-labelledby={headingId}>
       <div className="border-2 bg-card p-4">
-        <h2 className="text-lg font-bold mb-4 text-secondary flex items-center gap-2 border-b-2 pb-2">
+        <h2
+          id={headingId}
+          className="mb-4 flex items-center gap-2 border-b-2 pb-2 text-lg font-bold text-secondary"
+        >
           <List size={20} />
           目次
         </h2>

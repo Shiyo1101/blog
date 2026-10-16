@@ -1,5 +1,10 @@
 ---
-type JsonLdSchema = Record<string, unknown>;
+type JsonPrimitive = string | number | boolean | null;
+type JsonValue = JsonPrimitive | JsonValue[] | JsonObject;
+// JSON.stringify は値が undefined のプロパティを出力しないため、undefined も許容する
+// oxlint-disable-next-line typescript/consistent-indexed-object-style -- Record は再帰的な型定義に使えないため
+type JsonObject = { [key: string]: JsonValue | undefined };
+type JsonLdSchema = JsonObject;
 
 type Props = {
   schema: JsonLdSchema | JsonLdSchema[];
@@ -10,8 +15,6 @@ const { schema } = Astro.props;
 const schemas = Array.isArray(schema) ? schema : [schema];
 ---
 
-{
-	schemas.map((s) => (
-		<script is:inline type="application/ld+json" set:html={JSON.stringify(s)} />
-	))
-}
+{schemas.map((s) => (
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(s)} />
+))}

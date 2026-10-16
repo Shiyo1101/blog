@@ -5,7 +5,7 @@ import { CalendarDaysIcon, ChevronRightIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 
-import { IJCharacter } from "@/components/ui/ichigojam";
+import { IJCharacter, IJTypography } from "@/components/ui/ichigojam";
 import { formatDate } from "@/lib/utils";
 
 type BlogSelectorProps = {
@@ -17,31 +17,27 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
 
   return (
     <motion.div
-      className="w-full max-w-2xl mx-auto"
+      className="mx-auto w-full max-w-2xl"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.5 }}
     >
-      <div className="bg-card border-4 border-card-foreground p-4 sm:p-6">
-        <div className="bg-primary border-2 border-card-foreground -mx-2 -mt-2 px-3 py-1 mb-4">
+      <div className="border-4 border-card-foreground bg-card p-4 sm:p-6">
+        <div className="-mx-2 -mt-2 mb-4 border-2 border-card-foreground bg-primary px-3 py-1">
           <div className="flex items-center justify-between max-md:flex-col">
-            <IJCharacter
-              as="h3"
-              className="text-primary-foreground text-sm"
-              characterCodes="SELECT THE BLOG"
-            />
-            <IJCharacter
-              as="p"
-              className="text-xs text-primary-foreground/80"
-              characterCodes={`${posts.length}POSTS`}
-            />
+            <IJTypography as="h2" className="text-sm text-primary-foreground">
+              SELECT THE BLOG
+            </IJTypography>
+            <IJTypography as="p" className="text-xs text-primary-foreground/80">
+              {posts.length}POSTS
+            </IJTypography>
           </div>
         </div>
         <div className="space-y-2">
           {posts.map((post, index) => (
             <motion.a
-              key={post.slug}
-              href={`/blog/${post.slug}`}
+              key={post.id}
+              href={`/blog/${post.id}`}
               className="block"
               onMouseEnter={() => setSelectedIndex(index)}
               onMouseLeave={() => setSelectedIndex(null)}
@@ -50,14 +46,11 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
             >
               <div
-                className={`
-                  border-2 p-3 sm:p-4 transition-all duration-200
-                  ${
-                    selectedIndex === index
-                      ? "bg-accent border-accent-foreground shadow-[4px_4px_0_0] shadow-accent-foreground/30"
-                      : "bg-background border-card-foreground"
-                  }
-                `}
+                className={`border-2 p-3 transition-all duration-200 sm:p-4 ${
+                  selectedIndex === index
+                    ? "border-accent-foreground bg-accent shadow-[4px_4px_0_0] shadow-accent-foreground/30"
+                    : "border-card-foreground bg-background"
+                } `}
               >
                 <div className="flex items-start gap-2 sm:gap-3">
                   <div className="mt-1 shrink-0">
@@ -74,14 +67,14 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
                       />
                     </motion.div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-bold text-sm sm:text-base mb-1 truncate">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="mb-1 truncate text-sm font-bold sm:text-base">
                       {post.data.title}
-                    </h4>
-                    <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-2">
+                    </h3>
+                    <p className="mb-2 line-clamp-2 text-xs text-muted-foreground sm:text-sm">
                       {post.data.description}
                     </p>
-                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs">
+                    <div className="flex flex-wrap items-center gap-2 text-xs sm:gap-4">
                       <span className="flex items-center gap-1 text-muted-foreground">
                         <CalendarDaysIcon size={12} />
                         {formatDate(post.data.pubDate)}
@@ -91,7 +84,7 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
                           {post.data.tags.slice(0, 2).map((tag) => (
                             <span
                               key={tag}
-                              className="px-1 py-0.5 bg-primary/20 text-primary border border-primary text-xs"
+                              className="border border-primary bg-primary/20 px-1 py-0.5 text-xs text-primary"
                             >
                               {tag}
                             </span>
@@ -117,7 +110,7 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
                           repeatDelay: 3,
                         }}
                       >
-                        <span className="inline-block px-2 py-1 bg-destructive text-destructive-foreground text-xs font-bold border-2">
+                        <span className="inline-block border-2 bg-destructive px-2 py-1 text-xs font-bold text-destructive-foreground">
                           NEW!
                         </span>
                       </motion.div>
@@ -129,14 +122,14 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
           ))}
         </div>
         <motion.div
-          className="mt-4 pt-3 border-t-2 border-card-foreground text-center"
+          className="mt-4 border-t-2 border-card-foreground pt-3 text-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
         >
           <a
             href="/blog"
-            className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-primary/80 transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-bold text-primary transition-colors hover:text-primary/80"
           >
             <IJCharacter characterCodes="▶" />
             <span>VIEW ALL POSTS</span>

@@ -8,60 +8,53 @@ import GridLayout from "@/layouts/GridLayout.astro";
 
 <BaseLayout title="ライセンス情報">
   <GridLayout>
-    <div class="max-w-4xl mx-auto">
+    <div class="mx-auto max-w-4xl">
       <Typewriter
         client:load
-        as="h2"
-        className="h-8 text-2xl md:text-4xl font-bold mb-8 text-center font-ichigojam"
+        as="h1"
+        className="mb-8 h-8 text-center font-ichigojam text-2xl font-bold md:text-4xl"
         texts={["License Information"]}
         delay={500}
       />
-      <div
-        class="border-4 border-card-foreground bg-card p-6 mb-8 sm:shadow-[8px_8px_0_0]"
-      >
-        <div
-          class="bg-primary border-2 border-card-foreground -mx-3 -mt-3 px-3 py-1 mb-4"
-        >
-          <h2 class="text-primary-foreground font-bold flex items-center gap-2">
+      <div class="mb-8 border-4 border-card-foreground bg-card p-6 sm:shadow-[8px_8px_0_0]">
+        <div class="-mx-3 -mt-3 mb-4 border-2 border-card-foreground bg-primary px-3 py-1">
+          <h2 class="flex items-center gap-2 font-bold text-primary-foreground">
             <ScaleIcon size={20} />
             本サイトのライセンス
           </h2>
         </div>
 
         <div class="space-y-4">
-          <div class="bg-background border-2 border-card-foreground p-4">
+          <div class="border-2 border-card-foreground bg-background p-4">
             <p class="text-sm leading-relaxed">
-              本ブログの記事や写真は「<strong>
-                Creative Commons — CC BY 4.0
-              </strong>」の下に提供します。
+              本ブログの記事や写真は「
+              <strong>Creative Commons — CC BY 4.0</strong>」の下に提供します。
             </p>
-            <p class="text-sm leading-relaxed mt-2">
+            <p class="mt-2 text-sm leading-relaxed">
               記事内で紹介するプログラムや作品は、それぞれに記載されたライセンスを参照ください。
             </p>
           </div>
 
-          <div
-            class="bg-accent/10 border-2 border-accent p-4 flex items-start gap-3"
-          >
+          <div class="flex items-start gap-3 border-2 border-accent bg-accent/10 p-4">
             <FileTextIcon
               size={20}
-              className="text-accent flex-shrink-0 mt-1"
+              className="mt-1 flex-shrink-0 text-accent"
             />
             <div>
-              <p class="font-bold text-sm">CC BY 内田吉紀 - Yoshiki Uchida</p>
-              <p class="text-xs text-muted-foreground mt-1">
+              <p class="text-sm font-bold">CC BY 内田吉紀 - Yoshiki Uchida</p>
+              <p class="mt-1 text-xs text-muted-foreground">
                 あなたは適切なクレジットを表示し、ライセンスへのリンクを提供し、変更があったらその旨を示す限り、
                 素材を自由に共有・翻案できます。
               </p>
             </div>
           </div>
 
-          <div class="text-center mt-4">
+          <div class="mt-4 text-center">
             <a
               href="https://creativecommons.org/licenses/by/4.0/deed.ja"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground border-2 border-primary shadow-[4px_4px_0_0] shadow-primary/50 hover:translate-y-[4px] hover:shadow-none transition-all"
+              class="inline-flex items-center gap-2 border-2 border-primary bg-primary px-4 py-2 text-primary-foreground shadow-[4px_4px_0_0] shadow-primary/50 transition-all hover:translate-y-[4px] hover:shadow-none"
             >
               <BookOpenIcon size={16} />
               CC BY 4.0の詳細を見る
@@ -69,23 +62,17 @@ import GridLayout from "@/layouts/GridLayout.astro";
           </div>
         </div>
       </div>
-      <div
-        class="border-4 border-card-foreground bg-card p-6 mb-8 sm:shadow-[8px_8px_0_0]"
-      >
-        <div
-          class="bg-secondary border-2 border-card-foreground -mx-3 -mt-3 px-3 py-1 mb-4"
-        >
-          <h2
-            class="text-secondary-foreground font-bold flex items-center gap-2"
-          >
+      <div class="mb-8 border-4 border-card-foreground bg-card p-6 sm:shadow-[8px_8px_0_0]">
+        <div class="-mx-3 -mt-3 mb-4 border-2 border-card-foreground bg-secondary px-3 py-1">
+          <h2 class="flex items-center gap-2 font-bold text-secondary-foreground">
             <CodeIcon size={20} />
             使用フォント
           </h2>
         </div>
 
         <div class="space-y-4">
-          <div class="bg-background border-2 border-card-foreground p-4">
-            <h3 class="font-bold text-lg mb-2 font-ichigojam">
+          <div class="border-2 border-card-foreground bg-background p-4">
+            <h3 class="mb-2 font-ichigojam text-lg font-bold">
               IchigoJam FONT TrueType
             </h3>
             <p class="text-sm leading-relaxed">
@@ -98,7 +85,7 @@ import GridLayout from "@/layouts/GridLayout.astro";
                   href="https://ichigojam.net/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-primary hover:text-primary/80 ml-1"
+                  class="ml-1 text-primary hover:text-primary/80"
                 >
                   IchigoJam
                 </a>
@@ -117,19 +104,15 @@ import GridLayout from "@/layouts/GridLayout.astro";
         </div>
       </div>
 
-      <div
-        class="border-4 border-card-foreground bg-card p-6 mb-8 sm:shadow-[8px_8px_0_0]"
-      >
-        <div
-          class="bg-accent border-2 border-card-foreground -mx-3 -mt-3 px-3 py-1 mb-4"
-        >
-          <h2 class="text-accent-foreground font-bold">その他のクレジット</h2>
+      <div class="mb-8 border-4 border-card-foreground bg-card p-6 sm:shadow-[8px_8px_0_0]">
+        <div class="-mx-3 -mt-3 mb-4 border-2 border-card-foreground bg-accent px-3 py-1">
+          <h2 class="font-bold text-accent-foreground">その他のクレジット</h2>
         </div>
 
         <div class="space-y-4">
-          <div class="bg-background border-2 border-card-foreground p-4">
-            <h3 class="font-bold mb-2">使用技術</h3>
-            <ul class="text-sm space-y-1 list-disc list-inside">
+          <div class="border-2 border-card-foreground bg-background p-4">
+            <h3 class="mb-2 font-bold">使用技術</h3>
+            <ul class="list-inside list-disc space-y-1 text-sm">
               <li>Astro - Static Site Generator</li>
               <li>React - UI Components</li>
               <li>Tailwind CSS - Styling</li>
@@ -137,8 +120,8 @@ import GridLayout from "@/layouts/GridLayout.astro";
             </ul>
           </div>
 
-          <div class="bg-background border-2 border-card-foreground p-4">
-            <h3 class="font-bold mb-2">アイコン</h3>
+          <div class="border-2 border-card-foreground bg-background p-4">
+            <h3 class="mb-2 font-bold">アイコン</h3>
             <p class="text-sm">
               <a
                 href="https://lucide.dev/"
@@ -162,19 +145,15 @@ import GridLayout from "@/layouts/GridLayout.astro";
           </div>
         </div>
       </div>
-      <div
-        class="border-4 border-card-foreground bg-card p-6 sm:shadow-[8px_8px_0_0]"
-      >
-        <div
-          class="bg-destructive border-2 border-card-foreground -mx-3 -mt-3 px-3 py-1 mb-4"
-        >
-          <h2 class="text-destructive-foreground font-bold">
+      <div class="border-4 border-card-foreground bg-card p-6 sm:shadow-[8px_8px_0_0]">
+        <div class="-mx-3 -mt-3 mb-4 border-2 border-card-foreground bg-destructive px-3 py-1">
+          <h2 class="font-bold text-destructive-foreground">
             ご利用にあたって
           </h2>
         </div>
 
-        <div class="bg-background border-2 border-card-foreground p-4">
-          <ul class="text-sm space-y-2 list-disc list-inside">
+        <div class="border-2 border-card-foreground bg-background p-4">
+          <ul class="list-inside list-disc space-y-2 text-sm">
             <li>
               本サイトのコンテンツを利用する際は、適切なクレジット表記をお願いします
             </li>

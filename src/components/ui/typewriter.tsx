@@ -1,6 +1,6 @@
 "use client";
 
-import type { ClassValue } from "clsx";
+import { type ClassValue, clsx } from "clsx";
 import { type JSX, useEffect, useRef, useState } from "react";
 
 import { IchigoJamCharacterOfCursor } from "@/lib/constants";
@@ -41,7 +41,7 @@ const Typewriter = ({
   const [displayedText, setDisplayedText] = useState("");
   const [isDone, setIsDone] = useState(false);
 
-  const cursorString = className?.toString().includes("font-ichigojam")
+  const cursorString = clsx(className).includes("font-ichigojam")
     ? IchigoJamCharacterOfCursor
     : "|";
 
@@ -50,11 +50,6 @@ const Typewriter = ({
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (!texts || texts.length === 0) return;
-
-    // エフェクト開始時に完了状態をリセット
-    setIsDone(false);
-
     const type = () => {
       const currentText = texts[textIndexRef.current];
 
@@ -65,8 +60,9 @@ const Typewriter = ({
 
         // ループしない、かつ最後のテキストなら処理を終了
         if (!loop && isLastText) {
-          setIsDone(true); // 完了状態をセット
-          return; // ここで再帰を停止
+          // 完了状態にして再帰を停止
+          setIsDone(true);
+          return;
         }
 
         // 継続する場合、duration待ってから次の処理へ
@@ -86,14 +82,17 @@ const Typewriter = ({
       timeoutRef.current = setTimeout(type, typingSpeed);
     };
 
-    timeoutRef.current = setTimeout(type, delay);
+    if (texts.length > 0) {
+      timeoutRef.current = setTimeout(type, delay);
+    }
 
-    // クリーンアップ関数
+    // クリーンアップ時に表示と完了状態をリセットする
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
       setDisplayedText("");
+      setIsDone(false);
       textIndexRef.current = 0;
       charIndexRef.current = 0;
     };
@@ -101,10 +100,14 @@ const Typewriter = ({
 
   return (
     <Component className={cn("text-xl", className)}>
-      {displayedText}
-      {cursorVisible && !isDone && (
-        <span className={cn("ml-1 animate-blink")}>{cursorString}</span>
-      )}
+      {/* 支援技術や検索エンジンには、アニメーションを待たずに全文を伝える */}
+      <span className="sr-only">{texts.join(" ")}</span>
+      <span aria-hidden="true">
+        {displayedText}
+        {cursorVisible && !isDone && (
+          <span className="ml-1 animate-blink">{cursorString}</span>
+        )}
+      </span>
     </Component>
   );
 };

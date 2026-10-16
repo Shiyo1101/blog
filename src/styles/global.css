@@ -296,9 +296,5 @@
     ::view-transition-new(*) {
       animation: none;
     }
-
-    ::view-transition::after {
-      display: none;
-    }
   }
 }
