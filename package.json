@@ -13,7 +13,9 @@
     "lint:fix": "oxlint --fix && markuplint --fix \"src/**/*.{astro,tsx,mdx}\"",
     "typecheck": "astro check",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck",
-    "lint:markup": "markuplint \"src/**/*.{astro,tsx,mdx}\""
+    "lint:markup": "markuplint \"src/**/*.{astro,tsx,mdx}\"",
+    "lint:html": "markuplint \"dist/**/*.html\"",
+    "check:html": "pnpm build && pnpm lint:html"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.0.3",

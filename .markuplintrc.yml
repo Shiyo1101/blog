@@ -59,6 +59,22 @@ overrides:
       code-styles/case-sensitive-attr-name: false
       # React のイベント props は HTML のイベントハンドラー属性ではない
       security/no-event-handler-attr: false
+  # ビルド後の HTML でコンポーネントをまたいだ構造（見出しレベル、ランドマーク、main の重複など）を検査する
+  "dist/**/*.html":
+    rules:
+      # astro-seo / Astro が出力する head 内の要素の順序は制御できない
+      performance/head-element-order: false
+      # lucide が出力する SVG の xmlns 属性
+      no-ineffective-attr: false
+      # motion が出力する style="opacity:1" などの属性
+      no-default-value: false
+      # lucide が出力するボタン内 SVG の aria-hidden
+      a11y/wai-aria/presentational-children: false
+    nodeRules:
+      # Astro が島コンポーネント用に body 直下へ style を出力するため、body の内容モデルのみ検査しない
+      - selector: body
+        rules:
+          html-standard/permitted-contents: false
   "**/*.mdx":
     rules:
       # Markdown から生成される要素に終了タグがないと誤検知される
