@@ -2,8 +2,8 @@
 
 import type { MarkdownHeading } from "astro";
 import { List, SquareXIcon, TableOfContentsIcon } from "lucide-react";
-import { AnimatePresence, motion, type Variants } from "motion/react";
-import { useEffect, useState } from "react";
+import { AnimatePresence, motion, stagger, type Variants } from "motion/react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 
 type TocProps = {
   headings: MarkdownHeading[];
@@ -26,7 +26,7 @@ const retroMenuVariants: Variants = {
       duration: 0.4,
       ease: "easeOut",
       when: "beforeChildren",
-      staggerChildren: 0.05,
+      delayChildren: stagger(0.05),
     },
   },
 };
@@ -44,62 +44,57 @@ const retroListItemVariants: Variants = {
   },
 };
 
+/** ページ内リンクのクリック後、ハッシュの更新を待つ時間（ms） */
+const HASH_UPDATE_DELAY_MS = 50;
+
+// URL のハッシュを外部ストアとして購読する
+const subscribeLocationHash = (onChange: () => void) => {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+  // View Transition 中はハッシュ変更イベントが発火しない場合があるため、ページ内リンクのクリックも監視する
+  const handleClick = (e: MouseEvent) => {
+    if (
+      e.target instanceof Element &&
+      e.target.closest('a[href^="#"]') !== null
+    ) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(onChange, HASH_UPDATE_DELAY_MS);
+    }
+  };
+
+  globalThis.addEventListener("hashchange", onChange);
+  document.addEventListener("astro:after-swap", onChange);
+  document.addEventListener("click", handleClick);
+
+  return () => {
+    clearTimeout(timeoutId);
+    globalThis.removeEventListener("hashchange", onChange);
+    document.removeEventListener("astro:after-swap", onChange);
+    document.removeEventListener("click", handleClick);
+  };
+};
+
+const getLocationHash = () => decodeURIComponent(globalThis.location.hash);
+
+// サーバーではハッシュを取得できないため、未選択として描画する
+const getServerLocationHash = () => "";
+
 const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
-  const [activeId, setActiveId] = useState("");
+  const activeId = useSyncExternalStore(
+    subscribeLocationHash,
+    getLocationHash,
+    getServerLocationHash,
+  );
   const [isOpen, setIsOpen] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isClient, setIsClient] = useState(false);
 
+  // ViewTransitionの検知
   useEffect(() => {
-    // クライアントサイドでのみ実行
-    setIsClient(true);
-
-    // ViewTransitionの検知
     const handleViewTransitionStart = () => setIsTransitioning(true);
     const handleViewTransitionEnd = () => setIsTransitioning(false);
 
     document.addEventListener("astro:before-swap", handleViewTransitionStart);
     document.addEventListener("astro:after-swap", handleViewTransitionEnd);
-
-    // 初期ハッシュを設定
-    const hash = window.location.hash;
-    if (hash) {
-      setActiveId(decodeURIComponent(hash));
-    }
-
-    // ハッシュ変更の監視
-    const handleHashChange = () => {
-      const newHash = window.location.hash;
-      setActiveId(newHash ? decodeURIComponent(newHash) : "");
-    };
-
-    // クリックイベントの監視（View Transition対応）
-    const handleClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const link = target.closest('a[href^="#"]');
-      if (link) {
-        const href = link.getAttribute("href");
-        if (href) {
-          // 少し遅延させてハッシュを更新
-          setTimeout(() => {
-            setActiveId(decodeURIComponent(href));
-          }, 50);
-        }
-      }
-    };
-
-    window.addEventListener("hashchange", handleHashChange);
-    document.addEventListener("click", handleClick);
-
-    // View Transition後の再設定
-    const handleAfterSwap = () => {
-      const currentHash = window.location.hash;
-      if (currentHash) {
-        setActiveId(decodeURIComponent(currentHash));
-      }
-    };
-
-    document.addEventListener("astro:after-swap", handleAfterSwap);
 
     return () => {
       document.removeEventListener(
@@ -107,57 +102,43 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
         handleViewTransitionStart,
       );
       document.removeEventListener("astro:after-swap", handleViewTransitionEnd);
-      window.removeEventListener("hashchange", handleHashChange);
-      document.removeEventListener("click", handleClick);
-      document.removeEventListener("astro:after-swap", handleAfterSwap);
     };
   }, []);
 
   const filteredHeadings = headings.filter((h) => h.depth <= 2);
 
-  const handleLinkClick = (
-    _e: React.MouseEvent<HTMLAnchorElement>,
-    slug: string,
-  ) => {
-    // ハッシュを即座に更新
-    setActiveId(`#${slug}`);
-  };
+  const renderHeadings = () => (
+    <motion.ul
+      className="not-prose list-none space-y-2 pl-2 text-foreground"
+      variants={retroMenuVariants}
+    >
+      {filteredHeadings.map((heading) => {
+        const isActive = activeId === `#${heading.slug}`;
+        const linkClasses = `block py-1 transition-colors no-underline ${
+          isActive
+            ? "font-bold text-accent border-l-4 border-accent pl-2 -ml-2 bg-accent/10"
+            : "hover:text-accent hover:pl-2 hover:-ml-2"
+        }`;
+        const marginLeftClass = heading.depth === 2 ? "ml-4" : "";
 
-  const renderHeadings = () => {
-    return (
-      <motion.ul
-        className="not-prose list-none space-y-2 pl-2 text-foreground"
-        variants={retroMenuVariants}
-      >
-        {filteredHeadings.map((heading) => {
-          const isActive = isClient && activeId === `#${heading.slug}`;
-          const linkClasses = `block py-1 transition-colors no-underline ${
-            isActive
-              ? "font-bold text-accent border-l-4 border-accent pl-2 -ml-2 bg-accent/10"
-              : "hover:text-accent hover:pl-2 hover:-ml-2"
-          }`;
-          const marginLeftClass = heading.depth === 2 ? "ml-4" : "";
-
-          return (
-            <motion.li
-              key={heading.slug}
-              className={`${marginLeftClass} list-none`}
-              variants={retroListItemVariants}
+        return (
+          <motion.li
+            key={heading.slug}
+            className={`${marginLeftClass} list-none`}
+            variants={retroListItemVariants}
+          >
+            <a
+              href={`#${heading.slug}`}
+              className={linkClasses}
+              aria-current={isActive ? "location" : undefined}
             >
-              <a
-                href={`#${heading.slug}`}
-                className={linkClasses}
-                onClick={(e) => handleLinkClick(e, heading.slug)}
-                aria-current={isActive ? "location" : undefined}
-              >
-                {heading.text}
-              </a>
-            </motion.li>
-          );
-        })}
-      </motion.ul>
-    );
-  };
+              {heading.text}
+            </a>
+          </motion.li>
+        );
+      })}
+    </motion.ul>
+  );
 
   if (isMobile) {
     return (
