@@ -15,7 +15,7 @@ type Props = {
 
 const { post } = Astro.props;
 const { Content, headings } = await render(post);
-const readingTime = calculateReadingTime(post.body);
+const readingTime = calculateReadingTime(post.body ?? "");
 ---
 
 <div class="px-2 py-6 md:py-12">
