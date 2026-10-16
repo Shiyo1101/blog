@@ -70,9 +70,14 @@ overrides:
       no-default-value: false
       # lucide が出力するボタン内 SVG の aria-hidden
       a11y/wai-aria/presentational-children: false
+      # React の SSR は論理属性を disabled="" として出力する
+      no-boolean-attr-value: false
+      # React の SSR は spellCheck などの属性名をキャメルケースのまま出力する（HTML では大文字小文字を区別しない）
+      code-styles/case-sensitive-attr-name: false
     nodeRules:
-      # Astro が島コンポーネント用に body 直下へ style を出力するため、body の内容モデルのみ検査しない
-      - selector: body
+      # Astro は最初の島コンポーネントの直前（body や section の中）に style を出力するため、
+      # style を直接の子に持つ要素のみ内容モデルを検査しない
+      - selector: ":has(> style)"
         rules:
           html-standard/permitted-contents: false
   "**/*.mdx":
