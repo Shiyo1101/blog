@@ -9,12 +9,10 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import GridLayout from "@/layouts/GridLayout.astro";
 
 // 下書きを除外してすべてのブログ記事を取得
-const allPosts = await getCollection("blog", ({ data }) => {
-  return data.draft !== true;
-});
+const allPosts = await getCollection("blog", ({ data }) => data.draft !== true);
 
 // 日付の新しい順にソート
-const sortedPosts = allPosts.sort(
+const sortedPosts = allPosts.toSorted(
   (a, b) =>
     new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf(),
 );

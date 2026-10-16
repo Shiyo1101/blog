@@ -1,20 +1,25 @@
 "use client";
 
-import type { Variants } from "motion/react";
-import { motion, useAnimation } from "motion/react";
-import type { HTMLAttributes } from "react";
-import { forwardRef, useCallback, useImperativeHandle, useRef } from "react";
+import { motion, useAnimation, type Variants } from "motion/react";
+import {
+  forwardRef,
+  type HTMLAttributes,
+  type MouseEvent,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+} from "react";
 
 import { cn } from "@/lib/utils";
 
-export interface FacebookIconHandle {
+export type FacebookIconHandle = {
   startAnimation: () => void;
   stopAnimation: () => void;
-}
+};
 
-interface FacebookIconProps extends HTMLAttributes<HTMLDivElement> {
+type FacebookIconProps = HTMLAttributes<HTMLDivElement> & {
   size?: number;
-}
+};
 
 const facebookVariants: Variants = {
   normal: {
@@ -53,22 +58,22 @@ const FacebookIcon = forwardRef<FacebookIconHandle, FacebookIconProps>(
     });
 
     const handleMouseEnter = useCallback(
-      (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isControlledRef.current) {
-          controls.start("animate");
-        } else {
+      (e: MouseEvent<HTMLDivElement>) => {
+        if (isControlledRef.current) {
           onMouseEnter?.(e);
+        } else {
+          void controls.start("animate");
         }
       },
       [controls, onMouseEnter],
     );
 
     const handleMouseLeave = useCallback(
-      (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isControlledRef.current) {
-          controls.start("normal");
-        } else {
+      (e: MouseEvent<HTMLDivElement>) => {
+        if (isControlledRef.current) {
           onMouseLeave?.(e);
+        } else {
+          void controls.start("normal");
         }
       },
       [controls, onMouseLeave],
