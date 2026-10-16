@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 
-import type { CollectionEntry } from "astro:content";
+import { type CollectionEntry, render } from "astro:content";
 
 import { CalendarDaysIcon, TagIcon, TimerIcon } from "lucide-react";
 
@@ -16,7 +16,7 @@ type Props = {
 };
 
 const { post } = Astro.props;
-const { Content, headings } = await post.render();
+const { Content, headings } = await render(post);
 const readingTime = calculateReadingTime(post.body);
 ---
 
@@ -25,14 +25,14 @@ const readingTime = calculateReadingTime(post.body);
     items={[
       { name: "ホーム", url: "/" },
       { name: "ブログ", url: "/blog" },
-      { name: post.data.title, url: `/blog/${post.slug}` },
+      { name: post.data.title, url: `/blog/${post.id}` },
     ]}
   />
   <div class="grid grid-cols-12 gap-8 md:px-8">
     {/* SNS共有ボタン - PC左サイド */}
     <aside class="hidden md:col-span-2 md:block">
       <div class="sticky top-20">
-        <ShareButtons title={post.data.title} slug={post.slug} />
+        <ShareButtons title={post.data.title} slug={post.id} />
       </div>
     </aside>
 
@@ -43,7 +43,7 @@ const readingTime = calculateReadingTime(post.body);
       >
         <h1
           class="text-3xl border-b-4 pb-2"
-          transition:name={`blog-title-${post.slug}`}
+          transition:name={`blog-title-${post.id}`}
         >
           {post.data.title}
         </h1>
@@ -82,7 +82,7 @@ const readingTime = calculateReadingTime(post.body);
 
         {
           post.data.topImage && (
-            <figure transition:name={`blog-image-${post.slug}`}>
+            <figure transition:name={`blog-image-${post.id}`}>
               <Image
                 class="w-full h-auto rounded-lg mb-8"
                 src={post.data.topImage}
@@ -117,7 +117,7 @@ const readingTime = calculateReadingTime(post.body);
         class="md:hidden mt-8 p-6 border-4 border-card-foreground bg-card sm:shadow-[8px_8px_0_0]"
       >
         <div class="flex flex-wrap items-center gap-4">
-          <ShareButtons title={post.data.title} slug={post.slug} />
+          <ShareButtons title={post.data.title} slug={post.id} />
         </div>
       </div>
     </main>
