@@ -1,25 +1,30 @@
 # プロジェクト概要: Blog
 
 ## 目的
+
 Astroフレームワークで構築された個人技術ブログサイト。IchigoJamに関連するコンテンツを含む。
 
 ## デプロイ先
+
 - URL: https://uchii-blog.netlify.app
 - ホスティング: Netlify
 
 ## 技術スタック
 
 ### フレームワーク
+
 - **Astro** v5.x - メインフレームワーク（SSG）
 - **React** v19.x - インタラクティブコンポーネント用
 - **MDX** - ブログ記事のコンテンツ
 
 ### スタイリング
+
 - **Tailwind CSS** v4.x - ユーティリティファーストCSS
 - **shadcn/ui** (new-york スタイル) - UIコンポーネントライブラリ
 - **Motion** (Framer Motion) - アニメーション
 
 ### その他の依存関係
+
 - **Lucide React** - アイコン
 - **class-variance-authority** + **clsx** + **tailwind-merge** - クラス名ユーティリティ
 - **sharp** - 画像最適化
@@ -69,4 +74,5 @@ public/               # 静的ファイル（そのまま配信）
 ```
 
 ## パスエイリアス
+
 - `@/*` → `src/*`

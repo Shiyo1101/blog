@@ -1,7 +1,11 @@
 import type { ClassValue } from "clsx";
 import type { JSX } from "react";
 
-import { IchigoJamCharacterOfCursor, IJCharacterCodes } from "@/lib/constants";
+import {
+  IchigoJamCharacterOfCursor,
+  type IJCharacterCode,
+  IJCharacterCodes,
+} from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 type IJTypographyProps = {
@@ -14,25 +18,20 @@ type IJTypographyProps = {
 const IJTypography = ({
   children,
   className,
-  as: Component = "div",
+  as: Component = "span",
   addCursor = false,
-}: IJTypographyProps) => {
-  return (
-    <Component
-      className={cn(
-        "font-ichigojam relative inline-block text-base",
-        className,
-      )}
-    >
-      {children}
-      {addCursor && (
-        <span className="absolute left-[93%] top-0 animate-blink">
-          {IchigoJamCharacterOfCursor}
-        </span>
-      )}
-    </Component>
-  );
-};
+}: IJTypographyProps) => (
+  <Component
+    className={cn("relative inline-block font-ichigojam text-base", className)}
+  >
+    {children}
+    {addCursor && (
+      <span className="absolute top-0 left-[93%] animate-blink">
+        {IchigoJamCharacterOfCursor}
+      </span>
+    )}
+  </Component>
+);
 
 type IJCharacterProps = {
   as?: keyof JSX.IntrinsicElements;
@@ -40,12 +39,19 @@ type IJCharacterProps = {
   className?: ClassValue;
 };
 
+const isIJCharacterCode = (code: string): code is IJCharacterCode =>
+  Object.hasOwn(IJCharacterCodes, code);
+
+// 定義済みの文字コード名であれば対応する文字に変換し、それ以外はそのまま表示する
+const toIJCharacter = (code: string) =>
+  isIJCharacterCode(code) ? IJCharacterCodes[code] : code;
+
 const IJCharacter = ({
-  as = "div",
+  as = "span",
   characterCodes,
   className,
 }: IJCharacterProps) => {
-  if (!characterCodes || characterCodes.length === 0) {
+  if (characterCodes.length === 0) {
     return null;
   }
 
@@ -59,11 +65,7 @@ const IJCharacter = ({
 
   return (
     <IJTypography as={as} className={className}>
-      {characterCodes.map((code, index) => (
-        <span key={index}>
-          {IJCharacterCodes[code as keyof typeof IJCharacterCodes] || code}
-        </span>
-      ))}
+      {characterCodes.map((code) => toIJCharacter(code)).join("")}
     </IJTypography>
   );
 };
