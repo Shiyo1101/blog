@@ -1,0 +1,96 @@
+import type { IchigoCrateHandle } from "ichigocrate-react";
+import { PlayIcon, PowerIcon, Undo2Icon, SquareIcon } from "lucide-react";
+import { useId, useRef, useState } from "react";
+
+import { IchigoScreen, runProgram } from "./IchigoScreen";
+import { Button } from "@/components/ui/button";
+
+type IchigoPlaygroundProps = {
+  /** エディタに最初に表示するプログラム */
+  code: string;
+  /** プレイグラウンドの見出し */
+  title: string;
+  /** 表示時にプログラムを実行するか */
+  autoRun?: boolean;
+};
+
+/** プログラムを編集して IchigoJam BASIC で実行できるプレイグラウンド */
+const IchigoPlayground = ({
+  code: initialCode,
+  title,
+  autoRun = false,
+}: IchigoPlaygroundProps) => {
+  const [code, setCode] = useState(initialCode);
+  const handleRef = useRef<IchigoCrateHandle | null>(null);
+  const editorId = useId();
+
+  return (
+    <div className="space-y-4 p-4">
+      <div className="space-y-2">
+        <label htmlFor={editorId} className="block text-sm font-bold">
+          プログラム
+        </label>
+        <textarea
+          id={editorId}
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          rows={Math.max(code.split("\n").length + 1, 4)}
+          spellCheck={false}
+          autoCapitalize="characters"
+          autoComplete="off"
+          className="w-full resize-y border-2 border-card-foreground bg-background p-3 font-mono text-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+        />
+      </div>
+
+      <div className="flex flex-wrap gap-3">
+        <Button
+          size="sm"
+          onClick={() => {
+            if (handleRef.current) {
+              runProgram(handleRef.current, code);
+            }
+          }}
+        >
+          <PlayIcon aria-hidden="true" />
+          実行
+        </Button>
+        <Button
+          size="sm"
+          variant="secondary"
+          onClick={() => handleRef.current?.break()}
+        >
+          <SquareIcon aria-hidden="true" />
+          停止
+        </Button>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => handleRef.current?.reset()}
+        >
+          <PowerIcon aria-hidden="true" />
+          リセット
+        </Button>
+        <Button
+          size="sm"
+          variant="ghost"
+          disabled={code === initialCode}
+          onClick={() => setCode(initialCode)}
+        >
+          <Undo2Icon aria-hidden="true" />
+          元のプログラムに戻す
+        </Button>
+      </div>
+
+      <IchigoScreen
+        label={`${title} の実行画面`}
+        defaultProgram={initialCode}
+        autoRun={autoRun}
+        onReady={(handle) => {
+          handleRef.current = handle;
+        }}
+      />
+    </div>
+  );
+};
+
+export default IchigoPlayground;
