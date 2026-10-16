@@ -26,48 +26,62 @@ const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).href;
 const fullImageUrl = new URL(image, Astro.site).href;
 ---
 
-<script is:inline>
-  function getThemePreference() {
-    const storedTheme =
-      typeof localStorage === "undefined"
-        ? null
-        : localStorage.getItem("theme");
-    if (storedTheme !== null) {
-      return storedTheme;
-    }
-    return globalThis.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "theme-light";
-  }
-
-  function setDarkMode(document) {
-    const isDark = getThemePreference() === "dark";
-    document.documentElement.classList.toggle("dark", isDark);
-
-    if (typeof localStorage !== "undefined") {
-      const observer = new MutationObserver(() => {
-        const isDarkNow = document.documentElement.classList.contains("dark");
-        localStorage.setItem("theme", isDarkNow ? "dark" : "theme-light");
-      });
-      observer.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ["class"],
-      });
-    }
-  }
-
-  /* ViewTransition導入後にDark modeが正常動作しなくなる問題の修正。参考：https://github.com/shadcn-ui/ui/discussions/3528 */
-  setDarkMode(document);
-
-  document.addEventListener("astro:before-swap", (ev) => {
-    // Pass the incoming document to set the theme on it
-    setDarkMode(ev.newDocument);
-  });
-  /* ************************* */
-</script>
-
 <html lang="ja" class="scroll-smooth">
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- IchigoJamフォントのプリロード -->
+    <link
+      rel="preload"
+      href="/fonts/IchigoJam-1.4.woff"
+      as="font"
+      type="font/woff"
+      crossorigin="anonymous"
+    />
+
+    <script is:inline>
+      function getThemePreference() {
+        const storedTheme =
+          typeof localStorage === "undefined"
+            ? null
+            : localStorage.getItem("theme");
+        if (storedTheme !== null) {
+          return storedTheme;
+        }
+        return globalThis.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "theme-light";
+      }
+
+      function setDarkMode(document) {
+        const isDark = getThemePreference() === "dark";
+        document.documentElement.classList.toggle("dark", isDark);
+
+        if (typeof localStorage !== "undefined") {
+          const observer = new MutationObserver(() => {
+            const isDarkNow =
+              document.documentElement.classList.contains("dark");
+            localStorage.setItem("theme", isDarkNow ? "dark" : "theme-light");
+          });
+          observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["class"],
+          });
+        }
+      }
+
+      /* ViewTransition導入後にDark modeが正常動作しなくなる問題の修正。参考：https://github.com/shadcn-ui/ui/discussions/3528 */
+      setDarkMode(document);
+
+      document.addEventListener("astro:before-swap", (ev) => {
+        // Pass the incoming document to set the theme on it
+        setDarkMode(ev.newDocument);
+      });
+      /* ************************* */
+    </script>
+
     <SEO
       title={title}
       description={description}
@@ -114,25 +128,8 @@ const fullImageUrl = new URL(image, Astro.site).href;
       }}
     />
 
-    <slot name="head" />
-
-    <!-- IchigoJamフォントのプリロード -->
-    <link
-      rel="preload"
-      href="/fonts/IchigoJam-1.4.woff"
-      as="font"
-      type="font/woff"
-      crossorigin="anonymous"
-    />
-
-    <!-- Sitemap -->
-    <link rel="sitemap" href="/sitemap-index.xml" />
-
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
     <ClientRouter />
+    <slot name="head" />
   </head>
   <body class="border-4">
     <ClickShatterBlock client:load>
