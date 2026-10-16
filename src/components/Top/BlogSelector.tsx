@@ -40,8 +40,8 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
         <div className="space-y-2">
           {posts.map((post, index) => (
             <motion.a
-              key={post.slug}
-              href={`/blog/${post.slug}`}
+              key={post.id}
+              href={`/blog/${post.id}`}
               className="block"
               onMouseEnter={() => setSelectedIndex(index)}
               onMouseLeave={() => setSelectedIndex(null)}

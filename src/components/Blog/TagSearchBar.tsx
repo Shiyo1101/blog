@@ -25,17 +25,19 @@ const TagSearchBar = ({ tags, currentTag }: TagSearchBarProps) => {
 
   return (
     <Dialog onOpenChange={(open) => !open && setQuery("")}>
-      <DialogTrigger asChild>
-        <button
-          type="button"
-          className="max-w-3xl mx-auto flex items-center gap-2 w-full border-2 border-card-foreground bg-card px-3 py-2 text-xs font-bold tracking-wide transition-colors hover:bg-accent hover:text-accent-foreground hover:cursor-pointer"
-        >
-          <TagIcon size={12} />
-          <span className="font-ichigojam">SEARCH BY TAG</span>
-          <span className="ml-auto text-muted-foreground font-normal">
-            {tags.length}件
-          </span>
-        </button>
+      <DialogTrigger
+        render={
+          <button
+            type="button"
+            className="max-w-3xl mx-auto flex items-center gap-2 w-full border-2 border-card-foreground bg-card px-3 py-2 text-xs font-bold tracking-wide transition-colors hover:bg-accent hover:text-accent-foreground hover:cursor-pointer"
+          />
+        }
+      >
+        <TagIcon size={12} />
+        <span className="font-ichigojam">SEARCH BY TAG</span>
+        <span className="ml-auto text-muted-foreground font-normal">
+          {tags.length}件
+        </span>
       </DialogTrigger>
 
       <DialogContent

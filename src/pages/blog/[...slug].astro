@@ -9,14 +9,14 @@ import BlogLayout from "@/layouts/BlogLayout.astro";
 export async function getStaticPaths() {
   const blogEntries = await getCollection("blog");
   return blogEntries.map((entry) => ({
-    params: { slug: entry.slug },
+    params: { slug: entry.id },
     props: { entry },
   }));
 }
 
 const { entry } = Astro.props;
 
-const articleUrl = new URL(`/blog/${entry.slug}`, Astro.site).href;
+const articleUrl = new URL(`/blog/${entry.id}`, Astro.site).href;
 const articleImageUrl = new URL(entry.data.topImage.src, Astro.site).href;
 
 // Breadcrumb用の構造化データを生成
