@@ -5,7 +5,7 @@ import { CalendarDaysIcon, ChevronRightIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 
-import { IJCharacter } from "@/components/ui/ichigojam";
+import { IJCharacter, IJTypography } from "@/components/ui/ichigojam";
 import { formatDate } from "@/lib/utils";
 
 type BlogSelectorProps = {
@@ -25,16 +25,12 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
       <div className="border-4 border-card-foreground bg-card p-4 sm:p-6">
         <div className="-mx-2 -mt-2 mb-4 border-2 border-card-foreground bg-primary px-3 py-1">
           <div className="flex items-center justify-between max-md:flex-col">
-            <IJCharacter
-              as="h3"
-              className="text-sm text-primary-foreground"
-              characterCodes="SELECT THE BLOG"
-            />
-            <IJCharacter
-              as="p"
-              className="text-xs text-primary-foreground/80"
-              characterCodes={`${posts.length}POSTS`}
-            />
+            <IJTypography as="h3" className="text-sm text-primary-foreground">
+              SELECT THE BLOG
+            </IJTypography>
+            <IJTypography as="p" className="text-xs text-primary-foreground/80">
+              {posts.length}POSTS
+            </IJTypography>
           </div>
         </div>
         <div className="space-y-2">

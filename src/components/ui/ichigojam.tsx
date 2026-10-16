@@ -18,7 +18,7 @@ type IJTypographyProps = {
 const IJTypography = ({
   children,
   className,
-  as: Component = "div",
+  as: Component = "span",
   addCursor = false,
 }: IJTypographyProps) => (
   <Component
@@ -47,7 +47,7 @@ const toIJCharacter = (code: string) =>
   isIJCharacterCode(code) ? IJCharacterCodes[code] : code;
 
 const IJCharacter = ({
-  as = "div",
+  as = "span",
   characterCodes,
   className,
 }: IJCharacterProps) => {

@@ -4,7 +4,7 @@ import { BookOpenTextIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 
-import { IJCharacter } from "@/components/ui/ichigojam";
+import { IJCharacter, IJTypography } from "@/components/ui/ichigojam";
 import { IJCharacterCodes } from "@/lib/constants";
 
 const AuthorCard = () => {
@@ -19,11 +19,9 @@ const AuthorCard = () => {
     >
       <div className="relative border-4 border-card-foreground bg-card p-4 sm:p-6">
         <div className="-mx-2 -mt-2 mb-4 border-2 border-card-foreground bg-accent px-3 py-1">
-          <IJCharacter
-            as="h3"
-            className="text-xs text-accent-foreground"
-            characterCodes="ABOUT THE CREATOR"
-          />
+          <IJTypography as="h3" className="text-xs text-accent-foreground">
+            ABOUT THE CREATOR
+          </IJTypography>
         </div>
 
         <div className="flex flex-col gap-4 sm:flex-row">

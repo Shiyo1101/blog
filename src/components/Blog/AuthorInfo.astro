@@ -1,17 +1,15 @@
 ---
 import { BookOpenTextIcon } from "lucide-react";
 
-import { IJCharacter } from "@/components/ui/ichigojam";
+import { IJCharacter, IJTypography } from "@/components/ui/ichigojam";
 import { IJCharacterCodes } from "@/lib/constants";
 ---
 
 <div class="not-prose border-4 border-card-foreground bg-card sm:shadow-[4px_4px_0_0]">
   <div class="mb-4 border-b-4 border-card-foreground bg-accent px-3 py-1">
-    <IJCharacter
-      as="h3"
-      className="text-xs text-accent-foreground"
-      characterCodes="ABOUT THE AUTHOR"
-    />
+    <IJTypography as="h3" className="text-xs text-accent-foreground">
+      ABOUT THE AUTHOR
+    </IJTypography>
   </div>
 
   <div class="px-4 pb-4">
