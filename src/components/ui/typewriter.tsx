@@ -100,10 +100,14 @@ const Typewriter = ({
 
   return (
     <Component className={cn("text-xl", className)}>
-      {displayedText}
-      {cursorVisible && !isDone && (
-        <span className={cn("ml-1 animate-blink")}>{cursorString}</span>
-      )}
+      {/* 支援技術や検索エンジンには、アニメーションを待たずに全文を伝える */}
+      <span className="sr-only">{texts.join(" ")}</span>
+      <span aria-hidden="true">
+        {displayedText}
+        {cursorVisible && !isDone && (
+          <span className="ml-1 animate-blink">{cursorString}</span>
+        )}
+      </span>
     </Component>
   );
 };
