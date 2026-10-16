@@ -68,4 +68,4 @@ const IJCharacter = ({
   );
 };
 
-export { IJTypography, IJCharacter };
+export { IJCharacter, IJTypography };
