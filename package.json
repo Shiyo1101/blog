@@ -9,10 +9,11 @@
     "astro": "astro",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
-    "lint": "oxlint",
-    "lint:fix": "oxlint --fix",
+    "lint": "oxlint && pnpm lint:markup",
+    "lint:fix": "oxlint --fix && markuplint --fix \"src/**/*.{astro,tsx,mdx}\"",
     "typecheck": "astro check",
-    "check": "pnpm format:check && pnpm lint && pnpm typecheck"
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck",
+    "lint:markup": "markuplint \"src/**/*.{astro,tsx,mdx}\""
   },
   "dependencies": {
     "@astrojs/mdx": "^8.0.3",
@@ -41,6 +42,7 @@
     "@astrojs/compiler-rs": "^0.5.2",
     "@markuplint/astro-parser": "^5.2.0",
     "@markuplint/jsx-parser": "^5.2.0",
+    "@markuplint/mdx-parser": "^5.2.0",
     "@markuplint/react-spec": "^5.2.0",
     "@oxlint/plugins": "^1.88.0",
     "@tailwindcss/typography": "^0.5.20",

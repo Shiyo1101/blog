@@ -1,0 +1,65 @@
+# HTML 仕様・WAI-ARIA に沿ったセマンティックなマークアップを強制する
+extends:
+  # html-standard / a11y / performance / security / rdfa / code-styles を含む推奨プリセット
+  - markuplint:recommended-react
+
+parser:
+  \.astro$: "@markuplint/astro-parser"
+  \.tsx$: "@markuplint/jsx-parser"
+  \.mdx$: "@markuplint/mdx-parser"
+
+specs:
+  \.tsx$: "@markuplint/react-spec"
+
+# 推奨プリセットに含まれないルールのうち、セマンティクスや仕様準拠に関わるものを追加で有効化する
+rules:
+  no-ineffective-attr: true
+  no-boolean-attr-value: true
+  no-default-value: true
+  no-duplicate-dt: true
+  no-malformed-character-reference: true
+  no-unescaped-char: true
+  no-experimental-features: true
+  no-nonstandard-features: true
+  require-end-tag: true
+  attr-value-quotes: true
+
+# motion のコンポーネントは同名の HTML 要素として評価する（セレクタのため `.` をエスケープする）
+pretenders:
+  - selector: "motion\\.a"
+    as: { element: a, inheritAttrs: true }
+  - selector: "motion\\.div"
+    as: { element: div, inheritAttrs: true }
+  - selector: "motion\\.header"
+    as: { element: header, inheritAttrs: true }
+  - selector: "motion\\.li"
+    as: { element: li, inheritAttrs: true }
+  - selector: "motion\\.path"
+    as: { element: path, inheritAttrs: true }
+  - selector: "motion\\.span"
+    as: { element: span, inheritAttrs: true }
+  - selector: "motion\\.ul"
+    as: { element: ul, inheritAttrs: true }
+
+# overrides は既存の設定（parser 等）にマージする
+overrideMode: merge
+
+overrides:
+  "**/*.astro":
+    rules:
+      # `as` 属性を持つコンポーネントは指定した要素として評価されるため、
+      # コンポーネントの props（className など）が HTML 属性として誤検知される
+      code-styles/case-sensitive-attr-name: false
+      # ファイル末尾の自己終了コンポーネントが未閉じと誤検知される（astro-parser の不具合）
+      # 未閉じのタグは Astro のコンパイラがエラーにするため無効化しても問題ない
+      html-standard/no-unclosed-element-at-eof: false
+  "**/*.tsx":
+    rules:
+      # JSX の props（onClick, className など）はキャメルケースが正しい
+      code-styles/case-sensitive-attr-name: false
+      # React のイベント props は HTML のイベントハンドラー属性ではない
+      security/no-event-handler-attr: false
+  "**/*.mdx":
+    rules:
+      # Markdown から生成される要素に終了タグがないと誤検知される
+      require-end-tag: false
