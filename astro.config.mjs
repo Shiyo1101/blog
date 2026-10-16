@@ -10,6 +10,11 @@ import robotsTxt from "astro-robots-txt";
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
+    // Astro 7 のプリレンダー出力は cookie を外部 import するため、
+    // 親ディレクトリにある古い CJS 版 cookie が解決されないようバンドルする
+    resolve: {
+      noExternal: ["cookie"],
+    },
   },
   integrations: [
     react(),
