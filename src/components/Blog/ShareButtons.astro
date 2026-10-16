@@ -16,15 +16,13 @@ const appUrl = import.meta.env.PUBLIC_APP_URL || "http://localhost:4321";
 const shareUrl = `${appUrl}/blog/${slug}`;
 ---
 
-<div class="flex flex-col gap-4 not-prose">
-  {
-    showTitle && (
-      <div class="flex items-center gap-2 text-secondary">
-        <Share2Icon size={16} />
-        <h3 class="font-bold text-lg">共有する</h3>
-      </div>
-    )
-  }
+<div class="not-prose flex flex-col gap-4">
+  {showTitle && (
+    <div class="flex items-center gap-2 text-secondary">
+      <Share2Icon size={16} />
+      <h3 class="text-lg font-bold">共有する</h3>
+    </div>
+  )}
   <div class="flex flex-wrap items-center gap-2">
     <a
       class="group"

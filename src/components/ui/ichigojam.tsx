@@ -20,13 +20,13 @@ const IJTypography = ({
   return (
     <Component
       className={cn(
-        "font-ichigojam relative inline-block text-base",
+        "relative inline-block font-ichigojam text-base",
         className,
       )}
     >
       {children}
       {addCursor && (
-        <span className="absolute left-[93%] top-0 animate-blink">
+        <span className="absolute top-0 left-[93%] animate-blink">
           {IchigoJamCharacterOfCursor}
         </span>
       )}

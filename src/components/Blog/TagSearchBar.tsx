@@ -29,33 +29,33 @@ const TagSearchBar = ({ tags, currentTag }: TagSearchBarProps) => {
         render={
           <button
             type="button"
-            className="max-w-3xl mx-auto flex items-center gap-2 w-full border-2 border-card-foreground bg-card px-3 py-2 text-xs font-bold tracking-wide transition-colors hover:bg-accent hover:text-accent-foreground hover:cursor-pointer"
+            className="mx-auto flex w-full max-w-3xl items-center gap-2 border-2 border-card-foreground bg-card px-3 py-2 text-xs font-bold tracking-wide transition-colors hover:cursor-pointer hover:bg-accent hover:text-accent-foreground"
           />
         }
       >
         <TagIcon size={12} />
         <span className="font-ichigojam">SEARCH BY TAG</span>
-        <span className="ml-auto text-muted-foreground font-normal">
+        <span className="ml-auto font-normal text-muted-foreground">
           {tags.length}件
         </span>
       </DialogTrigger>
 
       <DialogContent
         showCloseButton={false}
-        className="max-md:max-w-4/5 rounded-none border-4 border-card-foreground bg-card shadow-[4px_4px_0_0] p-0 gap-0 max-w-md"
+        className="max-w-md gap-0 rounded-none border-4 border-card-foreground bg-card p-0 shadow-[4px_4px_0_0] max-md:max-w-4/5"
       >
         {/* ヘッダー */}
-        <DialogHeader className="bg-primary border-b-2 border-card-foreground px-4 py-2 gap-0">
-          <DialogTitle className="flex items-center gap-2 text-primary-foreground text-sm font-bold tracking-widest font-ichigojam">
+        <DialogHeader className="gap-0 border-b-2 border-card-foreground bg-primary px-4 py-2">
+          <DialogTitle className="flex items-center gap-2 font-ichigojam text-sm font-bold tracking-widest text-primary-foreground">
             <TagIcon size={13} />
             SEARCH BY TAG
           </DialogTitle>
         </DialogHeader>
 
-        <div className="p-4 space-y-4">
+        <div className="space-y-4 p-4">
           {/* 検索入力 */}
           <div className="flex items-center gap-2 border-2 border-card-foreground bg-background px-3 py-2">
-            <SearchIcon size={13} className="text-muted-foreground shrink-0" />
+            <SearchIcon size={13} className="shrink-0 text-muted-foreground" />
             <input
               type="text"
               value={query}
@@ -72,23 +72,23 @@ const TagSearchBar = ({ tags, currentTag }: TagSearchBarProps) => {
               >
                 <XIcon
                   size={13}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-muted-foreground transition-colors hover:text-foreground"
                 />
               </button>
             )}
           </div>
 
           {/* タグ一覧 */}
-          <div className="flex flex-wrap gap-2 max-h-60 overflow-y-auto">
+          <div className="flex max-h-60 flex-wrap gap-2 overflow-y-auto">
             {filteredTags.length > 0 ? (
               filteredTags.map((tag) => (
                 <a
                   key={tag}
                   href={`/blog/${tag}`}
-                  className={`inline-block px-2 py-0.5 text-xs border transition-colors duration-150 ${
+                  className={`inline-block border px-2 py-0.5 text-xs transition-colors duration-150 ${
                     currentTag === tag
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-primary/20 text-primary border-primary hover:bg-primary/40"
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-primary bg-primary/20 text-primary hover:bg-primary/40"
                   }`}
                 >
                   #{tag}

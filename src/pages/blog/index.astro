@@ -26,7 +26,7 @@ const sortedPosts = allPosts.sort(
       <Typewriter
         client:load
         as="h2"
-        className="h-8 text-2xl md:text-4xl font-bold mb-8 text-center font-ichigojam"
+        className="mb-8 h-8 text-center font-ichigojam text-2xl font-bold md:text-4xl"
         texts={["Blog List"]}
         delay={500}
       />
@@ -36,7 +36,9 @@ const sortedPosts = allPosts.sort(
     </div>
     <div transition:name="blog-list-content">
       <BlogCardWrapper>
-        {sortedPosts.map((post) => <BlogCard post={post} />)}
+        {sortedPosts.map((post) => (
+          <BlogCard post={post} />
+        ))}
       </BlogCardWrapper>
     </div>
   </GridLayout>

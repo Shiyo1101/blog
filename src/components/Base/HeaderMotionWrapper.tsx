@@ -33,7 +33,7 @@ const HeaderMotionWrapper = ({ children }: Props) => {
   return (
     <motion.header
       id="site-header"
-      className="sticky top-0 flex items-center justify-between px-4 py-2 ring-4 ring-border h-16 w-full z-50 bg-background/70 backdrop-blur-sm"
+      className="sticky top-0 z-50 flex h-16 w-full items-center justify-between bg-background/70 px-4 py-2 ring-4 ring-border backdrop-blur-sm"
       variants={headerVariants}
       animate={hidden ? "hidden" : "visible"}
       transition={{ duration: 0.5, ease: "easeInOut" }}

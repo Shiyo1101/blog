@@ -126,7 +126,7 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
   const renderHeadings = () => {
     return (
       <motion.ul
-        className="not-prose space-y-2 list-none pl-2 text-foreground"
+        className="not-prose list-none space-y-2 pl-2 text-foreground"
         variants={retroMenuVariants}
       >
         {filteredHeadings.map((heading) => {
@@ -161,10 +161,10 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
 
   if (isMobile) {
     return (
-      <div className="border-2 bg-card overflow-hidden">
+      <div className="overflow-hidden border-2 bg-card">
         <button
           type="button"
-          className="p-4 w-full text-lg font-bold cursor-pointer text-secondary flex items-center gap-2 hover:bg-accent/10 transition-colors border-b-2"
+          className="flex w-full cursor-pointer items-center gap-2 border-b-2 p-4 text-lg font-bold text-secondary transition-colors hover:bg-accent/10"
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
           aria-controls="toc-content"
@@ -198,7 +198,7 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
   return (
     <nav className="sticky top-20">
       <div className="border-2 bg-card p-4">
-        <h2 className="text-lg font-bold mb-4 text-secondary flex items-center gap-2 border-b-2 pb-2">
+        <h2 className="mb-4 flex items-center gap-2 border-b-2 pb-2 text-lg font-bold text-secondary">
           <List size={20} />
           目次
         </h2>

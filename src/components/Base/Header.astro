@@ -7,7 +7,7 @@ const { pathname } = Astro.url;
 ---
 
 <HeaderMotionWrapper client:load>
-  <nav class="flex items-center justify-start max-w-4xl w-full">
+  <nav class="flex w-full max-w-4xl items-center justify-start">
     <ul class="flex items-center gap-4">
       <li>
         <a href="/" class="text-lg font-bold">
@@ -16,9 +16,9 @@ const { pathname } = Astro.url;
       </li>
       <li>
         <a href="/blog" class="text-lg font-bold">
-          <IJTypography addCursor={pathname.startsWith("/blog")}
-            >Blog</IJTypography
-          >
+          <IJTypography addCursor={pathname.startsWith("/blog")}>
+            Blog
+          </IJTypography>
         </a>
       </li>
     </ul>
