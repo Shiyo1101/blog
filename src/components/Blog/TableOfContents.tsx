@@ -150,12 +150,12 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
           aria-expanded={isOpen}
           aria-controls="toc-content"
         >
-          <motion.div
+          <motion.span
             animate={{ rotate: isOpen ? 90 : 0 }}
             transition={{ duration: isTransitioning ? 0 : 0.3 }}
           >
             {isOpen ? <SquareXIcon /> : <TableOfContentsIcon />}
-          </motion.div>
+          </motion.span>
           目次
         </button>
         <AnimatePresence>
