@@ -24,21 +24,27 @@ const TagSearchBar = ({ tags, currentTag }: TagSearchBarProps) => {
   );
 
   return (
-    <Dialog onOpenChange={(open) => !open && setQuery("")}>
+    <Dialog
+      onOpenChange={(open) => {
+        if (!open) {
+          setQuery("");
+        }
+      }}
+    >
       <DialogTrigger
         render={
           <button
             type="button"
             className="mx-auto flex w-full max-w-3xl items-center gap-2 border-2 border-card-foreground bg-card px-3 py-2 text-xs font-bold tracking-wide transition-colors hover:cursor-pointer hover:bg-accent hover:text-accent-foreground"
-          />
+          >
+            <TagIcon size={12} />
+            <span className="font-ichigojam">SEARCH BY TAG</span>
+            <span className="ml-auto font-normal text-muted-foreground">
+              {tags.length}件
+            </span>
+          </button>
         }
-      >
-        <TagIcon size={12} />
-        <span className="font-ichigojam">SEARCH BY TAG</span>
-        <span className="ml-auto font-normal text-muted-foreground">
-          {tags.length}件
-        </span>
-      </DialogTrigger>
+      />
 
       <DialogContent
         showCloseButton={false}
@@ -62,7 +68,6 @@ const TagSearchBar = ({ tags, currentTag }: TagSearchBarProps) => {
               onChange={(e) => setQuery(e.target.value)}
               placeholder="タグを絞り込む..."
               className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-              autoFocus
             />
             {query && (
               <button
