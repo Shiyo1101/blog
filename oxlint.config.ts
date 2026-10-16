@@ -126,10 +126,7 @@ export default defineConfig({
   overrides: [
     {
       // コンポーネントとレイアウトはパスカルケース（shadcn/ui のコンポーネントを除く）
-      files: [
-        "src/components/**/*.{astro,tsx}",
-        "src/layouts/**/*.astro",
-      ],
+      files: ["src/components/**/*.{astro,tsx}", "src/layouts/**/*.astro"],
       rules: {
         "unicorn/filename-case": ["error", { case: "pascalCase" }],
       },
