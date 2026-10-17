@@ -8,6 +8,8 @@ import Typewriter from "@/components/ui/typewriter";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import GridLayout from "@/layouts/GridLayout.astro";
 
+const DESCRIPTION = "すべてのブログ記事一覧です。";
+
 // 下書きを除外してすべてのブログ記事を取得
 const allPosts = await getCollection("blog", ({ data }) => data.draft !== true);
 
@@ -18,18 +20,19 @@ const sortedPosts = allPosts.toSorted(
 );
 ---
 
-<BaseLayout title="ブログ" description="すべてのブログ記事一覧です。">
+<BaseLayout title="ブログ" description={DESCRIPTION}>
   <GridLayout>
-    <div transition:name="blog-list-header">
+    <div class="mb-8 space-y-3" transition:name="blog-list-header">
       <Typewriter
         client:load
         as="h1"
-        className="mb-8 h-8 text-center font-ichigojam text-2xl font-bold md:text-4xl"
+        className="h-10 font-ichigojam text-3xl text-foreground-strong md:h-12 md:text-4xl"
         texts={["Blog List"]}
         delay={500}
       />
+      <p class="text-lg">{DESCRIPTION}</p>
     </div>
-    <div class="mb-8" transition:name="blog-tag-search">
+    <div class="mb-10" transition:name="blog-tag-search">
       <TagSearchBar />
     </div>
     <div transition:name="blog-list-content">

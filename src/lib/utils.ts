@@ -1,5 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { extendTailwindMerge } from "tailwind-merge";
 
 /** 日本語の1分あたりの読了文字数 */
 const JAPANESE_CHARS_PER_MINUTE = 400;
@@ -7,6 +7,18 @@ const JAPANESE_CHARS_PER_MINUTE = 400;
 const ENGLISH_WORDS_PER_MINUTE = 200;
 /** 読了時間の最小値（分） */
 const MIN_READING_MINUTES = 1;
+
+// global.css の @theme で追加した値を登録し、既定の値と同じように上書きできるようにする
+const twMerge = extendTailwindMerge({
+  extend: {
+    theme: {
+      shadow: ["pixel-sm", "pixel-md", "pixel-lg", "focus"],
+      font: ["display", "ichigojam"],
+      ease: ["pixel"],
+      spacing: ["cursor"],
+    },
+  },
+});
 
 export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
 

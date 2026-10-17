@@ -1,15 +1,8 @@
 "use client";
 
-import { SearchIcon, TagIcon, XIcon } from "lucide-react";
-import { useId, useState } from "react";
+import { type KeyboardEvent, useId, useState } from "react";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { tagVariants } from "@/components/ui/tag";
 import { cn } from "@/lib/utils";
 
 type TagSearchBarProps = {
@@ -17,106 +10,98 @@ type TagSearchBarProps = {
   currentTag?: string;
 };
 
+const ALL_POSTS_PATH = "/blog";
+
+const tagPath = (tag: string) => `${ALL_POSTS_PATH}/${tag}`;
+
+/** タグをその場で絞り込み、Enter で先頭のタグのページへ移動する */
 const TagSearchBar = ({ tags, currentTag }: TagSearchBarProps) => {
   const [query, setQuery] = useState("");
-  const searchInputId = useId();
+  const inputId = useId();
+  const helpId = useId();
 
+  const normalizedQuery = query.trim().toLowerCase();
   const filteredTags = tags.filter((tag) =>
-    tag.toLowerCase().includes(query.toLowerCase()),
+    tag.toLowerCase().includes(normalizedQuery),
   );
+  const hasNoMatch = normalizedQuery !== "" && filteredTags.length === 0;
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Escape") {
+      setQuery("");
+      return;
+    }
+    const [firstTag] = filteredTags;
+    if (event.key === "Enter" && normalizedQuery !== "" && firstTag) {
+      globalThis.location.assign(tagPath(firstTag));
+    }
+  };
 
   return (
-    <Dialog
-      onOpenChange={(open) => {
-        if (!open) {
-          setQuery("");
-        }
-      }}
-    >
-      <DialogTrigger
-        render={
-          <button
-            type="button"
-            className="mx-auto flex w-full max-w-3xl items-center gap-2 border-2 border-card-foreground bg-card px-3 py-2 text-xs font-bold tracking-wide transition-colors hover:cursor-pointer hover:bg-accent hover:text-accent-foreground"
-          >
-            <TagIcon size={12} />
-            <span className="font-ichigojam">SEARCH BY TAG</span>
-            <span className="ml-auto font-normal text-muted-foreground">
-              {tags.length}件
-            </span>
-          </button>
-        }
-      />
-
-      <DialogContent
-        showCloseButton={false}
-        className="max-w-md gap-0 rounded-none border-4 border-card-foreground bg-card p-0 shadow-[4px_4px_0_0] max-md:max-w-4/5"
-      >
-        {/* ヘッダー */}
-        <DialogHeader className="gap-0 border-b-2 border-card-foreground bg-primary px-4 py-2">
-          <DialogTitle className="flex items-center gap-2 font-ichigojam text-sm font-bold tracking-widest text-primary-foreground">
-            <TagIcon size={13} />
-            SEARCH BY TAG
-          </DialogTitle>
-        </DialogHeader>
-
-        <div className="space-y-4 p-4">
-          {/* 検索入力 */}
-          <div className="flex items-center gap-2 border-2 border-card-foreground bg-background px-3 py-2">
-            <SearchIcon size={13} className="shrink-0 text-muted-foreground" />
-            <label htmlFor={searchInputId} className="sr-only">
-              タグを絞り込む
-            </label>
-            <input
-              id={searchInputId}
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="タグを絞り込む..."
-              className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground [&::-webkit-search-cancel-button]:hidden"
-            />
-            {query && (
-              <button
-                type="button"
-                onClick={() => setQuery("")}
-                aria-label="クリア"
-              >
-                <XIcon
-                  size={13}
-                  className="text-muted-foreground transition-colors hover:text-foreground"
-                />
-              </button>
-            )}
-          </div>
-
-          {/* タグ一覧 */}
-          {filteredTags.length > 0 ? (
-            <ul className="flex max-h-60 list-none flex-wrap gap-2 overflow-y-auto">
-              {filteredTags.map((tag) => (
-                <li key={tag}>
-                  <a
-                    href={`/blog/${tag}`}
-                    aria-current={currentTag === tag ? "page" : undefined}
-                    className={cn(
-                      "inline-block border border-primary px-2 py-0.5 text-xs transition-colors duration-150",
-                      currentTag === tag
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-primary/20 text-primary hover:bg-primary/40",
-                    )}
-                  >
-                    #{tag}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-xs text-muted-foreground">
-              タグが見つかりません
-            </p>
+    <div className="flex flex-wrap items-start gap-x-8 gap-y-4">
+      <div className="w-full max-w-xs space-y-1.5">
+        <label htmlFor={inputId} className="block font-display text-sm">
+          タグで絞り込む
+        </label>
+        <div
+          className={cn(
+            "flex items-center gap-2 border-2 bg-card px-3 py-2 transition-shadow duration-150 focus-within:shadow-focus hover:shadow-pixel-sm focus-within:hover:shadow-focus",
+            hasNoMatch ? "border-destructive" : "border-border-default",
           )}
+        >
+          <span aria-hidden="true" className="font-ichigojam text-success">
+            &gt;
+          </span>
+          <input
+            id={inputId}
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="キーワードを入力"
+            aria-describedby={helpId}
+            aria-invalid={hasNoMatch || undefined}
+            autoComplete="off"
+            className="min-w-0 flex-1 bg-transparent text-foreground-strong outline-none placeholder:text-muted-foreground [&::-webkit-search-cancel-button]:hidden"
+          />
         </div>
-      </DialogContent>
-    </Dialog>
+        <p
+          id={helpId}
+          aria-live="polite"
+          className={cn(
+            "text-sm",
+            hasNoMatch ? "text-destructive" : "text-muted-foreground",
+          )}
+        >
+          {hasNoMatch
+            ? "⚠ 該当するタグがありません。別のキーワードを試してください。"
+            : "Enter で先頭のタグへ移動 / Esc でクリア"}
+        </p>
+      </div>
+
+      <ul aria-label="タグ一覧" className="flex flex-wrap gap-2 pt-7">
+        <li>
+          <a
+            href={ALL_POSTS_PATH}
+            aria-current={currentTag === undefined ? "page" : undefined}
+            className={tagVariants({ selected: currentTag === undefined })}
+          >
+            {currentTag === undefined ? "✓ すべて" : "すべて"}
+          </a>
+        </li>
+        {filteredTags.map((tag) => (
+          <li key={tag}>
+            <a
+              href={tagPath(tag)}
+              aria-current={currentTag === tag ? "page" : undefined}
+              className={tagVariants({ selected: currentTag === tag })}
+            >
+              {currentTag === tag ? `✓ #${tag}` : `#${tag}`}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

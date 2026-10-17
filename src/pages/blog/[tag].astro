@@ -4,6 +4,7 @@ import { getCollection } from "astro:content";
 import BlogCard from "@/components/Blog/BlogCard.astro";
 import BlogCardWrapper from "@/components/Blog/BlogCardWrapper.astro";
 import TagSearchBar from "@/components/Blog/TagSearchBar.astro";
+import { buttonVariants } from "@/components/ui/button";
 import Typewriter from "@/components/ui/typewriter";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import GridLayout from "@/layouts/GridLayout.astro";
@@ -46,11 +47,11 @@ const { posts } = Astro.props;
     <Typewriter
       client:load
       as="h1"
-      className="mb-8 h-8 text-center font-ichigojam text-4xl font-bold"
+      className="mb-8 h-10 font-ichigojam text-3xl text-foreground-strong md:h-12 md:text-4xl"
       texts={[`Tag:${tag}`]}
       delay={500}
     />
-    <div class="mb-8">
+    <div class="mb-10">
       <TagSearchBar currentTag={tag} />
     </div>
     <BlogCardWrapper>
@@ -58,8 +59,10 @@ const { posts } = Astro.props;
         <BlogCard post={post} />
       ))}
     </BlogCardWrapper>
-    <div class="mt-12 text-center text-primary underline-offset-4 transition-all hover:translate-y-1 hover:underline">
-      <a href="/blog">すべての記事を見る</a>
+    <div class="mt-12 text-center">
+      <a href="/blog" class={buttonVariants({ variant: "secondary" })}>
+        すべての記事を見る ▶
+      </a>
     </div>
   </GridLayout>
 </BaseLayout>

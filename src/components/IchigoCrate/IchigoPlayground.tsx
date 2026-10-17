@@ -1,5 +1,5 @@
 import type { IchigoCrateHandle } from "ichigocrate-react";
-import { PlayIcon, PowerIcon, Undo2Icon, SquareIcon } from "lucide-react";
+import { Play, Power, Stop, Undo } from "pixelarticons/react";
 import { useId, useRef, useState } from "react";
 
 import { IchigoScreen, runProgram } from "./IchigoScreen";
@@ -25,9 +25,9 @@ const IchigoPlayground = ({
   const editorId = useId();
 
   return (
-    <div className="space-y-4 p-4">
+    <div className="space-y-4 p-5">
       <div className="space-y-2">
-        <label htmlFor={editorId} className="block text-sm font-bold">
+        <label htmlFor={editorId} className="block font-display text-sm">
           プログラム
         </label>
         <textarea
@@ -38,7 +38,7 @@ const IchigoPlayground = ({
           spellCheck={false}
           autoCapitalize="characters"
           autoComplete="off"
-          className="w-full resize-y border-2 border-card-foreground bg-background p-3 font-mono text-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+          className="w-full resize-y border-2 border-border bg-screen p-3 font-ichigojam text-base leading-relaxed text-screen-foreground caret-screen-accent outline-none focus-visible:shadow-focus"
         />
       </div>
 
@@ -51,7 +51,7 @@ const IchigoPlayground = ({
             }
           }}
         >
-          <PlayIcon aria-hidden="true" />
+          <Play aria-hidden="true" />
           実行
         </Button>
         <Button
@@ -59,24 +59,24 @@ const IchigoPlayground = ({
           variant="secondary"
           onClick={() => handleRef.current?.break()}
         >
-          <SquareIcon aria-hidden="true" />
+          <Stop aria-hidden="true" />
           停止
         </Button>
         <Button
           size="sm"
-          variant="outline"
+          variant="secondary"
           onClick={() => handleRef.current?.reset()}
         >
-          <PowerIcon aria-hidden="true" />
+          <Power aria-hidden="true" />
           リセット
         </Button>
         <Button
           size="sm"
-          variant="ghost"
+          variant="secondary"
           disabled={code === initialCode}
           onClick={() => setCode(initialCode)}
         >
-          <Undo2Icon aria-hidden="true" />
+          <Undo aria-hidden="true" />
           元のプログラムに戻す
         </Button>
       </div>
