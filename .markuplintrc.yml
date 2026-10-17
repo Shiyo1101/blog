@@ -53,6 +53,9 @@ overrides:
       # ファイル末尾の自己終了コンポーネントが未閉じと誤検知される（astro-parser の不具合）
       # 未閉じのタグは Astro のコンパイラがエラーにするため無効化しても問題ない
       html-standard/no-unclosed-element-at-eof: false
+      # コンポーネント（RetroWindow など）が出力する見出しは静的に解析できず、レベルの飛びと誤検知される
+      # 見出しレベルはビルド後の HTML（dist/**/*.html）で検査する
+      html-standard/heading-levels: false
   "**/*.tsx":
     rules:
       # JSX の props（onClick, className など）はキャメルケースが正しい
