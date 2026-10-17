@@ -32,6 +32,8 @@ export default defineConfig({
   ],
   markdown: {
     shikiConfig: {
+      // 配色は global.css の --astro-code-* でデザイントークンに合わせる
+      theme: "css-variables",
       // ```ichigojam のフェンス記法でも IchigoJam BASIC をハイライトする
       langs: [ichigoJamLanguage],
     },
