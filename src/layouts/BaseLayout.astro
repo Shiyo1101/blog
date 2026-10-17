@@ -131,7 +131,7 @@ const fullImageUrl = new URL(image, Astro.site).href;
     <ClientRouter />
     <slot name="head" />
   </head>
-  <body class="border-4">
+  <body>
     <ClickShatterBlock client:load>
       <Header transition:persist />
       <main transition:animate="fade">

@@ -4,27 +4,40 @@ import { IJTypography } from "@/components/ui/ichigojam";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 
 const { pathname } = Astro.url;
+
+const navItems = [
+  { href: "/", label: "Home", isCurrent: pathname === "/" },
+  { href: "/blog", label: "Blog", isCurrent: pathname.startsWith("/blog") },
+];
 ---
 
 <HeaderMotionWrapper client:load>
-  <nav
-    aria-label="メインナビゲーション"
-    class="flex w-full max-w-4xl items-center justify-start"
-  >
-    <ul class="flex items-center gap-4">
-      <li>
-        <a href="/" class="text-lg font-bold">
-          <IJTypography addCursor={pathname === "/"}>Home</IJTypography>
-        </a>
-      </li>
-      <li>
-        <a href="/blog" class="text-lg font-bold">
-          <IJTypography addCursor={pathname.startsWith("/blog")}>
-            Blog
-          </IJTypography>
-        </a>
-      </li>
-    </ul>
-  </nav>
+  <div class="flex flex-wrap items-center gap-x-8 gap-y-1">
+    <a
+      href="/"
+      class="flex items-center gap-2.5 font-display text-xl text-foreground-strong outline-offset-4"
+    >
+      <span
+        aria-hidden="true"
+        class="size-4 border-2 border-border bg-primary sm:size-5"
+      ></span>
+      Uchii's BLOG
+    </a>
+    <nav aria-label="メインナビゲーション">
+      <ul class="flex items-center gap-4">
+        {navItems.map(({ href, label, isCurrent }) => (
+          <li>
+            <a
+              href={href}
+              aria-current={isCurrent ? "page" : undefined}
+              class="block px-2 py-1 text-foreground transition-colors duration-150 hover:bg-accent aria-[current=page]:text-foreground-strong"
+            >
+              <IJTypography addCursor={isCurrent}>{label}</IJTypography>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
   <ModeToggle client:load />
 </HeaderMotionWrapper>
