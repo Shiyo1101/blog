@@ -60,7 +60,7 @@ const TagSearchBar = ({ tags, currentTag }: TagSearchBarProps) => {
             onKeyDown={handleKeyDown}
             placeholder="キーワードを入力"
             aria-describedby={helpId}
-            aria-invalid={hasNoMatch}
+            aria-invalid={hasNoMatch || undefined}
             autoComplete="off"
             className="min-w-0 flex-1 bg-transparent text-foreground-strong outline-none placeholder:text-muted-foreground [&::-webkit-search-cancel-button]:hidden"
           />
