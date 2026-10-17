@@ -1,12 +1,13 @@
 ---
 import { Image } from "astro:assets";
 import { type CollectionEntry, render } from "astro:content";
-import { CalendarDaysIcon, TagIcon, TimerIcon } from "lucide-react";
+import { CalendarDaysIcon, TimerIcon } from "lucide-react";
 
 import AuthorInfo from "@/components/Blog/AuthorInfo.astro";
 import Breadcrumb from "@/components/Blog/Breadcrumb.astro";
 import ShareButtons from "@/components/Blog/ShareButtons.astro";
 import TableOfContents from "@/components/Blog/TableOfContents";
+import { tagVariants } from "@/components/ui/tag";
 import { calculateReadingTime, formatDate } from "@/lib/utils";
 
 type Props = {
@@ -18,7 +19,7 @@ const { Content, headings } = await render(post);
 const readingTime = calculateReadingTime(post.body ?? "");
 ---
 
-<div class="px-2 py-6 md:py-12">
+<div class="container mx-auto px-4 py-8 sm:px-10 md:py-12">
   <Breadcrumb
     items={[
       { name: "ホーム", url: "/" },
@@ -26,7 +27,7 @@ const readingTime = calculateReadingTime(post.body ?? "");
       { name: post.data.title, url: `/blog/${post.id}` },
     ]}
   />
-  <div class="grid grid-cols-12 gap-8 md:px-8">
+  <div class="grid grid-cols-12 gap-8">
     {/* SNS共有ボタン - PC左サイド */}
     <aside aria-label="記事の共有" class="hidden md:col-span-2 md:block">
       <div class="sticky top-20">
@@ -37,43 +38,42 @@ const readingTime = calculateReadingTime(post.body ?? "");
     {/* 記事コンテンツ */}
     <div class="col-span-12 md:col-span-7">
       <article class="prose prose-retro max-w-none prose-p:text-justify">
+        {post.data.tags && post.data.tags.length > 0 && (
+          <ul aria-label="タグ" class="not-prose mb-4 flex flex-wrap gap-2">
+            {post.data.tags.map((tag) => (
+              <li>
+                <a href={`/blog/${tag}`} class={tagVariants()}>
+                  #{tag}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+
         <h1
-          class="border-b-4 pb-2 text-3xl"
+          class="mb-3 text-3xl md:text-4xl"
           transition:name={`blog-title-${post.id}`}
         >
           {post.data.title}
         </h1>
 
-        <div class="flex items-center justify-between gap-4 text-muted-foreground">
-          <div class="flex items-center gap-2">
-            <CalendarDaysIcon size={16} />
+        <div class="not-prose flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
+          <div class="flex items-center gap-1.5">
+            <CalendarDaysIcon size={16} aria-hidden="true" />
             <time datetime={post.data.pubDate.toISOString()}>
               {formatDate(post.data.pubDate)}
             </time>
           </div>
-          <div class="flex items-center gap-1">
-            <TimerIcon size={16} />約{readingTime}分で読めます
+          <div class="flex items-center gap-1.5">
+            <TimerIcon size={16} aria-hidden="true" />約{readingTime}
+            分で読めます
           </div>
         </div>
-
-        {post.data.tags && post.data.tags.length > 0 && (
-          <div class="not-prose mt-3 flex flex-wrap items-center gap-2">
-            <TagIcon size={14} className="shrink-0 text-muted-foreground" />
-            {post.data.tags.map((tag) => (
-              <a
-                href={`/blog/${tag}`}
-                class="inline-block border border-primary bg-primary/20 px-1 py-0.5 text-xs text-primary transition-colors duration-150 hover:bg-primary/40"
-              >
-                #{tag}
-              </a>
-            ))}
-          </div>
-        )}
 
         {post.data.topImage && (
           <figure transition:name={`blog-image-${post.id}`}>
             <Image
-              class="mb-8 h-auto w-full rounded-lg"
+              class="mb-8 h-auto w-full"
               src={post.data.topImage}
               alt={post.data.title}
               width={1280}
@@ -101,7 +101,7 @@ const readingTime = calculateReadingTime(post.body ?? "");
 
       <AuthorInfo />
 
-      <div class="mt-8 border-4 border-card-foreground bg-card p-6 sm:shadow-[8px_8px_0_0] md:hidden">
+      <div class="mt-8 border-2 border-border bg-card p-5 shadow-pixel-md md:hidden">
         <div class="flex flex-wrap items-center gap-4">
           <ShareButtons title={post.data.title} slug={post.id} />
         </div>
@@ -109,7 +109,7 @@ const readingTime = calculateReadingTime(post.body ?? "");
     </div>
     {/* 目次 - PC右サイド */}
     <aside aria-label="目次" class="hidden md:col-span-3 md:block">
-      <div class="sticky top-20 space-y-4">
+      <div class="h-full">
         <TableOfContents client:load headings={headings} />
       </div>
     </aside>
