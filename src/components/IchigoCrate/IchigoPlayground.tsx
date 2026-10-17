@@ -1,5 +1,5 @@
 import type { IchigoCrateHandle } from "ichigocrate-react";
-import { PlayIcon, PowerIcon, Undo2Icon, SquareIcon } from "lucide-react";
+import { Play, Power, Stop, Undo } from "pixelarticons/react";
 import { useId, useRef, useState } from "react";
 
 import { IchigoScreen, runProgram } from "./IchigoScreen";
@@ -51,7 +51,7 @@ const IchigoPlayground = ({
             }
           }}
         >
-          <PlayIcon aria-hidden="true" />
+          <Play aria-hidden="true" />
           実行
         </Button>
         <Button
@@ -59,7 +59,7 @@ const IchigoPlayground = ({
           variant="secondary"
           onClick={() => handleRef.current?.break()}
         >
-          <SquareIcon aria-hidden="true" />
+          <Stop aria-hidden="true" />
           停止
         </Button>
         <Button
@@ -67,7 +67,7 @@ const IchigoPlayground = ({
           variant="secondary"
           onClick={() => handleRef.current?.reset()}
         >
-          <PowerIcon aria-hidden="true" />
+          <Power aria-hidden="true" />
           リセット
         </Button>
         <Button
@@ -76,7 +76,7 @@ const IchigoPlayground = ({
           disabled={code === initialCode}
           onClick={() => setCode(initialCode)}
         >
-          <Undo2Icon aria-hidden="true" />
+          <Undo aria-hidden="true" />
           元のプログラムに戻す
         </Button>
       </div>

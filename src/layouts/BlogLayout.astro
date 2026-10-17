@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { type CollectionEntry, render } from "astro:content";
-import { CalendarDaysIcon, TimerIcon } from "lucide-react";
+import { Calendar, Clock } from "pixelarticons/react";
 
 import AuthorInfo from "@/components/Blog/AuthorInfo.astro";
 import Breadcrumb from "@/components/Blog/Breadcrumb.astro";
@@ -59,13 +59,13 @@ const readingTime = calculateReadingTime(post.body ?? "");
 
         <div class="not-prose flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
           <div class="flex items-center gap-1.5">
-            <CalendarDaysIcon size={16} aria-hidden="true" />
+            <Calendar className="size-6" aria-hidden="true" />
             <time datetime={post.data.pubDate.toISOString()}>
               {formatDate(post.data.pubDate)}
             </time>
           </div>
           <div class="flex items-center gap-1.5">
-            <TimerIcon size={16} aria-hidden="true" />約{readingTime}
+            <Clock className="size-6" aria-hidden="true" />約{readingTime}
             分で読めます
           </div>
         </div>

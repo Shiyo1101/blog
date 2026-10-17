@@ -1,5 +1,5 @@
 import type { IchigoCrateHandle } from "ichigocrate-react";
-import { PlayIcon, RotateCcwIcon, SquareIcon, XIcon } from "lucide-react";
+import { Close, Play, Reload, Stop } from "pixelarticons/react";
 import { useEffect, useId, useRef, useState } from "react";
 
 import { IchigoScreen, runProgram } from "./IchigoScreen";
@@ -53,7 +53,7 @@ const IchigoCodeRunner = ({ code, title }: IchigoCodeRunnerProps) => {
             aria-controls={screenId}
             onClick={() => toggle(true)}
           >
-            <PlayIcon aria-hidden="true" />
+            <Play aria-hidden="true" />
             実行
           </Button>
         </div>
@@ -77,7 +77,7 @@ const IchigoCodeRunner = ({ code, title }: IchigoCodeRunnerProps) => {
                   }
                 }}
               >
-                <RotateCcwIcon aria-hidden="true" />
+                <Reload aria-hidden="true" />
                 最初から実行
               </Button>
               <Button
@@ -85,7 +85,7 @@ const IchigoCodeRunner = ({ code, title }: IchigoCodeRunnerProps) => {
                 variant="secondary"
                 onClick={() => handleRef.current?.break()}
               >
-                <SquareIcon aria-hidden="true" />
+                <Stop aria-hidden="true" />
                 停止
               </Button>
               <Button
@@ -95,7 +95,7 @@ const IchigoCodeRunner = ({ code, title }: IchigoCodeRunnerProps) => {
                 aria-controls={screenId}
                 onClick={() => toggle(false)}
               >
-                <XIcon aria-hidden="true" />
+                <Close aria-hidden="true" />
                 閉じる
               </Button>
             </div>

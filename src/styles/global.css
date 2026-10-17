@@ -291,6 +291,11 @@
     scrollbar-color: var(--border-default) var(--background);
   }
 
+  /* ドット絵のアイコン（pixelarticons）を拡大・縮小してもにじませない */
+  svg {
+    shape-rendering: crispEdges;
+  }
+
   /* 点滅は 5 秒を超えて続くため、動きを減らす設定ではカーソルを表示したまま止める */
   @media (prefers-reduced-motion: reduce) {
     .animate-blink {

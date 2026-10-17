@@ -1,7 +1,7 @@
 "use client";
 
-import { BookOpenTextIcon } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
+import { BookOpen } from "pixelarticons/react";
 import { useState } from "react";
 
 import { IJCharacter } from "@/components/ui/ichigojam";
@@ -55,7 +55,7 @@ const AuthorCard = () => {
       </div>
       <div className="mt-5 space-y-1.5 bg-muted p-3">
         <p className="flex items-center gap-1.5 font-display text-sm text-muted-foreground">
-          <BookOpenTextIcon size={16} aria-hidden="true" />
+          <BookOpen className="size-6" aria-hidden="true" />
           書籍
         </p>
         <p className="text-foreground-strong">

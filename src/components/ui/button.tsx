@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 // ドット影のボタン。ホバーで浮き上がり、押下で影の分だけ沈む
 const buttonVariants = cva(
-  "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 border-2 border-border font-display whitespace-nowrap shadow-pixel-md transition-[translate,box-shadow,background-color] duration-150 ease-pixel outline-none hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-pixel-lg focus-visible:shadow-focus active:translate-x-1 active:translate-y-1 active:shadow-none disabled:pointer-events-none disabled:opacity-48 disabled:shadow-none aria-invalid:border-destructive motion-reduce:transition-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 border-2 border-border font-display whitespace-nowrap shadow-pixel-md transition-[translate,box-shadow,background-color] duration-150 ease-pixel outline-none hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-pixel-lg focus-visible:shadow-focus active:translate-x-1 active:translate-y-1 active:shadow-none disabled:pointer-events-none disabled:opacity-48 disabled:shadow-none aria-invalid:border-destructive motion-reduce:transition-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-6",
   {
     variants: {
       variant: {
