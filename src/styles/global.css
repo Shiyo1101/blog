@@ -385,7 +385,11 @@
   }
 
   /* ```ichigojam のコードは IchigoJam フォントで表示する */
-  & :where(pre[data-language="ichigojam"]):not(:where(.not-prose *)) {
+  &
+    :where(
+      pre[data-language="ichigojam"],
+      pre[data-language="ichigojam"] code
+    ):not(:where(.not-prose *)) {
     font-family: var(--font-ichigojam);
   }
 
