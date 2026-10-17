@@ -26,6 +26,8 @@ type IchigoScreenProps = {
   defaultProgram?: string;
   /** 起動時にプログラムを実行するか */
   autoRun?: boolean;
+  /** 起動時にキーボードから打ち込むように実行するコマンド（例: PRINT "HI"） */
+  startupCommand?: string;
   /** 外部から操作できるようになったときに呼ばれる（画面を表示するだけなら不要） */
   onReady?: (handle: IchigoCrateHandle) => void;
 };
@@ -35,35 +37,46 @@ export const IchigoScreen = ({
   label,
   defaultProgram,
   autoRun = false,
+  startupCommand,
   onReady,
-}: IchigoScreenProps) => (
-  <div className="space-y-2">
-    <Suspense
-      fallback={
-        <div
-          className="flex w-full items-center justify-center bg-screen font-ichigojam text-base text-screen-foreground"
-          style={{ aspectRatio: SCREEN_ASPECT_RATIO }}
-        >
-          LOADING...
-        </div>
-      }
-    >
-      <IchigoCrate
-        aria-label={label}
-        defaultProgram={defaultProgram}
-        autoRun={autoRun}
-        onReady={onReady}
-        persist={false}
-        captureTab={false}
-        style={SCREEN_STYLE}
-      />
-    </Suspense>
-    <p className="text-sm text-muted-foreground">
-      画面をクリックするとキーボードで入力できます（Esc で停止、Tab
-      で画面の外へ移動）
-    </p>
-  </div>
-);
+}: IchigoScreenProps) => {
+  const handleReady = (handle: IchigoCrateHandle) => {
+    if (startupCommand !== undefined) {
+      // 改行で確定させ、実機で打ち込んだときと同じくコマンドと結果を画面に残す
+      handle.type(`${startupCommand}\n`);
+    }
+    onReady?.(handle);
+  };
+
+  return (
+    <div className="space-y-2">
+      <Suspense
+        fallback={
+          <div
+            className="flex w-full items-center justify-center bg-screen font-ichigojam text-base text-screen-foreground"
+            style={{ aspectRatio: SCREEN_ASPECT_RATIO }}
+          >
+            LOADING...
+          </div>
+        }
+      >
+        <IchigoCrate
+          aria-label={label}
+          defaultProgram={defaultProgram}
+          autoRun={autoRun}
+          onReady={handleReady}
+          persist={false}
+          captureTab={false}
+          style={SCREEN_STYLE}
+        />
+      </Suspense>
+      <p className="text-sm text-muted-foreground">
+        画面をクリックするとキーボードで入力できます（Esc で停止、Tab
+        で画面の外へ移動）
+      </p>
+    </div>
+  );
+};
 
 /** 実行中のプログラムを止め、画面とプログラムを初期化してから code を実行する */
 export const runProgram = (handle: IchigoCrateHandle, code: string) => {
