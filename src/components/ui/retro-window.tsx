@@ -10,6 +10,8 @@ type RetroWindowProps = {
   className?: ClassValue;
   /** 本文の余白などを調整するクラス */
   bodyClassName?: ClassValue;
+  /** 外側の要素。目次などナビゲーションには nav を使う */
+  as?: "section" | "nav" | "aside";
 };
 
 /** ゲームのウィンドウ風の枠（STATUS / SELECT POST / MAP など） */
@@ -18,11 +20,12 @@ export const RetroWindow = ({
   children,
   className,
   bodyClassName,
+  as: Component = "section",
 }: RetroWindowProps) => {
   const titleId = useId();
 
   return (
-    <section
+    <Component
       aria-labelledby={titleId}
       className={cn(
         "border-2 border-border bg-card text-card-foreground shadow-pixel-md",
@@ -36,6 +39,6 @@ export const RetroWindow = ({
         {title}
       </h2>
       <div className={cn("p-5", bodyClassName)}>{children}</div>
-    </section>
+    </Component>
   );
 };
