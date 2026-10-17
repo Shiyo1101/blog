@@ -1,0 +1,3 @@
+pnpm exec lint-staged
+# 型はファイル単位では判定できないため、プロジェクト全体を検査する
+pnpm typecheck

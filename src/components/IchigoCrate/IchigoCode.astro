@@ -1,0 +1,29 @@
+---
+import { Code } from "astro:components";
+
+import IchigoCodeRunner from "./IchigoCodeRunner";
+import { ichigoJamLanguage } from "@/lib/ichigojam-language";
+
+type Props = {
+  /** 表示・実行する IchigoJam BASIC のプログラム */
+  code: string;
+  /** コードブロックの見出し */
+  title?: string;
+};
+
+const { code, title = "IchigoJam BASIC" } = Astro.props;
+const program = code.trim();
+---
+
+<figure class="not-prose my-6 grid grid-cols-[1fr_auto] border-2 border-border bg-screen shadow-pixel-md">
+  <figcaption class="col-span-full row-start-1 flex min-h-13 items-center border-b-2 border-border bg-card px-4 py-2 font-ichigojam text-sm text-card-foreground">
+    {title}
+  </figcaption>
+  <Code
+    code={program}
+    lang={ichigoJamLanguage}
+    theme="css-variables"
+    class="col-span-full row-start-2 m-0 p-4 font-ichigojam text-base leading-relaxed [&_code]:font-ichigojam"
+  />
+  <IchigoCodeRunner client:visible code={program} title={title} />
+</figure>

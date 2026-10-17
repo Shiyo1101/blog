@@ -2,37 +2,60 @@
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 
+import { tagVariants } from "@/components/ui/tag";
+import { formatDate } from "@/lib/utils";
+
 type Props = {
   post: CollectionEntry<"blog">;
 };
 
+/** カードに表示するタグの最大数 */
+const MAX_TAGS = 2;
+
 const { post } = Astro.props;
 ---
 
-<div class="group relative" transition:name={`blog-card-${post.id}`}>
-  <a
-    href={`/blog/${post.id}`}
-    class="flex w-full flex-col gap-4 rounded-lg border-4 border-card-foreground bg-card p-4 transition-all duration-200 ease-in-out hover:translate-y-1.25 hover:shadow-none sm:shadow-[8px_8px_0_0]"
-    data-astro-prefetch="hover"
-  >
-    <div class="aspect-video overflow-hidden rounded-md bg-background">
-      <Image
-        class="h-full w-full object-cover"
-        src={post.data.topImage}
-        alt={post.data.title}
-        width={640}
-        height={360}
-        transition:name={`blog-image-${post.id}`}
-      />
-    </div>
-    <div class="flex flex-col p-4">
-      <h2
-        class="mb-2 text-xl font-bold"
-        transition:name={`blog-title-${post.id}`}
+<article
+  class="group relative flex flex-col border-2 border-border bg-card shadow-pixel-md transition-[translate,box-shadow] duration-150 ease-pixel focus-within:shadow-focus hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-pixel-lg motion-reduce:transition-none"
+  transition:name={`blog-card-${post.id}`}
+>
+  <div class="aspect-video overflow-hidden border-b-2 border-border bg-inset">
+    <Image
+      class="h-full w-full object-cover"
+      src={post.data.topImage}
+      alt=""
+      width={640}
+      height={360}
+      transition:name={`blog-image-${post.id}`}
+    />
+  </div>
+  <div class="flex flex-1 flex-col gap-3 p-4">
+    <time
+      datetime={post.data.pubDate.toISOString()}
+      class="text-sm text-muted-foreground"
+    >
+      {formatDate(post.data.pubDate)}
+    </time>
+    <h2
+      class="font-display text-xl text-foreground-strong"
+      transition:name={`blog-title-${post.id}`}
+    >
+      {/* カード全体をクリックできるよう、リンクの範囲をカードいっぱいに広げる */}
+      <a
+        href={`/blog/${post.id}`}
+        class="outline-none group-hover:text-link group-hover:underline group-hover:underline-offset-4 after:absolute after:inset-0"
+        data-astro-prefetch="hover"
       >
         {post.data.title}
-      </h2>
-      <p class="text-foreground">{post.data.description}</p>
-    </div>
-  </a>
-</div>
+      </a>
+    </h2>
+    <p class="text-sm text-muted-foreground">{post.data.description}</p>
+    {post.data.tags && post.data.tags.length > 0 && (
+      <ul aria-label="タグ" class="mt-auto flex flex-wrap gap-2 pt-1">
+        {post.data.tags.slice(0, MAX_TAGS).map((tag) => (
+          <li class={tagVariants()}>#{tag}</li>
+        ))}
+      </ul>
+    )}
+  </div>
+</article>

@@ -1,0 +1,29 @@
+---
+import IchigoPlaygroundReact from "./IchigoPlayground";
+
+type Props = {
+  /** エディタに最初に表示する IchigoJam BASIC のプログラム */
+  code: string;
+  /** プレイグラウンドの見出し */
+  title?: string;
+  /** 表示時にプログラムを実行するか */
+  autoRun?: boolean;
+};
+
+const { code, title = "IchigoJam BASIC Playground", autoRun } = Astro.props;
+---
+
+<section
+  aria-label={title}
+  class="not-prose my-6 border-2 border-border bg-card shadow-pixel-md"
+>
+  <p class="inline-block bg-border px-3 py-1.5 font-ichigojam text-sm text-background">
+    {title}
+  </p>
+  <IchigoPlaygroundReact
+    client:visible
+    code={code.trim()}
+    title={title}
+    autoRun={autoRun}
+  />
+</section>

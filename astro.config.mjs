@@ -6,6 +6,8 @@ import tailwindcss from "@tailwindcss/vite";
 import robotsTxt from "astro-robots-txt";
 import { defineConfig } from "astro/config";
 
+import { ichigoJamLanguage } from "./src/lib/ichigojam-language";
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
@@ -28,5 +30,13 @@ export default defineConfig({
       host: "uchii-blog.netlify.app",
     }),
   ],
+  markdown: {
+    shikiConfig: {
+      // 配色は global.css の --astro-code-* でデザイントークンに合わせる
+      theme: "css-variables",
+      // ```ichigojam のフェンス記法でも IchigoJam BASIC をハイライトする
+      langs: [ichigoJamLanguage],
+    },
+  },
   site: "https://uchii-blog.netlify.app",
 });

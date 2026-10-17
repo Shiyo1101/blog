@@ -1,7 +1,15 @@
 "use client";
 
-import { motion, useMotionValueEvent, useScroll } from "motion/react";
+import {
+  motion,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+} from "motion/react";
 import { useRef, useState } from "react";
+
+/** ヘッダーの表示・非表示の切り替え時間（秒）。トークンの duration.base（240ms）に合わせる */
+const HEADER_TRANSITION_SECONDS = 0.24;
 
 type Props = {
   children: React.ReactNode;
@@ -9,6 +17,7 @@ type Props = {
 
 const HeaderMotionWrapper = ({ children }: Props) => {
   const { scrollY } = useScroll();
+  const prefersReducedMotion = useReducedMotion() === true;
   const [hidden, setHidden] = useState(false);
   const lastScrollY = useRef(0);
 
@@ -32,10 +41,13 @@ const HeaderMotionWrapper = ({ children }: Props) => {
 
   return (
     <motion.header
-      className="sticky top-0 z-50 flex h-16 w-full items-center justify-between bg-background/70 px-4 py-2 ring-4 ring-border backdrop-blur-sm"
+      className="sticky top-0 z-50 flex min-h-16 w-full items-center justify-between gap-4 border-b-4 border-border bg-background px-4 py-3 sm:px-10"
       variants={headerVariants}
       animate={hidden ? "hidden" : "visible"}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
+      transition={{
+        duration: prefersReducedMotion ? 0 : HEADER_TRANSITION_SECONDS,
+        ease: "easeOut",
+      }}
     >
       {children}
     </motion.header>

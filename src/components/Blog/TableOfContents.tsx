@@ -1,9 +1,11 @@
 "use client";
 
 import type { MarkdownHeading } from "astro";
-import { List, SquareXIcon, TableOfContentsIcon } from "lucide-react";
 import { AnimatePresence, motion, stagger, type Variants } from "motion/react";
 import { useEffect, useId, useState, useSyncExternalStore } from "react";
+
+import { RetroWindow } from "@/components/ui/retro-window";
+import { cn } from "@/lib/utils";
 
 type TocProps = {
   headings: MarkdownHeading[];
@@ -92,7 +94,6 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
   );
   const [isOpen, setIsOpen] = useState(false);
   const contentId = useId();
-  const headingId = useId();
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   // ViewTransitionの検知
@@ -119,29 +120,37 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
 
   const renderHeadings = () => (
     <motion.ul
-      className="not-prose list-none space-y-2 pl-2 text-foreground"
+      className="not-prose list-none space-y-0.5"
       variants={retroMenuVariants}
     >
       {filteredHeadings.map((heading) => {
         const isActive = activeId === `#${heading.slug}`;
-        const linkClasses = `block py-1 transition-colors no-underline ${
-          isActive
-            ? "font-bold text-accent border-l-4 border-accent pl-2 -ml-2 bg-accent/10"
-            : "hover:text-accent hover:pl-2 hover:-ml-2"
-        }`;
-        const marginLeftClass = heading.depth > MIN_TOC_DEPTH ? "ml-4" : "";
 
         return (
           <motion.li
             key={heading.slug}
-            className={`${marginLeftClass} list-none`}
+            className={cn("list-none", heading.depth > MIN_TOC_DEPTH && "ml-4")}
             variants={retroListItemVariants}
           >
             <a
               href={`#${heading.slug}`}
-              className={linkClasses}
+              className={cn(
+                "group flex items-start gap-2 px-2 py-1.5 text-sm transition-colors duration-150 hover:bg-inset",
+                isActive
+                  ? "bg-inset text-foreground-strong"
+                  : "text-muted-foreground hover:text-foreground-strong",
+              )}
               aria-current={isActive ? "location" : undefined}
             >
+              <span
+                aria-hidden="true"
+                className={cn(
+                  "font-display text-success",
+                  !isActive && "opacity-0",
+                )}
+              >
+                ▶
+              </span>
               {heading.text}
             </a>
           </motion.li>
@@ -152,27 +161,27 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
 
   if (isMobile) {
     return (
-      <div className="overflow-hidden border-2 bg-card">
+      <div>
         <button
           type="button"
-          className="flex w-full cursor-pointer items-center gap-2 border-b-2 p-4 text-lg font-bold text-secondary transition-colors hover:bg-accent/10"
+          className="flex w-full cursor-pointer items-center justify-between gap-2 border-2 border-border bg-card px-4 py-3 font-display shadow-pixel-sm transition-colors duration-150 hover:bg-secondary-hover"
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
           aria-controls={contentId}
         >
+          {isOpen ? "MAP — 目次を閉じる" : "MAP — 目次を開く"}
           <motion.span
-            animate={{ rotate: isOpen ? 90 : 0 }}
-            transition={{ duration: isTransitioning ? 0 : 0.3 }}
+            animate={{ rotate: isOpen ? 180 : 0 }}
+            transition={{ duration: isTransitioning ? 0 : 0.24 }}
           >
-            {isOpen ? <SquareXIcon /> : <TableOfContentsIcon />}
+            ▼
           </motion.span>
-          目次
         </button>
         <div id={contentId}>
           <AnimatePresence>
             {isOpen && (
               <motion.div
-                className="p-4"
+                className="mt-2 border-2 border-border bg-card p-2"
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
@@ -189,18 +198,14 @@ const TableOfContents = ({ headings, isMobile = false }: TocProps) => {
   }
 
   return (
-    <nav className="sticky top-20" aria-labelledby={headingId}>
-      <div className="border-2 bg-card p-4">
-        <h2
-          id={headingId}
-          className="mb-4 flex items-center gap-2 border-b-2 pb-2 text-lg font-bold text-secondary"
-        >
-          <List size={20} />
-          目次
-        </h2>
-        {renderHeadings()}
-      </div>
-    </nav>
+    <RetroWindow
+      as="nav"
+      title="MAP"
+      className="sticky top-24"
+      bodyClassName="p-2"
+    >
+      {renderHeadings()}
+    </RetroWindow>
   );
 };
 

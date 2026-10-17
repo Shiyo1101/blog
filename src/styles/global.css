@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tailwindcss-animated";
 @import "tw-animate-css";
+@import "@fontsource/dotgothic16";
+@import "@fontsource-variable/m-plus-1";
 
 @custom-variant dark (&:is(.dark *));
 @plugin "@tailwindcss/typography";
@@ -14,166 +16,209 @@
   font-display: block;
 }
 
+/*
+ * デザイントークン（Penpot の「00 Tokens」と対応）
+ * primitive: 色の段階。直接は使わず、下の semantic から参照する
+ */
 :root {
-  --background: oklch(0.9735 0.0261 90.0953);
-  --foreground: oklch(0.3092 0.0518 219.6516);
-  --card: oklch(0.9615 0.0372 97.0794);
-  --card-foreground: oklch(0.3092 0.0518 219.6516);
-  --popover: oklch(0.9306 0.026 92.402);
-  --popover-foreground: oklch(0.3092 0.0518 219.6516);
-  --primary: oklch(0.7606 0.1934 145.3308);
-  --primary-foreground: oklch(0.3668 0.0041 17.3444);
-  --secondary: oklch(0.7463 0.1592 307.5139);
-  --secondary-foreground: oklch(0.3668 0.0041 17.3444);
-  --muted: oklch(0.6979 0.0159 196.794);
-  --muted-foreground: oklch(0.3092 0.0518 219.6516);
-  --accent: oklch(0.747 0.1381 238.6555);
-  --accent-foreground: oklch(0.3668 0.0041 17.3444);
-  --destructive: oklch(63.873% 0.24681 27.968);
-  --destructive-foreground: oklch(0.3668 0.0041 17.3444);
-  --border: oklch(0.6537 0.0197 205.2618);
-  --input: oklch(0.6537 0.0197 205.2618);
-  --ring: oklch(0.7606 0.1934 145.3308);
-  --chart-1: oklch(0.6149 0.1394 244.9273);
-  --chart-2: oklch(0.6437 0.1019 187.384);
-  --chart-3: oklch(0.5924 0.2025 355.8943);
-  --chart-4: oklch(0.5808 0.1732 39.5003);
-  --chart-5: oklch(0.5863 0.2064 27.1172);
-  --sidebar: oklch(0.9735 0.0261 90.0953);
-  --sidebar-foreground: oklch(0.3092 0.0518 219.6516);
-  --sidebar-primary: oklch(0.5924 0.2025 355.8943);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.6437 0.1019 187.384);
-  --sidebar-accent-foreground: oklch(1 0 0);
-  --sidebar-border: oklch(0.6537 0.0197 205.2618);
-  --sidebar-ring: oklch(0.5924 0.2025 355.8943);
+  --palette-cream-50: oklch(0.985 0.012 90);
+  --palette-cream-100: oklch(0.9735 0.0261 90);
+  --palette-cream-200: oklch(0.9615 0.0372 97);
+  --palette-cream-300: oklch(0.93 0.04 92);
+  --palette-cream-400: oklch(0.87 0.045 90);
+  --palette-teal-200: oklch(0.84 0.018 205);
+  --palette-teal-300: oklch(0.7 0.022 205);
+  --palette-teal-400: oklch(0.58 0.03 212);
+  --palette-teal-500: oklch(0.48 0.04 218);
+  --palette-teal-600: oklch(0.39 0.05 219);
+  --palette-teal-700: oklch(0.3092 0.0518 220);
+  --palette-teal-800: oklch(0.2673 0.0486 220);
+  --palette-teal-900: oklch(0.22 0.042 222);
+  --palette-teal-950: oklch(0.18 0.035 224);
+  --palette-green-200: oklch(0.92 0.08 145);
+  --palette-green-300: oklch(0.84 0.16 145);
+  --palette-green-400: oklch(0.7606 0.1934 145);
+  --palette-green-500: oklch(0.68 0.19 145);
+  --palette-green-600: oklch(0.5939 0.189 144);
+  --palette-green-700: oklch(0.48 0.15 145);
+  --palette-purple-200: oklch(0.92 0.04 307);
+  --palette-purple-300: oklch(0.84 0.1 307);
+  --palette-purple-400: oklch(0.7463 0.1592 307);
+  --palette-purple-600: oklch(0.5127 0.1549 307);
+  --palette-purple-700: oklch(0.42 0.13 307);
+  --palette-blue-200: oklch(0.92 0.04 238);
+  --palette-blue-300: oklch(0.84 0.09 238);
+  --palette-blue-400: oklch(0.747 0.1381 238);
+  --palette-blue-600: oklch(0.5672 0.1239 241);
+  --palette-blue-700: oklch(0.46 0.1 242);
+  --palette-red-300: oklch(0.8 0.11 28);
+  --palette-red-400: oklch(0.72 0.17 28);
+  --palette-red-600: oklch(0.5269 0.2134 29);
+  --palette-yellow-400: oklch(0.86 0.16 90);
+
+  /* semantic（Light） */
+  --background: var(--palette-cream-100);
+  --foreground: var(--palette-teal-700);
+  --foreground-strong: var(--palette-teal-900);
+  --card: var(--palette-cream-50);
+  --card-foreground: var(--palette-teal-700);
+  --popover: var(--palette-cream-50);
+  --popover-foreground: var(--palette-teal-700);
+  --primary: var(--palette-green-400);
+  --primary-hover: var(--palette-green-300);
+  --primary-pressed: var(--palette-green-500);
+  --primary-foreground: var(--palette-teal-900);
+  --secondary: var(--palette-cream-50);
+  --secondary-hover: var(--palette-cream-300);
+  --secondary-foreground: var(--palette-teal-700);
+  --muted: var(--palette-cream-200);
+  --muted-foreground: var(--palette-teal-500);
+  --inset: var(--palette-cream-300);
+  --accent: var(--palette-blue-200);
+  --accent-foreground: var(--palette-teal-700);
+  --destructive: var(--palette-red-600);
+  --destructive-foreground: var(--palette-cream-50);
+  --border: var(--palette-teal-700);
+  --border-default: var(--palette-teal-400);
+  --border-subtle: var(--palette-teal-200);
+  --input: var(--palette-teal-400);
+  --ring: var(--palette-blue-600);
+  --link: var(--palette-blue-700);
+  --indicator: var(--palette-green-600);
+  --success: var(--palette-green-700);
+  --highlight: var(--palette-yellow-400);
+  --tag: var(--palette-purple-200);
+  --tag-foreground: var(--palette-purple-700);
+  --tag-border: var(--palette-purple-600);
+  --screen: var(--palette-teal-950);
+  --screen-foreground: var(--palette-cream-100);
+  --screen-accent: var(--palette-green-400);
+  --code-keyword: var(--palette-blue-300);
+  --code-statement: var(--palette-purple-300);
+  --code-number: var(--palette-yellow-400);
+  --code-string: var(--palette-green-300);
+  --code-comment: var(--palette-teal-300);
+  --code-line-number: var(--palette-green-400);
+  --shadow-color: var(--palette-teal-800);
+
+  /* Shiki（css-variables テーマ）のコード配色。画面と同じくライト・ダークで共通 */
+  --astro-code-foreground: var(--screen-foreground);
+  --astro-code-background: var(--screen);
+  --astro-code-token-constant: var(--code-number);
+  --astro-code-token-string: var(--code-string);
+  --astro-code-token-string-expression: var(--code-string);
+  --astro-code-token-comment: var(--code-comment);
+  --astro-code-token-keyword: var(--code-keyword);
+  --astro-code-token-parameter: var(--screen-foreground);
+  --astro-code-token-function: var(--code-statement);
+  --astro-code-token-punctuation: var(--screen-foreground);
+  --astro-code-token-link: var(--code-keyword);
+
   --radius: 0rem;
-  --shadow-2xs: 2px 2px 4px 0px hsl(196 83% 10% / 0.07);
-  --shadow-xs: 2px 2px 4px 0px hsl(196 83% 10% / 0.07);
-  --shadow-sm:
-    2px 2px 4px 0px hsl(196 83% 10% / 0.15),
-    2px 1px 2px -1px hsl(196 83% 10% / 0.15);
-  --shadow:
-    2px 2px 4px 0px hsl(196 83% 10% / 0.15),
-    2px 1px 2px -1px hsl(196 83% 10% / 0.15);
-  --shadow-md:
-    2px 2px 4px 0px hsl(196 83% 10% / 0.15),
-    2px 2px 4px -1px hsl(196 83% 10% / 0.15);
-  --shadow-lg:
-    2px 2px 4px 0px hsl(196 83% 10% / 0.15),
-    2px 4px 6px -1px hsl(196 83% 10% / 0.15);
-  --shadow-xl:
-    2px 2px 4px 0px hsl(196 83% 10% / 0.15),
-    2px 8px 10px -1px hsl(196 83% 10% / 0.15);
-  --shadow-2xl: 2px 2px 4px 0px hsl(196 83% 10% / 0.38);
-  --tracking-normal: 0em;
   --spacing: 0.25rem;
+  --tracking-normal: 0em;
 }
 
+/* semantic（Dark）: 色相は変えず、明度だけを入れ替える */
 .dark {
-  --background: oklch(0.2673 0.0486 219.8169);
-  --foreground: oklch(0.6979 0.0159 196.794);
-  --card: oklch(0.3092 0.0518 219.6516);
-  --card-foreground: oklch(0.6979 0.0159 196.794);
-  --popover: oklch(0.3092 0.0518 219.6516);
-  --popover-foreground: oklch(0.6979 0.0159 196.794);
-  --primary: oklch(0.5939 0.189 144.0454);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.5127 0.1549 306.6977);
-  --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.523 0.0283 219.1365);
-  --muted-foreground: oklch(0.6979 0.0159 196.794);
-  --accent: oklch(0.5672 0.1239 240.94);
-  --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(52.687% 0.21338 28.93);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.523 0.0283 219.1365);
-  --input: oklch(0.523 0.0283 219.1365);
-  --ring: oklch(0.5939 0.189 144.0454);
-  --chart-1: oklch(0.6149 0.1394 244.9273);
-  --chart-2: oklch(0.6437 0.1019 187.384);
-  --chart-3: oklch(0.5924 0.2025 355.8943);
-  --chart-4: oklch(0.5808 0.1732 39.5003);
-  --chart-5: oklch(0.5863 0.2064 27.1172);
-  --sidebar: oklch(0.2673 0.0486 219.8169);
-  --sidebar-foreground: oklch(0.6979 0.0159 196.794);
-  --sidebar-primary: oklch(0.5924 0.2025 355.8943);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.6437 0.1019 187.384);
-  --sidebar-accent-foreground: oklch(1 0 0);
-  --sidebar-border: oklch(0.523 0.0283 219.1365);
-  --sidebar-ring: oklch(0.5924 0.2025 355.8943);
-  --radius: 0rem;
-  --shadow-2xs: 2px 2px 4px 0px hsl(196 83% 10% / 0.07);
-  --shadow-xs: 2px 2px 4px 0px hsl(196 83% 10% / 0.07);
-  --shadow-sm:
-    2px 2px 4px 0px hsl(196 83% 10% / 0.15),
-    2px 1px 2px -1px hsl(196 83% 10% / 0.15);
-  --shadow:
-    2px 2px 4px 0px hsl(196 83% 10% / 0.15),
-    2px 1px 2px -1px hsl(196 83% 10% / 0.15);
-  --shadow-md:
-    2px 2px 4px 0px hsl(196 83% 10% / 0.15),
-    2px 2px 4px -1px hsl(196 83% 10% / 0.15);
-  --shadow-lg:
-    2px 2px 4px 0px hsl(196 83% 10% / 0.15),
-    2px 4px 6px -1px hsl(196 83% 10% / 0.15);
-  --shadow-xl:
-    2px 2px 4px 0px hsl(196 83% 10% / 0.15),
-    2px 8px 10px -1px hsl(196 83% 10% / 0.15);
-  --shadow-2xl: 2px 2px 4px 0px hsl(196 83% 10% / 0.38);
+  --background: var(--palette-teal-800);
+  --foreground: var(--palette-cream-200);
+  --foreground-strong: var(--palette-cream-50);
+  --card: var(--palette-teal-700);
+  --card-foreground: var(--palette-cream-200);
+  --popover: var(--palette-teal-700);
+  --popover-foreground: var(--palette-cream-200);
+  --primary-foreground: var(--palette-teal-950);
+  --secondary: var(--palette-teal-700);
+  --secondary-hover: var(--palette-teal-600);
+  --secondary-foreground: var(--palette-cream-200);
+  --muted: var(--palette-teal-900);
+  --muted-foreground: var(--palette-teal-300);
+  --inset: var(--palette-teal-950);
+  --accent: var(--palette-teal-600);
+  --accent-foreground: var(--palette-cream-200);
+  --destructive: var(--palette-red-400);
+  --destructive-foreground: var(--palette-teal-950);
+  --border: var(--palette-teal-300);
+  --border-default: var(--palette-teal-400);
+  --border-subtle: var(--palette-teal-600);
+  --input: var(--palette-teal-400);
+  --ring: var(--palette-blue-400);
+  --link: var(--palette-blue-300);
+  --indicator: var(--palette-green-400);
+  --success: var(--palette-green-400);
+  --tag: var(--palette-purple-700);
+  --tag-foreground: var(--palette-purple-200);
+  --tag-border: var(--palette-purple-400);
+  --shadow-color: var(--palette-teal-950);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-foreground-strong: var(--foreground-strong);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-pressed: var(--primary-pressed);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-inset: var(--inset);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
+  --color-border-default: var(--border-default);
+  --color-border-subtle: var(--border-subtle);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --color-link: var(--link);
+  --color-indicator: var(--indicator);
+  --color-success: var(--success);
+  --color-highlight: var(--highlight);
+  --color-tag: var(--tag);
+  --color-tag-foreground: var(--tag-foreground);
+  --color-tag-border: var(--tag-border);
+  --color-screen: var(--screen);
+  --color-screen-foreground: var(--screen-foreground);
+  --color-screen-accent: var(--screen-accent);
+  --color-code-keyword: var(--code-keyword);
+  --color-code-statement: var(--code-statement);
+  --color-code-number: var(--code-number);
+  --color-code-string: var(--code-string);
+  --color-code-comment: var(--code-comment);
+  --color-code-line-number: var(--code-line-number);
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: var(--radius);
+  --radius-md: var(--radius);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: var(--radius);
 
-  --shadow-2xs: var(--shadow-2xs);
-  --shadow-xs: var(--shadow-xs);
-  --shadow-sm: var(--shadow-sm);
-  --shadow: var(--shadow);
-  --shadow-md: var(--shadow-md);
-  --shadow-lg: var(--shadow-lg);
-  --shadow-xl: var(--shadow-xl);
-  --shadow-2xl: var(--shadow-2xl);
+  /* ぼかしなしのドット影。押下時は影を消して影の分だけ沈める */
+  --shadow-pixel-sm: 2px 2px 0 0 var(--shadow-color);
+  --shadow-pixel-md: 4px 4px 0 0 var(--shadow-color);
+  --shadow-pixel-lg: 6px 6px 0 0 var(--shadow-color);
+  --shadow-focus: 0 0 0 3px var(--ring), 4px 4px 0 0 var(--shadow-color);
+  --shadow-sm: var(--shadow-pixel-sm);
+  --shadow-md: var(--shadow-pixel-md);
+  --shadow-lg: var(--shadow-pixel-lg);
 
+  --font-sans: "M PLUS 1 Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "DotGothic16", "M PLUS 1 Variable", ui-sans-serif, sans-serif;
   --font-ichigojam: "IchigoJam", monospace, sans-serif;
 
+  /* IchigoJam カーソル（8 ドット中 2 ドット幅の縦棒） */
+  --spacing-cursor: 0.25em;
+
+  --ease-pixel: cubic-bezier(0.2, 0.8, 0.2, 1);
   --animate-blink: blink 1s step-end infinite;
 
   @keyframes blink {
@@ -191,10 +236,10 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background font-sans text-foreground;
   }
   /* 目次からの移動時に見出しが見やすくなるよう上部に余白を追加 */
   .prose h1,
@@ -220,18 +265,18 @@
 
   ::-webkit-scrollbar-thumb {
     background: var(--background);
-    border: 4px solid var(--border);
+    border: 4px solid var(--border-default);
     border-radius: 0;
     background-clip: padding-box;
     transition: border-color 0.2s ease;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    border-color: var(--primary);
+    border-color: var(--border);
   }
 
   ::-webkit-scrollbar-thumb:active {
-    border-color: oklch(from var(--primary) calc(l + 0.1) c h);
+    border-color: var(--indicator);
   }
 
   ::-webkit-scrollbar-corner {
@@ -243,45 +288,140 @@
   /* Firefox用のカスタムスクロールバー */
   * {
     scrollbar-width: thin;
-    scrollbar-color: var(--border) var(--background);
+    scrollbar-color: var(--border-default) var(--background);
+  }
+
+  /* ドット絵のアイコン（pixelarticons）を拡大・縮小してもにじませない */
+  svg {
+    shape-rendering: crispEdges;
+  }
+
+  /* 点滅は 5 秒を超えて続くため、動きを減らす設定ではカーソルを表示したまま止める */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-blink {
+      animation: none;
+      opacity: 1;
+    }
+  }
+}
+
+/*
+ * 記事本文（Markdown / MDX から変換される要素）のスタイル。Penpot の「Prose」と対応
+ * 色は CSS 変数でライト・ダークが切り替わるため、prose-invert は使わない
+ */
+@utility prose-retro {
+  --tw-prose-body: var(--foreground);
+  --tw-prose-headings: var(--foreground-strong);
+  --tw-prose-lead: var(--muted-foreground);
+  --tw-prose-links: var(--link);
+  --tw-prose-bold: var(--foreground-strong);
+  --tw-prose-counters: var(--foreground);
+  --tw-prose-bullets: var(--foreground);
+  --tw-prose-hr: var(--border-subtle);
+  --tw-prose-quotes: var(--muted-foreground);
+  --tw-prose-quote-borders: var(--border-default);
+  --tw-prose-captions: var(--muted-foreground);
+  --tw-prose-code: var(--tag-foreground);
+  --tw-prose-pre-code: var(--screen-foreground);
+  --tw-prose-pre-bg: var(--screen);
+  --tw-prose-th-borders: var(--border);
+  --tw-prose-td-borders: var(--border-default);
+
+  line-height: 1.9;
+
+  & :where(h1, h2, h3, h4):not(:where(.not-prose *)) {
+    font-family: var(--font-display);
+    font-weight: 400;
+  }
+
+  /* h2 の前にドット（目次の見出しと対応） */
+  & :where(h2):not(:where(.not-prose *))::before {
+    content: "";
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em;
+    margin-right: 0.5em;
+    vertical-align: 0.15em;
+    background-color: var(--indicator);
+  }
+
+  & :where(a):not(:where(.not-prose *)) {
+    font-weight: 500;
+    text-underline-offset: 0.2em;
+  }
+
+  & :where(a):not(:where(.not-prose *)):hover {
+    text-decoration-thickness: 2px;
+  }
+
+  /* 箇条書きの点は本文と同じ色で、やや大きく */
+  & :where(ul > li):not(:where(.not-prose *))::marker {
+    content: "●  ";
+    font-size: 0.875em;
+  }
+
+  & :where(blockquote):not(:where(.not-prose *)) {
+    border-left-width: 4px;
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  & :where(blockquote p):not(:where(.not-prose *))::before,
+  & :where(blockquote p):not(:where(.not-prose *))::after {
+    content: none;
+  }
+
+  /* インラインコード: バッククォートを付けず、背景で区別する */
+  & :where(:not(pre) > code):not(:where(.not-prose *)) {
+    padding: 0.125em 0.375em;
+    background-color: var(--inset);
+    font-weight: 400;
+  }
+
+  & :where(:not(pre) > code):not(:where(.not-prose *))::before,
+  & :where(:not(pre) > code):not(:where(.not-prose *))::after {
+    content: none;
+  }
+
+  & :where(pre):not(:where(.not-prose *)) {
+    border: 2px solid var(--border);
+    border-radius: 0;
+    box-shadow: var(--shadow-pixel-md);
+  }
+
+  /* ```ichigojam のコードは IchigoJam フォントで表示する */
+  &
+    :where(
+      pre[data-language="ichigojam"],
+      pre[data-language="ichigojam"] code
+    ):not(:where(.not-prose *)) {
+    font-family: var(--font-ichigojam);
+  }
+
+  & :where(table):not(:where(.not-prose *)) {
+    border: 2px solid var(--border);
+  }
+
+  & :where(thead):not(:where(.not-prose *)) {
+    background-color: var(--muted);
+  }
+
+  & :where(th, td):not(:where(.not-prose *)) {
+    padding: 0.5em 0.75em;
+    border: 2px solid var(--border-default);
+  }
+
+  & :where(img):not(:where(.not-prose *)) {
+    border: 2px solid var(--border);
+    border-radius: 0;
   }
 }
 
 /* View Transition用 */
 @layer base {
-  @keyframes scanline {
-    0% {
-      transform: translateY(-100%);
-    }
-    100% {
-      transform: translateY(100%);
-    }
-  }
-
-  @keyframes crt-flicker {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.96;
-    }
-  }
-
   ::view-transition {
     position: fixed;
     inset: 0;
-  }
-
-  @keyframes rgb-shift {
-    0%,
-    100% {
-      filter: none;
-    }
-    50% {
-      filter: drop-shadow(2px 0 0 rgba(255, 0, 0, 0.5))
-        drop-shadow(-2px 0 0 rgba(0, 255, 255, 0.5));
-    }
   }
 
   ::view-transition-old(root),
