@@ -67,11 +67,11 @@ overrides:
     rules:
       # astro-seo / Astro が出力する head 内の要素の順序は制御できない
       performance/head-element-order: false
-      # lucide が出力する SVG の xmlns 属性
+      # pixelarticons が出力する SVG の xmlns 属性
       no-ineffective-attr: false
       # motion が出力する style="opacity:1" などの属性
       no-default-value: false
-      # lucide が出力するボタン内 SVG の aria-hidden
+      # ボタン内のアイコン（SVG）に付けた aria-hidden
       a11y/wai-aria/presentational-children: false
       # React の SSR は論理属性を disabled="" として出力する
       no-boolean-attr-value: false
