@@ -15,7 +15,8 @@
     "check": "pnpm format:check && pnpm lint && pnpm typecheck",
     "lint:markup": "markuplint \"src/**/*.{astro,tsx,mdx}\"",
     "lint:html": "markuplint \"dist/**/*.html\"",
-    "check:html": "pnpm build && pnpm lint:html"
+    "check:html": "pnpm build && pnpm lint:html",
+    "prepare": "husky"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.0.3",
@@ -51,6 +52,8 @@
     "@markuplint/react-spec": "^5.2.0",
     "@oxlint/plugins": "^1.88.0",
     "@tailwindcss/typography": "^0.5.20",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
     "markuplint": "^5.2.0",
     "oxfmt": "^0.73.0",
     "oxlint": "^1.88.0",
