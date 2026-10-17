@@ -3,6 +3,9 @@ import { IchigoScreen } from "@/components/IchigoCrate/IchigoScreen";
 import { buttonVariants } from "@/components/ui/button";
 import Typewriter from "@/components/ui/typewriter";
 import { SITE_DESCRIPTION } from "@/lib/constants";
+
+/** トップページのエミュレータを起動したときに実行するコマンド */
+const STARTUP_COMMAND = 'PRINT "HELLO,WORLD!"';
 ---
 
 <div class="container mx-auto grid grid-cols-1 items-center gap-10 px-4 py-12 sm:px-10 lg:grid-cols-2 lg:py-20">
@@ -20,5 +23,9 @@ import { SITE_DESCRIPTION } from "@/lib/constants";
       記事を読む ▶
     </a>
   </div>
-  <IchigoScreen client:visible label="IchigoJam のエミュレータ" />
+  <IchigoScreen
+    client:visible
+    label="IchigoJam のエミュレータ"
+    startupCommand={STARTUP_COMMAND}
+  />
 </div>
