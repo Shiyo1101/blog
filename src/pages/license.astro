@@ -1,172 +1,142 @@
 ---
-import { BookOpenIcon, CodeIcon, FileTextIcon, ScaleIcon } from "lucide-react";
+import { BookOpenIcon } from "lucide-react";
 
+import { buttonVariants } from "@/components/ui/button";
+import { RetroWindow } from "@/components/ui/retro-window";
 import Typewriter from "@/components/ui/typewriter";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import GridLayout from "@/layouts/GridLayout.astro";
+
+const linkClass =
+  "font-medium text-link underline underline-offset-4 hover:decoration-2";
 ---
 
 <BaseLayout title="ライセンス情報">
   <GridLayout>
-    <div class="mx-auto max-w-4xl">
+    <div class="mx-auto max-w-4xl space-y-10">
       <Typewriter
         client:load
         as="h1"
-        className="mb-8 h-8 text-center font-ichigojam text-2xl font-bold md:text-4xl"
+        className="h-10 font-ichigojam text-3xl text-foreground-strong md:h-12 md:text-4xl"
         texts={["License Information"]}
         delay={500}
       />
-      <div class="mb-8 border-4 border-card-foreground bg-card p-6 sm:shadow-[8px_8px_0_0]">
-        <div class="-mx-3 -mt-3 mb-4 border-2 border-card-foreground bg-primary px-3 py-1">
-          <h2 class="flex items-center gap-2 font-bold text-primary-foreground">
-            <ScaleIcon size={20} />
-            本サイトのライセンス
-          </h2>
+
+      <RetroWindow title="本サイトのライセンス" bodyClassName="space-y-4">
+        <div class="bg-muted p-4">
+          <p class="text-sm leading-relaxed">
+            本ブログの記事や写真は「
+            <strong>Creative Commons — CC BY 4.0</strong>」の下に提供します。
+          </p>
+          <p class="mt-2 text-sm leading-relaxed">
+            記事内で紹介するプログラムや作品は、それぞれに記載されたライセンスを参照ください。
+          </p>
         </div>
 
-        <div class="space-y-4">
-          <div class="border-2 border-card-foreground bg-background p-4">
-            <p class="text-sm leading-relaxed">
-              本ブログの記事や写真は「
-              <strong>Creative Commons — CC BY 4.0</strong>」の下に提供します。
-            </p>
-            <p class="mt-2 text-sm leading-relaxed">
-              記事内で紹介するプログラムや作品は、それぞれに記載されたライセンスを参照ください。
-            </p>
-          </div>
+        <div class="border-l-4 border-border-default py-1 pl-4">
+          <p class="text-sm font-bold text-foreground-strong">
+            CC BY 内田吉紀 - Yoshiki Uchida
+          </p>
+          <p class="mt-1 text-sm text-muted-foreground">
+            あなたは適切なクレジットを表示し、ライセンスへのリンクを提供し、変更があったらその旨を示す限り、
+            素材を自由に共有・翻案できます。
+          </p>
+        </div>
 
-          <div class="flex items-start gap-3 border-2 border-accent bg-accent/10 p-4">
-            <FileTextIcon
-              size={20}
-              className="mt-1 flex-shrink-0 text-accent"
-            />
-            <div>
-              <p class="text-sm font-bold">CC BY 内田吉紀 - Yoshiki Uchida</p>
-              <p class="mt-1 text-xs text-muted-foreground">
-                あなたは適切なクレジットを表示し、ライセンスへのリンクを提供し、変更があったらその旨を示す限り、
-                素材を自由に共有・翻案できます。
-              </p>
-            </div>
-          </div>
+        <div class="pt-2 text-center">
+          <a
+            href="https://creativecommons.org/licenses/by/4.0/deed.ja"
+            target="_blank"
+            rel="noopener noreferrer"
+            class={buttonVariants()}
+          >
+            <BookOpenIcon aria-hidden="true" />
+            CC BY 4.0の詳細を見る
+          </a>
+        </div>
+      </RetroWindow>
 
-          <div class="mt-4 text-center">
+      <RetroWindow title="使用フォント">
+        <div class="bg-muted p-4">
+          <h3 class="mb-2 font-ichigojam text-lg text-foreground-strong">
+            IchigoJam FONT TrueType
+          </h3>
+          <p class="text-sm leading-relaxed">
+            CC BY ライセンスで提供されているフォントです。
+          </p>
+          <p class="mt-3 text-sm text-muted-foreground">
+            提供元:
             <a
-              href="https://creativecommons.org/licenses/by/4.0/deed.ja"
+              href="https://ichigojam.net/"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 border-2 border-primary bg-primary px-4 py-2 text-primary-foreground shadow-[4px_4px_0_0] shadow-primary/50 transition-all hover:translate-y-[4px] hover:shadow-none"
+              class:list={["ml-1", linkClass]}
             >
-              <BookOpenIcon size={16} />
-              CC BY 4.0の詳細を見る
+              IchigoJam
             </a>
-          </div>
+            /
+            <a
+              href="https://15jamrecipe.jimdofree.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class={linkClass}
+            >
+              🎈 BALLOON | FU-SEN
+            </a>
+          </p>
         </div>
-      </div>
-      <div class="mb-8 border-4 border-card-foreground bg-card p-6 sm:shadow-[8px_8px_0_0]">
-        <div class="-mx-3 -mt-3 mb-4 border-2 border-card-foreground bg-secondary px-3 py-1">
-          <h2 class="flex items-center gap-2 font-bold text-secondary-foreground">
-            <CodeIcon size={20} />
-            使用フォント
-          </h2>
-        </div>
+      </RetroWindow>
 
-        <div class="space-y-4">
-          <div class="border-2 border-card-foreground bg-background p-4">
-            <h3 class="mb-2 font-ichigojam text-lg font-bold">
-              IchigoJam FONT TrueType
-            </h3>
-            <p class="text-sm leading-relaxed">
-              CC BY ライセンスで提供されているフォントです。
-            </p>
-            <div class="mt-3 space-y-1">
-              <p class="text-xs text-muted-foreground">
-                提供元:
-                <a
-                  href="https://ichigojam.net/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="ml-1 text-primary hover:text-primary/80"
-                >
-                  IchigoJam
-                </a>
-                /
-                <a
-                  href="https://15jamrecipe.jimdofree.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-primary hover:text-primary/80"
-                >
-                  🎈 BALLOON | FU-SEN
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="mb-8 border-4 border-card-foreground bg-card p-6 sm:shadow-[8px_8px_0_0]">
-        <div class="-mx-3 -mt-3 mb-4 border-2 border-card-foreground bg-accent px-3 py-1">
-          <h2 class="font-bold text-accent-foreground">その他のクレジット</h2>
-        </div>
-
-        <div class="space-y-4">
-          <div class="border-2 border-card-foreground bg-background p-4">
-            <h3 class="mb-2 font-bold">使用技術</h3>
-            <ul class="list-inside list-disc space-y-1 text-sm">
-              <li>Astro - Static Site Generator</li>
-              <li>React - UI Components</li>
-              <li>Tailwind CSS - Styling</li>
-              <li>TypeScript - Type Safety</li>
-            </ul>
-          </div>
-
-          <div class="border-2 border-card-foreground bg-background p-4">
-            <h3 class="mb-2 font-bold">アイコン</h3>
-            <p class="text-sm">
-              <a
-                href="https://lucide.dev/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-primary hover:text-primary/80"
-              >
-                Lucide React - MIT License
-              </a>
-            </p>
-            <p class="text-sm">
-              <a
-                href="https://github.com/pqoqubbw/icons"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-primary hover:text-primary/80"
-              >
-                pqoqubbw/icons - MIT License
-              </a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="border-4 border-card-foreground bg-card p-6 sm:shadow-[8px_8px_0_0]">
-        <div class="-mx-3 -mt-3 mb-4 border-2 border-card-foreground bg-destructive px-3 py-1">
-          <h2 class="font-bold text-destructive-foreground">
-            ご利用にあたって
-          </h2>
-        </div>
-
-        <div class="border-2 border-card-foreground bg-background p-4">
-          <ul class="list-inside list-disc space-y-2 text-sm">
-            <li>
-              本サイトのコンテンツを利用する際は、適切なクレジット表記をお願いします
-            </li>
-            <li>
-              商用利用も可能ですが、内容の正確性については保証いたしかねます
-            </li>
-            <li>プログラムコードは特に記載がない限り、自由に利用可能です</li>
-            <li>
-              外部リンク先のコンテンツについては、それぞれのサイトの規約に従ってください
-            </li>
+      <RetroWindow title="その他のクレジット" bodyClassName="space-y-4">
+        <div class="bg-muted p-4">
+          <h3 class="mb-2 font-bold text-foreground-strong">使用技術</h3>
+          <ul class="list-inside list-disc space-y-1 text-sm">
+            <li>Astro - Static Site Generator</li>
+            <li>React - UI Components</li>
+            <li>Tailwind CSS - Styling</li>
+            <li>TypeScript - Type Safety</li>
           </ul>
         </div>
-      </div>
+
+        <div class="space-y-1 bg-muted p-4">
+          <h3 class="mb-2 font-bold text-foreground-strong">アイコン</h3>
+          <p class="text-sm">
+            <a
+              href="https://lucide.dev/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class={linkClass}
+            >
+              Lucide React - MIT License
+            </a>
+          </p>
+          <p class="text-sm">
+            <a
+              href="https://github.com/pqoqubbw/icons"
+              target="_blank"
+              rel="noopener noreferrer"
+              class={linkClass}
+            >
+              pqoqubbw/icons - MIT License
+            </a>
+          </p>
+        </div>
+      </RetroWindow>
+
+      <RetroWindow title="ご利用にあたって">
+        <ul class="list-inside list-disc space-y-2 text-sm">
+          <li>
+            本サイトのコンテンツを利用する際は、適切なクレジット表記をお願いします
+          </li>
+          <li>
+            商用利用も可能ですが、内容の正確性については保証いたしかねます
+          </li>
+          <li>プログラムコードは特に記載がない限り、自由に利用可能です</li>
+          <li>
+            外部リンク先のコンテンツについては、それぞれのサイトの規約に従ってください
+          </li>
+        </ul>
+      </RetroWindow>
     </div>
   </GridLayout>
 </BaseLayout>
