@@ -74,10 +74,7 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
                     {formatDate(post.data.pubDate)}
                   </time>
                   {post.data.tags?.slice(0, MAX_TAGS).map((tag) => (
-                    <span
-                      key={tag}
-                      className={cn(tagVariants(), "py-0")}
-                    >
+                    <span key={tag} className={cn(tagVariants(), "py-0")}>
                       #{tag}
                     </span>
                   ))}
