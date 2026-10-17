@@ -1,16 +1,24 @@
 ---
+import { IchigoScreen } from "@/components/IchigoCrate/IchigoScreen";
+import { buttonVariants } from "@/components/ui/button";
 import Typewriter from "@/components/ui/typewriter";
+import { SITE_DESCRIPTION } from "@/lib/constants";
 ---
 
-<section class="h-auto">
-  <div class="w-full">
+<div class="container mx-auto grid grid-cols-1 items-center gap-10 px-4 py-12 sm:px-10 lg:grid-cols-2 lg:py-20">
+  <div class="space-y-6">
     <Typewriter
       client:load
       as="h1"
-      className="mb-8 text-center font-ichigojam text-2xl font-bold md:text-3xl lg:text-4xl"
+      className="font-ichigojam text-3xl leading-snug text-foreground-strong md:text-4xl lg:text-5xl"
       texts={["Welcome to Uchii's BLOG"]}
       cursorVisible
       delay={1000}
     />
+    <p class="text-lg leading-relaxed">{SITE_DESCRIPTION}</p>
+    <a href="/blog" class={buttonVariants()}>
+      記事を読む ▶
+    </a>
   </div>
-</section>
+  <IchigoScreen client:visible label="IchigoJam のエミュレータ" />
+</div>
