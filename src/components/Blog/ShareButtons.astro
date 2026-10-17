@@ -1,9 +1,7 @@
 ---
-import { Share2Icon } from "lucide-react";
+import { Facebook, Share, TwitterBird } from "pixelarticons/react";
 
 import { buttonVariants } from "@/components/ui/button";
-import { FacebookIcon } from "@/components/ui/facebook";
-import { TwitterIcon } from "@/components/ui/twitter";
 
 type Props = {
   title: string;
@@ -20,7 +18,7 @@ const shareUrl = `${appUrl}/blog/${slug}`;
 <div class="not-prose flex flex-col gap-4">
   {showTitle && (
     <div class="flex items-center gap-2 text-muted-foreground">
-      <Share2Icon size={16} aria-hidden="true" />
+      <Share className="size-6" aria-hidden="true" />
       <h3 class="font-display text-base">共有する</h3>
     </div>
   )}
@@ -33,7 +31,7 @@ const shareUrl = `${appUrl}/blog/${slug}`;
       target="_blank"
       rel="noopener noreferrer"
     >
-      <TwitterIcon client:load />
+      <TwitterBird aria-hidden="true" />
       <span>Twitter</span>
     </a>
     <a
@@ -44,7 +42,7 @@ const shareUrl = `${appUrl}/blog/${slug}`;
       target="_blank"
       rel="noopener noreferrer"
     >
-      <FacebookIcon client:load />
+      <Facebook aria-hidden="true" />
       <span>Facebook</span>
     </a>
   </div>
