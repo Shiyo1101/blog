@@ -17,7 +17,7 @@ type Props = {
 
 const HeaderMotionWrapper = ({ children }: Props) => {
   const { scrollY } = useScroll();
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = useReducedMotion() === true;
   const [hidden, setHidden] = useState(false);
   const lastScrollY = useRef(0);
 
