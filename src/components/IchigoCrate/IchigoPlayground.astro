@@ -15,9 +15,9 @@ const { code, title = "IchigoJam BASIC Playground", autoRun } = Astro.props;
 
 <section
   aria-label={title}
-  class="not-prose my-6 border-2 border-card-foreground bg-card"
+  class="not-prose my-6 border-2 border-border bg-card shadow-pixel-md"
 >
-  <p class="border-b-2 border-card-foreground bg-secondary px-3 py-1 font-ichigojam text-xs text-secondary-foreground">
+  <p class="inline-block bg-border px-3 py-1.5 font-ichigojam text-sm text-background">
     {title}
   </p>
   <IchigoPlaygroundReact

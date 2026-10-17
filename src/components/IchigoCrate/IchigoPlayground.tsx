@@ -25,9 +25,9 @@ const IchigoPlayground = ({
   const editorId = useId();
 
   return (
-    <div className="space-y-4 p-4">
+    <div className="space-y-4 p-5">
       <div className="space-y-2">
-        <label htmlFor={editorId} className="block text-sm font-bold">
+        <label htmlFor={editorId} className="block font-display text-sm">
           プログラム
         </label>
         <textarea
@@ -38,7 +38,7 @@ const IchigoPlayground = ({
           spellCheck={false}
           autoCapitalize="characters"
           autoComplete="off"
-          className="w-full resize-y border-2 border-card-foreground bg-background p-3 font-mono text-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+          className="w-full resize-y border-2 border-border bg-screen p-3 font-ichigojam text-base leading-relaxed text-screen-foreground caret-screen-accent outline-none focus-visible:shadow-focus"
         />
       </div>
 
@@ -64,7 +64,7 @@ const IchigoPlayground = ({
         </Button>
         <Button
           size="sm"
-          variant="outline"
+          variant="secondary"
           onClick={() => handleRef.current?.reset()}
         >
           <PowerIcon aria-hidden="true" />
@@ -72,7 +72,7 @@ const IchigoPlayground = ({
         </Button>
         <Button
           size="sm"
-          variant="ghost"
+          variant="secondary"
           disabled={code === initialCode}
           onClick={() => setCode(initialCode)}
         >
