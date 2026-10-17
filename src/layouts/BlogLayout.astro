@@ -36,7 +36,7 @@ const readingTime = calculateReadingTime(post.body ?? "");
 
     {/* 記事コンテンツ */}
     <div class="col-span-12 md:col-span-7">
-      <article class="prose max-w-none dark:prose-invert prose-p:text-justify prose-a:text-primary prose-a:hover:text-primary/80 prose-img:rounded-xl">
+      <article class="prose prose-retro max-w-none prose-p:text-justify">
         <h1
           class="border-b-4 pb-2 text-3xl"
           transition:name={`blog-title-${post.id}`}
