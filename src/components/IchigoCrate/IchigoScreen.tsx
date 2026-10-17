@@ -26,8 +26,8 @@ type IchigoScreenProps = {
   defaultProgram?: string;
   /** 起動時にプログラムを実行するか */
   autoRun?: boolean;
-  /** 外部から操作できるようになったときに呼ばれる */
-  onReady: (handle: IchigoCrateHandle) => void;
+  /** 外部から操作できるようになったときに呼ばれる（画面を表示するだけなら不要） */
+  onReady?: (handle: IchigoCrateHandle) => void;
 };
 
 /** IchigoJam BASIC のエミュレータ画面 */
