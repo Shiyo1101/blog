@@ -6,7 +6,8 @@ import { type KeyboardEvent, useRef } from "react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { RetroWindow } from "@/components/ui/retro-window";
-import { formatDate } from "@/lib/utils";
+import { tagVariants } from "@/components/ui/tag";
+import { cn, formatDate } from "@/lib/utils";
 
 /** NEW! を表示する公開後の日数 */
 const NEW_POST_DAYS = 7;
@@ -75,7 +76,7 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
                   {post.data.tags?.slice(0, MAX_TAGS).map((tag) => (
                     <span
                       key={tag}
-                      className="border-2 border-tag-border bg-tag px-2 font-display text-tag-foreground"
+                      className={cn(tagVariants(), "py-0")}
                     >
                       #{tag}
                     </span>

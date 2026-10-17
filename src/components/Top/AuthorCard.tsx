@@ -6,6 +6,7 @@ import { useState } from "react";
 
 import { IJCharacter } from "@/components/ui/ichigojam";
 import { RetroWindow } from "@/components/ui/retro-window";
+import { tagVariants } from "@/components/ui/tag";
 import { IJCharacterCodes } from "@/lib/constants";
 
 const SKILLS = ["⭐ IchigoJam検定1級", "📚 技術書執筆"];
@@ -45,10 +46,7 @@ const AuthorCard = () => {
           </p>
           <ul className="flex flex-wrap gap-2 pt-1">
             {SKILLS.map((skill) => (
-              <li
-                key={skill}
-                className="border-2 border-tag-border bg-tag px-2.5 py-0.5 font-display text-sm text-tag-foreground"
-              >
+              <li key={skill} className={tagVariants()}>
                 {skill}
               </li>
             ))}
