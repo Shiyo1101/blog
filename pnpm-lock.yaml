@@ -20,9 +20,6 @@ importers:
       '@base-ui/react':
         specifier: ^1.9.0
         version: 1.9.0(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      '@fontsource-variable/m-plus-1':
-        specifier: ^5.3.1
-        version: 5.3.1
       '@fontsource/dotgothic16':
         specifier: ^5.3.1
         version: 5.3.1
@@ -470,9 +467,6 @@ packages:
 
   '@floating-ui/utils@0.2.12':
     resolution: {integrity: sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==}
-
-  '@fontsource-variable/m-plus-1@5.3.1':
-    resolution: {integrity: sha512-PWa0cJ5X/gnwkVhMgRXSpi2+I8kRIb7gRHL2lld4TuxumNbZ+9Ef6lUnX+P51ixSl8MEUD5HHp7E62dmGML1wA==}
 
   '@fontsource/dotgothic16@5.3.1':
     resolution: {integrity: sha512-alvxJchrFDFohce0s8YfHsFiRm2zUM+FrwEeWtLyc14WIl3heSG1/8BPD7Sm001YuVPL1bU14UmM5P2KO5/gnQ==}
@@ -3887,8 +3881,6 @@ snapshots:
       react-dom: 19.3.1(react@19.3.1)
 
   '@floating-ui/utils@0.2.12': {}
-
-  '@fontsource-variable/m-plus-1@5.3.1': {}
 
   '@fontsource/dotgothic16@5.3.1': {}
 

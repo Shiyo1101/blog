@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "tailwindcss-animated";
 @import "tw-animate-css";
-@import "@fontsource/dotgothic16";
-@import "@fontsource-variable/m-plus-1";
 
 @custom-variant dark (&:is(.dark *));
 @plugin "@tailwindcss/typography";
@@ -211,8 +209,12 @@
   --shadow-md: var(--shadow-pixel-md);
   --shadow-lg: var(--shadow-pixel-lg);
 
-  --font-sans: "M PLUS 1 Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "DotGothic16", "M PLUS 1 Variable", ui-sans-serif, sans-serif;
+  /* 本文は Web フォントを読み込まず、端末に入っている日本語フォントで表示する */
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", Meiryo,
+    sans-serif;
+  --font-display: "DotGothic16", var(--font-sans);
   --font-ichigojam: "IchigoJam", monospace, sans-serif;
 
   /* IchigoJam カーソル（8 ドット中 2 ドット幅の縦棒） */
