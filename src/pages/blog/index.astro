@@ -1,9 +1,9 @@
 ---
 import { getCollection } from "astro:content";
 
-import BlogCard from "@/components/Blog/BlogCard.astro";
-import BlogCardWrapper from "@/components/Blog/BlogCardWrapper.astro";
-import TagSearchBar from "@/components/Blog/TagSearchBar.astro";
+import BlogCard from "@/components/blog/BlogCard.astro";
+import PostGrid from "@/components/blog/PostGrid.astro";
+import TagSearchBar from "@/components/blog/TagSearchBar.astro";
 import PageContainer from "@/components/layout/PageContainer.astro";
 import Typewriter from "@/components/ui/Typewriter";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -36,11 +36,11 @@ const sortedPosts = allPosts.toSorted(
       <TagSearchBar />
     </div>
     <div transition:name="blog-list-content">
-      <BlogCardWrapper>
+      <PostGrid>
         {sortedPosts.map((post, index) => (
           <BlogCard post={post} isPriority={index === 0} />
         ))}
-      </BlogCardWrapper>
+      </PostGrid>
     </div>
   </PageContainer>
 </BaseLayout>

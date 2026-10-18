@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 
-import TagSearchBarReact from "./TagSearchBar";
+import TagFilter from "./TagFilter";
 
 type Props = {
   currentTag?: string;
@@ -16,4 +16,4 @@ const allTags = allPosts
 const uniqueTags = [...new Set(allTags)].toSorted();
 ---
 
-<TagSearchBarReact client:load tags={uniqueTags} currentTag={currentTag} />
+<TagFilter client:load tags={uniqueTags} currentTag={currentTag} />
