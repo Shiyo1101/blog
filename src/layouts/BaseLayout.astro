@@ -90,14 +90,15 @@ const fullImageUrl = new URL(image, Astro.site).href;
         }
       }
 
-      /* ViewTransition導入後にDark modeが正常動作しなくなる問題の修正。参考：https://github.com/shadcn-ui/ui/discussions/3528 */
       setDarkMode(document);
 
-      document.addEventListener("astro:before-swap", (ev) => {
-        // Pass the incoming document to set the theme on it
-        setDarkMode(ev.newDocument);
+      // ページ遷移では新しいページの html の属性で上書きされるため、入れ替わる前にテーマのクラスを付けておく
+      document.addEventListener("astro:before-swap", (event) => {
+        event.newDocument.documentElement.classList.toggle(
+          "dark",
+          getThemePreference() === "dark",
+        );
       });
-      /* ************************* */
     </script>
 
     <SEO
