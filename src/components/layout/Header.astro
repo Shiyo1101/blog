@@ -3,6 +3,11 @@ import { IJTypography } from "@/components/ichigojam/IchigoJamText";
 import HideOnScrollHeader from "@/components/layout/HideOnScrollHeader.astro";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 
+/** ロゴのアイコン。ファビコンと同じ画像を使い、キャッシュを共有する */
+const LOGO_ICON_SRC = "/favicon.svg";
+/** アイコンの表示サイズ（px）。PC での大きさに合わせ、読み込み前から場所を確保する */
+const LOGO_ICON_SIZE_PX = 40;
+
 const { pathname } = Astro.url;
 
 const navItems = [
@@ -17,10 +22,13 @@ const navItems = [
       href="/"
       class="flex items-center gap-2.5 font-display text-xl text-foreground-strong outline-offset-4"
     >
-      <span
-        aria-hidden="true"
-        class="size-4 border-2 border-border bg-primary sm:size-5"
-      ></span>
+      <img
+        src={LOGO_ICON_SRC}
+        alt=""
+        width={LOGO_ICON_SIZE_PX}
+        height={LOGO_ICON_SIZE_PX}
+        class="size-7 sm:size-10"
+      />
       Uchii's BLOG
     </a>
     <nav aria-label="メインナビゲーション">
