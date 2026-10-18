@@ -5,7 +5,7 @@ import { useId, useRef, useState } from "react";
 import { IchigoScreen, runProgram } from "./IchigoScreen";
 import { Button } from "@/components/ui/Button";
 
-type IchigoPlaygroundProps = {
+type IchigoPlaygroundEditorProps = {
   /** エディタに最初に表示するプログラム */
   code: string;
   /** プレイグラウンドの見出し */
@@ -15,11 +15,11 @@ type IchigoPlaygroundProps = {
 };
 
 /** プログラムを編集して IchigoJam BASIC で実行できるプレイグラウンド */
-const IchigoPlayground = ({
+const IchigoPlaygroundEditor = ({
   code: initialCode,
   title,
   autoRun = false,
-}: IchigoPlaygroundProps) => {
+}: IchigoPlaygroundEditorProps) => {
   const [code, setCode] = useState(initialCode);
   const handleRef = useRef<IchigoCrateHandle | null>(null);
   const editorId = useId();
@@ -93,4 +93,4 @@ const IchigoPlayground = ({
   );
 };
 
-export default IchigoPlayground;
+export default IchigoPlaygroundEditor;
