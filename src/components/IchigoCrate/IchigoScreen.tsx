@@ -1,5 +1,10 @@
 import type { IchigoCrateHandle } from "ichigocrate-react";
-import { type CSSProperties, lazy, Suspense } from "react";
+import {
+  type CSSProperties,
+  lazy,
+  Suspense,
+  useSyncExternalStore,
+} from "react";
 
 // wasm を同梱した大きなモジュールのため、エミュレータを表示するときに初めて読み込む
 const IchigoCrate = lazy(async () => {
@@ -11,6 +16,11 @@ const IchigoCrate = lazy(async () => {
 const SCREEN_ASPECT_RATIO = "4 / 3";
 /** canvas の枠線の太さ（px）。ライブラリの既定値に合わせる */
 const SCREEN_BORDER_WIDTH_PX = 8;
+
+// ハイドレーションが終わったかどうかは変化を通知しないため、購読は何もしない
+const subscribeHydrated = () => () => {};
+const getHydrated = () => true;
+const getServerHydrated = () => false;
 
 // ライブラリは scale に応じた固定サイズを指定するため、記事の幅に合わせて縮むよう上書きする
 const SCREEN_STYLE: CSSProperties = {
@@ -40,6 +50,24 @@ export const IchigoScreen = ({
   startupCommand,
   onReady,
 }: IchigoScreenProps) => {
+  // canvas に描く画面はサーバーで描画できないため、ハイドレーションが終わってから読み込む。
+  // サーバーで読み込むと、後から差し替える Suspense の HTML が出力され、
+  // ページ遷移で差し替えのスクリプトが動かずにハイドレーションエラーになる
+  const isHydrated = useSyncExternalStore(
+    subscribeHydrated,
+    getHydrated,
+    getServerHydrated,
+  );
+
+  const loading = (
+    <div
+      className="flex w-full items-center justify-center bg-screen font-ichigojam text-base text-screen-foreground"
+      style={{ aspectRatio: SCREEN_ASPECT_RATIO }}
+    >
+      LOADING...
+    </div>
+  );
+
   const handleReady = (handle: IchigoCrateHandle) => {
     if (startupCommand !== undefined) {
       // 改行で確定させ、実機で打ち込んだときと同じくコマンドと結果を画面に残す
@@ -50,26 +78,21 @@ export const IchigoScreen = ({
 
   return (
     <div className="space-y-2">
-      <Suspense
-        fallback={
-          <div
-            className="flex w-full items-center justify-center bg-screen font-ichigojam text-base text-screen-foreground"
-            style={{ aspectRatio: SCREEN_ASPECT_RATIO }}
-          >
-            LOADING...
-          </div>
-        }
-      >
-        <IchigoCrate
-          aria-label={label}
-          defaultProgram={defaultProgram}
-          autoRun={autoRun}
-          onReady={handleReady}
-          persist={false}
-          captureTab={false}
-          style={SCREEN_STYLE}
-        />
-      </Suspense>
+      {isHydrated ? (
+        <Suspense fallback={loading}>
+          <IchigoCrate
+            aria-label={label}
+            defaultProgram={defaultProgram}
+            autoRun={autoRun}
+            onReady={handleReady}
+            persist={false}
+            captureTab={false}
+            style={SCREEN_STYLE}
+          />
+        </Suspense>
+      ) : (
+        loading
+      )}
       <p className="text-sm text-muted-foreground">
         画面をクリックするとキーボードで入力できます（Esc で停止、Tab
         で画面の外へ移動）
