@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { type JSX, useEffect, useRef, useState } from "react";
 
-import { IchigoJamCharacterOfCursor } from "@/lib/constants";
+import { IchigoJamCharacterOfCursor } from "@/lib/ichigojam/characters";
 import { cn } from "@/lib/utils";
 
 /**

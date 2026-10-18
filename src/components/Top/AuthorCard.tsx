@@ -5,7 +5,7 @@ import { useState } from "react";
 import { IJCharacter } from "@/components/ui/ichigojam";
 import { RetroWindow } from "@/components/ui/retro-window";
 import { tagVariants } from "@/components/ui/tag";
-import { IJCharacterCodes } from "@/lib/constants";
+import { IJCharacterCodes } from "@/lib/ichigojam/characters";
 
 const SKILLS = ["⭐ IchigoJam検定1級", "📚 技術書執筆"];
 
