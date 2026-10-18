@@ -1,0 +1,167 @@
+---
+/** クリックした位置からブロックが飛び散る演出を、中身の上に重ねる */
+---
+
+<div data-click-shatter class="pointer-events-auto relative h-full w-full">
+  <canvas class="pointer-events-none absolute inset-0"></canvas>
+  <slot />
+</div>
+
+<script>
+  /** 1フレームあたりの想定時間（ms） */
+  const FRAME_DURATION_MS = 16;
+  /** 1フレームあたりに加算する重力加速度 */
+  const GRAVITY = 0.5;
+  /** リサイズ処理を間引く時間（ms） */
+  const RESIZE_DEBOUNCE_MS = 100;
+  /** 1回のクリックで最低限飛び散るブロック数 */
+  const MIN_SHATTER_BLOCK_COUNT = 5;
+  /** 1回のクリックで追加で飛び散るブロック数の最大値 */
+  const EXTRA_SHATTER_BLOCK_COUNT = 10;
+  /** ブロックの最小サイズ（px） */
+  const MIN_SHATTER_BLOCK_SIZE = 2;
+  /** ブロックの大きさのばらつき（px） */
+  const SHATTER_BLOCK_SIZE_RANGE = 8;
+  /** 飛び散る速さの最大値 */
+  const SHATTER_BLOCK_RADIUS = 30;
+  /** 飛び散る速度の倍率 */
+  const SPEED_SCALE = 0.2;
+  /** 飛び散る際の上向きの初速 */
+  const INITIAL_UPWARD_VELOCITY = 3;
+  /** ブロックが消えるまでの時間（ms） */
+  const DURATION_MS = 500;
+  /** ブロックが消えるまでのフレーム数 */
+  const LIFE_FRAMES = DURATION_MS / FRAME_DURATION_MS;
+
+  type ShatterBlock = {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    size: number;
+    life: number;
+  };
+
+  // 現在のテーマの前景色(--foreground)を取得
+  const getForegroundColor = () =>
+    getComputedStyle(document.documentElement)
+      .getPropertyValue("--foreground")
+      .trim();
+
+  let shatterBlockColor = getForegroundColor();
+
+  // html 要素はページ遷移でも入れ替わらないため、テーマ変更の監視は 1 回だけ登録する
+  const themeObserver = new MutationObserver(() => {
+    shatterBlockColor = getForegroundColor();
+  });
+  themeObserver.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+
+  let cleanup: (() => void) | undefined;
+
+  // ページ遷移で body が入れ替わるため、表示したページの canvas に毎回つなぎ直す
+  const setup = () => {
+    cleanup?.();
+    cleanup = undefined;
+
+    const container = document.querySelector<HTMLElement>(
+      "[data-click-shatter]",
+    );
+    const canvas = container?.querySelector("canvas");
+    const ctx = canvas?.getContext("2d");
+    if (!container || !canvas || !ctx) {
+      return;
+    }
+
+    let shatterBlocks: ShatterBlock[] = [];
+    let animationId = 0;
+    let resizeTimeout: ReturnType<typeof setTimeout> | undefined;
+
+    const resizeCanvas = () => {
+      const { width, height } = container.getBoundingClientRect();
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+      }
+    };
+
+    const resizeObserver = new ResizeObserver(() => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(resizeCanvas, RESIZE_DEBOUNCE_MS);
+    });
+    resizeObserver.observe(container);
+    resizeCanvas();
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      shatterBlocks = shatterBlocks.filter((shatterBlock) => {
+        shatterBlock.x += shatterBlock.vx;
+        shatterBlock.vy += GRAVITY;
+        shatterBlock.y += shatterBlock.vy;
+        shatterBlock.life -= 1;
+
+        if (shatterBlock.life <= 0) {
+          return false;
+        }
+
+        ctx.globalAlpha = Math.max(0, shatterBlock.life / LIFE_FRAMES);
+        ctx.fillStyle = shatterBlockColor;
+        ctx.fillRect(
+          shatterBlock.x,
+          shatterBlock.y,
+          shatterBlock.size,
+          shatterBlock.size,
+        );
+        ctx.globalAlpha = 1;
+
+        return true;
+      });
+
+      // 飛び散っているブロックがなくなったら、次のクリックまで描画を止める
+      animationId = shatterBlocks.length > 0 ? requestAnimationFrame(draw) : 0;
+    };
+
+    // 装飾目的のクリック演出のため、操作要素ではなくコンテナ全体で押下を拾う
+    const handlePointerDown = (event: PointerEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      // 飛び散る数をランダムにする
+      const count =
+        Math.floor(Math.random() * EXTRA_SHATTER_BLOCK_COUNT) +
+        MIN_SHATTER_BLOCK_COUNT;
+
+      for (let index = 0; index < count; index += 1) {
+        const angle = Math.random() * 2 * Math.PI;
+        const speed = Math.random() * SHATTER_BLOCK_RADIUS;
+        shatterBlocks.push({
+          x,
+          y,
+          vx: Math.cos(angle) * speed * SPEED_SCALE,
+          vy: Math.sin(angle) * speed * SPEED_SCALE - INITIAL_UPWARD_VELOCITY,
+          size:
+            Math.random() * SHATTER_BLOCK_SIZE_RANGE + MIN_SHATTER_BLOCK_SIZE,
+          life: LIFE_FRAMES,
+        });
+      }
+
+      if (animationId === 0) {
+        animationId = requestAnimationFrame(draw);
+      }
+    };
+
+    container.addEventListener("pointerdown", handlePointerDown);
+
+    cleanup = () => {
+      container.removeEventListener("pointerdown", handlePointerDown);
+      resizeObserver.disconnect();
+      clearTimeout(resizeTimeout);
+      cancelAnimationFrame(animationId);
+    };
+  };
+
+  document.addEventListener("astro:page-load", setup);
+</script>
