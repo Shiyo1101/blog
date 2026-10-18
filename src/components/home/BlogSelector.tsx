@@ -1,4 +1,3 @@
-import type { CollectionEntry } from "astro:content";
 import { motion, useReducedMotion } from "motion/react";
 import { type KeyboardEvent, useRef, useSyncExternalStore } from "react";
 
@@ -18,8 +17,16 @@ const KEY_OFFSETS: Partial<Record<string, number>> = {
   ArrowUp: -1,
 };
 
+/** 一覧に表示する記事の情報。島の props は HTML に埋め込まれるため、本文などは渡さない */
+export type PostSummary = {
+  id: string;
+  title: string;
+  pubDate: Date;
+  tags?: string[];
+};
+
 type BlogSelectorProps = {
-  posts: CollectionEntry<"blog">[];
+  posts: PostSummary[];
 };
 
 const isNewPost = (pubDate: Date, now: number) =>
@@ -74,20 +81,20 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
               </span>
               <span className="min-w-0 flex-1 space-y-1.5">
                 <span className="block font-display text-foreground group-hover:text-foreground-strong group-focus-visible:text-foreground-strong">
-                  {post.data.title}
+                  {post.title}
                 </span>
                 <span className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                  <time dateTime={post.data.pubDate.toISOString()}>
-                    {formatDate(post.data.pubDate)}
+                  <time dateTime={post.pubDate.toISOString()}>
+                    {formatDate(post.pubDate)}
                   </time>
-                  {post.data.tags?.slice(0, MAX_TAGS).map((tag) => (
+                  {post.tags?.slice(0, MAX_TAGS).map((tag) => (
                     <span key={tag} className={cn(tagVariants(), "py-0")}>
                       #{tag}
                     </span>
                   ))}
                 </span>
               </span>
-              {now !== null && isNewPost(post.data.pubDate, now) && (
+              {now !== null && isNewPost(post.pubDate, now) && (
                 <motion.span
                   className="shrink-0 border-2 border-border bg-highlight px-2 py-0.5 font-display text-sm text-foreground-strong"
                   animate={

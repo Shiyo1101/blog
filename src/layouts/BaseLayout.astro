@@ -3,7 +3,7 @@ import "@/styles/global.css";
 import { SEO } from "astro-seo";
 import { ClientRouter } from "astro:transitions";
 
-import ClickShatterBlock from "@/components/layout/ClickShatterBlock";
+import ClickShatterBlock from "@/components/layout/ClickShatterBlock.astro";
 import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
 import JsonLd from "@/components/seo/JsonLd.astro";
@@ -151,7 +151,7 @@ const fullImageUrl = new URL(image, Astro.site).href;
     <slot name="head" />
   </head>
   <body>
-    <ClickShatterBlock client:load>
+    <ClickShatterBlock>
       <Header />
       <main transition:animate="fade">
         <slot />
