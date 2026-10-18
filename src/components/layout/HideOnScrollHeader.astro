@@ -1,0 +1,38 @@
+---
+/** スクロールで下に進むと隠れ、上に戻ると現れるヘッダーの枠 */
+---
+
+<header
+  data-hide-on-scroll
+  class="sticky top-0 z-50 flex min-h-16 w-full items-center justify-between gap-4 border-b-4 border-border bg-background px-4 py-3 transition-transform duration-240 ease-out data-hidden:-translate-y-full motion-reduce:transition-none sm:px-10"
+>
+  <slot />
+</header>
+
+<script>
+  /** この位置（px）より下で下方向にスクロールしたらヘッダーを隠す */
+  const HIDE_THRESHOLD_PX = 100;
+
+  let lastScrollY = globalThis.scrollY;
+  let frameId = 0;
+
+  // スクロール量の変化から、ヘッダーの表示/非表示を切り替える。
+  // ページ遷移でヘッダーが入れ替わるため、要素は毎回探し直す
+  const update = () => {
+    const latest = globalThis.scrollY;
+    const isHidden = latest > HIDE_THRESHOLD_PX && latest > lastScrollY;
+    document
+      .querySelector("[data-hide-on-scroll]")
+      ?.toggleAttribute("data-hidden", isHidden);
+    lastScrollY = latest;
+  };
+
+  globalThis.addEventListener(
+    "scroll",
+    () => {
+      cancelAnimationFrame(frameId);
+      frameId = requestAnimationFrame(update);
+    },
+    { passive: true },
+  );
+</script>
