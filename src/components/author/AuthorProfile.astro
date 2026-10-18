@@ -20,7 +20,7 @@ const [bookSeries, bookName] = AUTHOR.book.titleLines;
 
 <RetroWindow title={title} className={className}>
   <div class="flex flex-col gap-5 sm:flex-row">
-    <div class="mx-auto flex size-24 shrink-0 items-center justify-center border-2 border-border bg-screen text-screen-foreground sm:mx-0">
+    <div class="mx-auto flex size-24 shrink-0 items-center justify-center border-2 border-border bg-screen text-screen-foreground motion-safe:hover:animate-bob sm:mx-0">
       <IJCharacter className="text-5xl" characterCodes={IJCharacterCodes.Cat} />
     </div>
     <div class="min-w-0 flex-1 space-y-2">

@@ -238,6 +238,18 @@
 
   --ease-pixel: cubic-bezier(0.2, 0.8, 0.2, 1);
   --animate-blink: blink 1s step-end infinite;
+  /* 著者アイコンをホバーしたときの上下の揺れ */
+  --animate-bob: bob 1s ease-in-out infinite;
+
+  @keyframes bob {
+    0%,
+    100% {
+      translate: 0 -2px;
+    }
+    50% {
+      translate: 0 2px;
+    }
+  }
 
   @keyframes blink {
     0% {
