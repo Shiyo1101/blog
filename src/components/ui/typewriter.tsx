@@ -98,15 +98,26 @@ const Typewriter = ({
     };
   }, [texts, delay, duration, typingSpeed, loop]);
 
+  // 打ち終えたときの大きさを先に確保し、文字が増えても後続の要素が動かないようにする
+  const longestText = texts.reduce(
+    (longest, text) => (text.length > longest.length ? text : longest),
+    "",
+  );
+  const cursor = cursorVisible && (
+    <span className="ml-1 animate-blink">{cursorString}</span>
+  );
+
   return (
-    <Component className={cn("text-xl", className)}>
+    <Component className={cn("grid text-xl", className)}>
       {/* 支援技術や検索エンジンには、アニメーションを待たずに全文を伝える */}
       <span className="sr-only">{texts.join(" ")}</span>
-      <span aria-hidden="true">
+      <span aria-hidden="true" className="invisible col-start-1 row-start-1">
+        {longestText}
+        {cursor}
+      </span>
+      <span aria-hidden="true" className="col-start-1 row-start-1">
         {displayedText}
-        {cursorVisible && !isDone && (
-          <span className="ml-1 animate-blink">{cursorString}</span>
-        )}
+        {!isDone && cursor}
       </span>
     </Component>
   );
