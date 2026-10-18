@@ -38,7 +38,8 @@ const Typewriter = ({
   className,
   as: Component = "div",
 }: TypewriterProps) => {
-  const [displayedText, setDisplayedText] = useState("");
+  const [textIndex, setTextIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(0);
   const [isDone, setIsDone] = useState(false);
 
   const cursorString = clsx(className).includes("font-ichigojam")
@@ -69,15 +70,15 @@ const Typewriter = ({
         timeoutRef.current = setTimeout(() => {
           textIndexRef.current = (textIndexRef.current + 1) % texts.length;
           charIndexRef.current = 0;
-          setDisplayedText("");
+          setTextIndex(textIndexRef.current);
+          setVisibleCount(0);
           type();
         }, duration);
         return;
       }
 
-      const char = currentText[charIndexRef.current];
-      setDisplayedText((prev) => prev + char);
       charIndexRef.current += 1;
+      setVisibleCount(charIndexRef.current);
 
       timeoutRef.current = setTimeout(type, typingSpeed);
     };
@@ -91,20 +92,20 @@ const Typewriter = ({
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
-      setDisplayedText("");
+      setTextIndex(0);
+      setVisibleCount(0);
       setIsDone(false);
       textIndexRef.current = 0;
       charIndexRef.current = 0;
     };
   }, [texts, delay, duration, typingSpeed, loop]);
 
-  // 打ち終えたときの大きさを先に確保し、文字が増えても後続の要素が動かないようにする
+  // 全文を最初から配置して打った分だけ見せ、改行位置や高さが打ち込み中に変わらないようにする
+  const currentText = texts[textIndex] ?? "";
+  // 複数のテキストを切り替える場合は、最も長いテキストの大きさを確保する
   const longestText = texts.reduce(
     (longest, text) => (text.length > longest.length ? text : longest),
     "",
-  );
-  const cursor = cursorVisible && (
-    <span className="ml-1 animate-blink">{cursorString}</span>
   );
 
   return (
@@ -113,11 +114,18 @@ const Typewriter = ({
       <span className="sr-only">{texts.join(" ")}</span>
       <span aria-hidden="true" className="invisible col-start-1 row-start-1">
         {longestText}
-        {cursor}
       </span>
       <span aria-hidden="true" className="col-start-1 row-start-1">
-        {displayedText}
-        {!isDone && cursor}
+        {currentText.slice(0, visibleCount)}
+        {/* カーソルは幅を持たない要素に重ねて表示し、文字の配置を変えないようにする */}
+        {cursorVisible && !isDone && (
+          <span className="relative">
+            <span className="absolute left-1 animate-blink">
+              {cursorString}
+            </span>
+          </span>
+        )}
+        <span className="invisible">{currentText.slice(visibleCount)}</span>
       </span>
     </Component>
   );
