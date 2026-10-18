@@ -6,31 +6,18 @@ import { SITE_DESCRIPTION } from "@/lib/constants";
 
 /** トップページのエミュレータを起動したときに実行するコマンド */
 const STARTUP_COMMAND = 'PRINT "HELLO,WORLD!"';
-
-// 打ち込み中に見出しの高さが変わらないよう、決まった位置でだけ改行し、幅に収まる文字サイズにする
-/** 見出しの行。lg 未満はこの単位で改行し、lg 以上は 1 行にまとめる */
-const HEADING_LINES = ["Welcome to", "Uchii's BLOG"];
-const HEADING = HEADING_LINES.join("\n");
-// IchigoJam フォントは 1 文字 1em の等幅のため、文字数（末尾のカーソル 1 文字分を含む）がそのまま横幅になる
-const CURSOR_WIDTH_EM = 1;
-const HEADING_LINE_WIDTH_EM =
-  Math.max(...HEADING_LINES.map((line) => line.length)) + CURSOR_WIDTH_EM;
-const HEADING_WIDTH_EM = HEADING_LINES.join(" ").length + CURSOR_WIDTH_EM;
-const HEADING_STYLE = `--heading-line-width: ${HEADING_LINE_WIDTH_EM}; --heading-width: ${HEADING_WIDTH_EM}`;
 ---
 
 <div class="container mx-auto grid grid-cols-1 items-center gap-10 px-4 py-12 sm:px-10 lg:grid-cols-2 lg:py-20">
-  <div class="@container lg:col-span-2" style={HEADING_STYLE}>
+  <div class="space-y-6">
     <Typewriter
       client:load
       as="h1"
-      className="font-ichigojam text-[length:min(var(--text-3xl),calc((100cqi_-_var(--spacing))/var(--heading-line-width)))] leading-snug whitespace-pre-line text-foreground-strong md:text-[length:min(var(--text-4xl),calc((100cqi_-_var(--spacing))/var(--heading-line-width)))] lg:text-[length:min(var(--text-5xl),calc((100cqi_-_var(--spacing))/var(--heading-width)))] lg:whitespace-nowrap"
-      texts={[HEADING]}
+      className="font-ichigojam text-3xl leading-snug text-foreground-strong md:text-4xl lg:text-5xl"
+      texts={["Welcome to Uchii's BLOG"]}
       cursorVisible
       delay={1000}
     />
-  </div>
-  <div class="space-y-6">
     <p class="text-lg leading-relaxed">{SITE_DESCRIPTION}</p>
     <a href="/blog" class={buttonVariants()}>
       記事を読む ▶
