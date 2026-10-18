@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 
 import AuthorProfile from "@/components/author/AuthorProfile.astro";
-import BlogSelector from "@/components/home/BlogSelector";
+import BlogSelector, { type PostSummary } from "@/components/home/BlogSelector";
 import MainVisual from "@/components/home/MainVisual.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
@@ -12,12 +12,18 @@ const RECENT_POSTS_COUNT = 3;
 // 下書きを除外
 const allPosts = await getCollection("blog", ({ data }) => data.draft !== true);
 
-const recentPosts = allPosts
+const recentPosts: PostSummary[] = allPosts
   .toSorted(
     (a, b) =>
       new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf(),
   )
-  .slice(0, RECENT_POSTS_COUNT);
+  .slice(0, RECENT_POSTS_COUNT)
+  .map(({ id, data: { title, pubDate, tags } }) => ({
+    id,
+    title,
+    pubDate,
+    tags,
+  }));
 ---
 
 <BaseLayout>
