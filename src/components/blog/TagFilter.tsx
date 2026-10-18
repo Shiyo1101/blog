@@ -1,11 +1,9 @@
-"use client";
-
 import { type KeyboardEvent, useId, useState } from "react";
 
 import { tagVariants } from "@/components/ui/tag";
 import { cn } from "@/lib/utils";
 
-type TagSearchBarProps = {
+type TagFilterProps = {
   tags: string[];
   currentTag?: string;
 };
@@ -15,7 +13,7 @@ const ALL_POSTS_PATH = "/blog";
 const tagPath = (tag: string) => `${ALL_POSTS_PATH}/${tag}`;
 
 /** タグをその場で絞り込み、Enter で先頭のタグのページへ移動する */
-const TagSearchBar = ({ tags, currentTag }: TagSearchBarProps) => {
+const TagFilter = ({ tags, currentTag }: TagFilterProps) => {
   const [query, setQuery] = useState("");
   const inputId = useId();
   const helpId = useId();
@@ -105,4 +103,4 @@ const TagSearchBar = ({ tags, currentTag }: TagSearchBarProps) => {
   );
 };
 
-export default TagSearchBar;
+export default TagFilter;

@@ -5,7 +5,7 @@ import {
   IchigoJamCharacterOfCursor,
   type IJCharacterCode,
   IJCharacterCodes,
-} from "@/lib/constants";
+} from "@/lib/ichigojam/characters";
 import { cn } from "@/lib/utils";
 
 type IJTypographyProps = {

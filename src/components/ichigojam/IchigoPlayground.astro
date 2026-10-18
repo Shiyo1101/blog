@@ -1,5 +1,5 @@
 ---
-import IchigoPlaygroundReact from "./IchigoPlayground";
+import IchigoPlaygroundEditor from "./IchigoPlaygroundEditor";
 
 type Props = {
   /** エディタに最初に表示する IchigoJam BASIC のプログラム */
@@ -20,7 +20,7 @@ const { code, title = "IchigoJam BASIC Playground", autoRun } = Astro.props;
   <p class="inline-block bg-border px-3 py-1.5 font-ichigojam text-sm text-background">
     {title}
   </p>
-  <IchigoPlaygroundReact
+  <IchigoPlaygroundEditor
     client:visible
     code={code.trim()}
     title={title}

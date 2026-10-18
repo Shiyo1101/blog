@@ -1,5 +1,3 @@
-"use client";
-
 import { type FC, type ReactNode, useEffect, useRef } from "react";
 
 /** 1フレームあたりの想定時間（ms） */

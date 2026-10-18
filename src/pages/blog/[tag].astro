@@ -1,13 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 
-import BlogCard from "@/components/Blog/BlogCard.astro";
-import BlogCardWrapper from "@/components/Blog/BlogCardWrapper.astro";
-import TagSearchBar from "@/components/Blog/TagSearchBar.astro";
-import { buttonVariants } from "@/components/ui/button";
-import Typewriter from "@/components/ui/typewriter";
+import BlogCard from "@/components/blog/BlogCard.astro";
+import PostGrid from "@/components/blog/PostGrid.astro";
+import TagSearchBar from "@/components/blog/TagSearchBar.astro";
+import PageContainer from "@/components/layout/PageContainer.astro";
+import { buttonVariants } from "@/components/ui/Button";
+import Typewriter from "@/components/ui/Typewriter";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import GridLayout from "@/layouts/GridLayout.astro";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("blog");
@@ -43,7 +43,7 @@ const { posts } = Astro.props;
 ---
 
 <BaseLayout title={`タグ検索: ${tag}`}>
-  <GridLayout>
+  <PageContainer>
     <Typewriter
       client:load
       as="h1"
@@ -54,15 +54,15 @@ const { posts } = Astro.props;
     <div class="mb-10">
       <TagSearchBar currentTag={tag} />
     </div>
-    <BlogCardWrapper>
+    <PostGrid>
       {posts.map((post, index) => (
         <BlogCard post={post} isPriority={index === 0} />
       ))}
-    </BlogCardWrapper>
+    </PostGrid>
     <div class="mt-12 text-center">
       <a href="/blog" class={buttonVariants({ variant: "secondary" })}>
         すべての記事を見る ▶
       </a>
     </div>
-  </GridLayout>
+  </PageContainer>
 </BaseLayout>

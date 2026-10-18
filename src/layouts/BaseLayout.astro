@@ -3,11 +3,11 @@ import "@/styles/global.css";
 import { SEO } from "astro-seo";
 import { ClientRouter } from "astro:transitions";
 
-import Footer from "@/components/Base/Footer.astro";
-import Header from "@/components/Base/Header.astro";
-import JsonLd from "@/components/SEO/JsonLd.astro";
-import ClickShatterBlock from "@/components/ui/click-shatter-block";
-import { SITE_DESCRIPTION } from "@/lib/constants";
+import ClickShatterBlock from "@/components/layout/ClickShatterBlock";
+import Footer from "@/components/layout/Footer.astro";
+import Header from "@/components/layout/Header.astro";
+import JsonLd from "@/components/seo/JsonLd.astro";
+import { SITE_DESCRIPTION } from "@/lib/site";
 import fontsHref from "@/styles/fonts.css?url";
 
 export type Props = {

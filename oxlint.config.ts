@@ -125,16 +125,11 @@ export default defineConfig({
   },
   overrides: [
     {
-      // コンポーネントとレイアウトはパスカルケース（shadcn/ui のコンポーネントを除く）
+      // コンポーネントとレイアウトはパスカルケース（shadcn/ui から追加したコンポーネントも合わせる）。
+      // コンポーネントではない .ts（スタイルの定義など）は他のモジュールと同じくケバブケース
       files: ["src/components/**/*.{astro,tsx}", "src/layouts/**/*.astro"],
       rules: {
         "unicorn/filename-case": ["error", { case: "pascalCase" }],
-      },
-    },
-    {
-      files: ["src/components/ui/**"],
-      rules: {
-        "unicorn/filename-case": ["error", { case: "kebabCase" }],
       },
     },
     {

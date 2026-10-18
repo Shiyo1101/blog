@@ -3,7 +3,7 @@ import { Close, Play, Reload, Stop } from "pixelarticons/react";
 import { useEffect, useId, useRef, useState } from "react";
 
 import { IchigoScreen, runProgram } from "./IchigoScreen";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
 type IchigoCodeRunnerProps = {

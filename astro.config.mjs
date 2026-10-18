@@ -6,7 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 import robotsTxt from "astro-robots-txt";
 import { defineConfig } from "astro/config";
 
-import { ichigoJamLanguage } from "./src/lib/ichigojam-language";
+import { ichigoJamLanguage } from "./src/lib/ichigojam/language";
 
 // https://astro.build/config
 export default defineConfig({

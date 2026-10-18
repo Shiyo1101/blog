@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
@@ -12,7 +10,7 @@ type Props = {
 };
 
 // アニメーションライブラリを読み込まずに済むよう、表示の切り替えは CSS の transition で行う
-const HeaderMotionWrapper = ({ children }: Props) => {
+const HideOnScrollHeader = ({ children }: Props) => {
   const [hidden, setHidden] = useState(false);
   const lastScrollY = useRef(0);
 
@@ -52,4 +50,4 @@ const HeaderMotionWrapper = ({ children }: Props) => {
   );
 };
 
-export default HeaderMotionWrapper;
+export default HideOnScrollHeader;
