@@ -2,7 +2,7 @@
 
 import type { CollectionEntry } from "astro:content";
 import { motion, useReducedMotion } from "motion/react";
-import { type KeyboardEvent, useRef } from "react";
+import { type KeyboardEvent, useRef, useSyncExternalStore } from "react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { RetroWindow } from "@/components/ui/retro-window";
@@ -24,14 +24,23 @@ type BlogSelectorProps = {
   posts: CollectionEntry<"blog">[];
 };
 
-const isNewPost = (pubDate: Date) =>
-  Math.floor((Date.now() - new Date(pubDate).getTime()) / MS_PER_DAY) <=
-  NEW_POST_DAYS;
+const isNewPost = (pubDate: Date, now: number) =>
+  Math.floor((now - new Date(pubDate).getTime()) / MS_PER_DAY) <= NEW_POST_DAYS;
+
+// 現在時刻は変化を通知しないため、購読は何もしない
+const subscribeNow = () => () => {};
+/** ブラウザでモジュールを読み込んだ時刻。描画のたびに値が変わらないよう固定する */
+const LOADED_AT = Date.now();
+const getNow = (): number | null => LOADED_AT;
+// ビルド時の HTML では判定せず、ハイドレーション後にブラウザの時刻で判定する
+const getServerNow = () => null;
 
 /** ゲームのメニュー風の記事一覧。↑↓ で項目を移動し、Enter で開く */
 const BlogSelector = ({ posts }: BlogSelectorProps) => {
   const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const prefersReducedMotion = useReducedMotion() === true;
+  // ビルド時と閲覧時で判定が食い違わないよう、NEW! はブラウザの時刻で判定する
+  const now = useSyncExternalStore(subscribeNow, getNow, getServerNow);
 
   const moveFocus = (
     event: KeyboardEvent<HTMLAnchorElement>,
@@ -80,7 +89,7 @@ const BlogSelector = ({ posts }: BlogSelectorProps) => {
                   ))}
                 </span>
               </span>
-              {isNewPost(post.data.pubDate) && (
+              {now !== null && isNewPost(post.data.pubDate, now) && (
                 <motion.span
                   className="shrink-0 border-2 border-border bg-highlight px-2 py-0.5 font-display text-sm text-foreground-strong"
                   animate={
