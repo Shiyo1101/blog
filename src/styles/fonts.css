@@ -1,0 +1,2 @@
+/* 日本語フォントは @font-face だけで大きいため、描画を止めないよう global.css とは別に非同期で読み込む */
+@import "@fontsource/dotgothic16";
