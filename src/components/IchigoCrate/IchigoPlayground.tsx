@@ -3,7 +3,7 @@ import { Play, Power, Stop, Undo } from "pixelarticons/react";
 import { useId, useRef, useState } from "react";
 
 import { IchigoScreen, runProgram } from "./IchigoScreen";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 
 type IchigoPlaygroundProps = {
   /** エディタに最初に表示するプログラム */

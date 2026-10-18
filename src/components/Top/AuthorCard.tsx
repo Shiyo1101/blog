@@ -2,8 +2,8 @@ import { motion, useReducedMotion } from "motion/react";
 import { BookOpen } from "pixelarticons/react";
 import { useState } from "react";
 
-import { IJCharacter } from "@/components/ui/ichigojam";
-import { RetroWindow } from "@/components/ui/retro-window";
+import { IJCharacter } from "@/components/ichigojam/IchigoJamText";
+import { RetroWindow } from "@/components/ui/RetroWindow";
 import { tagVariants } from "@/components/ui/tag";
 import { IJCharacterCodes } from "@/lib/ichigojam/characters";
 

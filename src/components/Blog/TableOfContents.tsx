@@ -2,7 +2,7 @@ import type { MarkdownHeading } from "astro";
 import { AnimatePresence, motion, stagger, type Variants } from "motion/react";
 import { useEffect, useId, useState, useSyncExternalStore } from "react";
 
-import { RetroWindow } from "@/components/ui/retro-window";
+import { RetroWindow } from "@/components/ui/RetroWindow";
 import { cn } from "@/lib/utils";
 
 type TocProps = {

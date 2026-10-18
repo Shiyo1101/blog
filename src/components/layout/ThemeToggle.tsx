@@ -1,13 +1,13 @@
 import { Moon, Sun } from "pixelarticons/react";
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/DropdownMenu";
 
 type Theme = "theme-light" | "dark" | "system";
 
@@ -19,7 +19,7 @@ const getInitialTheme = (): Theme =>
     ? "dark"
     : "theme-light";
 
-export function ModeToggle() {
+export function ThemeToggle() {
   const [theme, setTheme] = React.useState<Theme>(getInitialTheme);
 
   React.useEffect(() => {
