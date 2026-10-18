@@ -1,5 +1,3 @@
-"use client";
-
 import type { MarkdownHeading } from "astro";
 import { AnimatePresence, motion, stagger, type Variants } from "motion/react";
 import { useEffect, useId, useState, useSyncExternalStore } from "react";

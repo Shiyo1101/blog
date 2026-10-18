@@ -1,5 +1,3 @@
-"use client";
-
 import type { CollectionEntry } from "astro:content";
 import { motion, useReducedMotion } from "motion/react";
 import { type KeyboardEvent, useRef, useSyncExternalStore } from "react";

@@ -1,5 +1,3 @@
-"use client";
-
 import { type KeyboardEvent, useId, useState } from "react";
 
 import { tagVariants } from "@/components/ui/tag";

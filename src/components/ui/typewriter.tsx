@@ -1,5 +1,3 @@
-"use client";
-
 import { type ClassValue, clsx } from "clsx";
 import { type JSX, useEffect, useRef, useState } from "react";
 
