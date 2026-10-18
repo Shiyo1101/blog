@@ -7,12 +7,19 @@ import { formatDate } from "@/lib/utils";
 
 type Props = {
   post: CollectionEntry<"blog">;
+  /** 最初に表示されるカードか。画像を優先して読み込む */
+  isPriority?: boolean;
 };
 
 /** カードに表示するタグの最大数 */
 const MAX_TAGS = 2;
+/** カード画像として書き出す幅（px） */
+const CARD_IMAGE_WIDTHS = [320, 480, 640];
+/** BlogCardWrapper の列数（1 / 2 / 3 列）に合わせた画像の表示幅 */
+const CARD_IMAGE_SIZES =
+  "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw";
 
-const { post } = Astro.props;
+const { post, isPriority = false } = Astro.props;
 ---
 
 <article
@@ -26,6 +33,9 @@ const { post } = Astro.props;
       alt=""
       width={640}
       height={360}
+      widths={CARD_IMAGE_WIDTHS}
+      sizes={CARD_IMAGE_SIZES}
+      priority={isPriority}
       transition:name={`blog-image-${post.id}`}
     />
   </div>

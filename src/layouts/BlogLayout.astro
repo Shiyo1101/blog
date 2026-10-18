@@ -17,6 +17,11 @@ type Props = {
 const { post } = Astro.props;
 const { Content, headings } = await render(post);
 const readingTime = calculateReadingTime(post.body ?? "");
+
+/** トップ画像として書き出す幅（px） */
+const TOP_IMAGE_WIDTHS = [400, 800, 1280];
+/** 本文の列（md 以上で 12 列中 7 列）に合わせた画像の表示幅 */
+const TOP_IMAGE_SIZES = "(min-width: 768px) 58vw, 100vw";
 ---
 
 <div class="container mx-auto px-4 py-8 sm:px-10 md:py-12">
@@ -78,8 +83,9 @@ const readingTime = calculateReadingTime(post.body ?? "");
               alt={post.data.title}
               width={1280}
               height={720}
-              loading="eager"
-              decoding="async"
+              widths={TOP_IMAGE_WIDTHS}
+              sizes={TOP_IMAGE_SIZES}
+              priority
             />
           </figure>
         )}

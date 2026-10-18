@@ -37,8 +37,8 @@ const sortedPosts = allPosts.toSorted(
     </div>
     <div transition:name="blog-list-content">
       <BlogCardWrapper>
-        {sortedPosts.map((post) => (
-          <BlogCard post={post} />
+        {sortedPosts.map((post, index) => (
+          <BlogCard post={post} isPriority={index === 0} />
         ))}
       </BlogCardWrapper>
     </div>
