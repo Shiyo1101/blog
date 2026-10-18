@@ -1,6 +1,6 @@
 ---
 import { IJTypography } from "@/components/ichigojam/IchigoJamText";
-import HideOnScrollHeader from "@/components/layout/HideOnScrollHeader";
+import HideOnScrollHeader from "@/components/layout/HideOnScrollHeader.astro";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 
 const { pathname } = Astro.url;
@@ -11,7 +11,7 @@ const navItems = [
 ];
 ---
 
-<HideOnScrollHeader client:load>
+<HideOnScrollHeader>
   <div class="flex flex-wrap items-center gap-x-8 gap-y-1">
     <a
       href="/"
