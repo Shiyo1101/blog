@@ -1,56 +1,54 @@
 "use client";
 
-import {
-  motion,
-  useMotionValueEvent,
-  useReducedMotion,
-  useScroll,
-} from "motion/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-/** ヘッダーの表示・非表示の切り替え時間（秒）。トークンの duration.base（240ms）に合わせる */
-const HEADER_TRANSITION_SECONDS = 0.24;
+import { cn } from "@/lib/utils";
+
+/** この位置（px）より下で下方向にスクロールしたらヘッダーを隠す */
+const HIDE_THRESHOLD_PX = 100;
 
 type Props = {
   children: React.ReactNode;
 };
 
+// アニメーションライブラリを読み込まずに済むよう、表示の切り替えは CSS の transition で行う
 const HeaderMotionWrapper = ({ children }: Props) => {
-  const { scrollY } = useScroll();
-  const prefersReducedMotion = useReducedMotion() === true;
   const [hidden, setHidden] = useState(false);
   const lastScrollY = useRef(0);
 
-  // scrollYの変更を検知してヘッダーの表示/非表示を切り替える
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const delta = latest - lastScrollY.current;
+  useEffect(() => {
+    let frameId = 0;
 
-    if (latest > 100 && delta > 0) {
-      setHidden(true);
-    } else {
-      setHidden(false);
-    }
+    // スクロール量の変化から、ヘッダーの表示/非表示を切り替える
+    const update = () => {
+      const latest = globalThis.scrollY;
+      const delta = latest - lastScrollY.current;
+      setHidden(latest > HIDE_THRESHOLD_PX && delta > 0);
+      lastScrollY.current = latest;
+    };
 
-    lastScrollY.current = latest;
-  });
+    const handleScroll = () => {
+      cancelAnimationFrame(frameId);
+      frameId = requestAnimationFrame(update);
+    };
 
-  const headerVariants = {
-    visible: { y: 0 },
-    hidden: { y: "-100%" },
-  };
+    globalThis.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      globalThis.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(frameId);
+    };
+  }, []);
 
   return (
-    <motion.header
-      className="sticky top-0 z-50 flex min-h-16 w-full items-center justify-between gap-4 border-b-4 border-border bg-background px-4 py-3 sm:px-10"
-      variants={headerVariants}
-      animate={hidden ? "hidden" : "visible"}
-      transition={{
-        duration: prefersReducedMotion ? 0 : HEADER_TRANSITION_SECONDS,
-        ease: "easeOut",
-      }}
+    <header
+      className={cn(
+        "sticky top-0 z-50 flex min-h-16 w-full items-center justify-between gap-4 border-b-4 border-border bg-background px-4 py-3 transition-transform duration-240 ease-out motion-reduce:transition-none sm:px-10",
+        hidden && "-translate-y-full",
+      )}
     >
       {children}
-    </motion.header>
+    </header>
   );
 };
 
