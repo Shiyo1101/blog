@@ -1,30 +1,33 @@
 ---
+import type { ClassValue } from "clsx";
 import { BookOpen } from "pixelarticons/react";
 
 import { IJCharacter } from "@/components/ichigojam/IchigoJamText";
 import { RetroWindow } from "@/components/ui/RetroWindow";
 import { tagVariants } from "@/components/ui/tag";
+import { AUTHOR } from "@/lib/author";
 import { IJCharacterCodes } from "@/lib/ichigojam/characters";
 
-const SKILLS = ["⭐ IchigoJam検定1級", "📚 技術書執筆"];
+type Props = {
+  /** ウィンドウの見出し */
+  title: string;
+  class?: ClassValue;
+};
+
+const { title, class: className } = Astro.props;
+const [bookSeries, bookName] = AUTHOR.book.titleLines;
 ---
 
-<RetroWindow title="ABOUT THE AUTHOR" className="not-prose">
+<RetroWindow title={title} className={className}>
   <div class="flex flex-col gap-5 sm:flex-row">
     <div class="mx-auto flex size-24 shrink-0 items-center justify-center border-2 border-border bg-screen text-screen-foreground sm:mx-0">
       <IJCharacter className="text-5xl" characterCodes={IJCharacterCodes.Cat} />
     </div>
     <div class="min-w-0 flex-1 space-y-2">
-      <p class="font-display text-xl text-foreground-strong">
-        うっちー（Yoshiki Uchida）
-      </p>
-      <p class="text-sm leading-relaxed">
-        福井県鯖江市に生まれたWebエンジニア。
-        高校生の時に子供向けパソコンであるIchigoJamで
-        プログラミングを初めて学ぶ。 趣味はツーリングとゲーム。
-      </p>
+      <p class="font-display text-xl text-foreground-strong">{AUTHOR.name}</p>
+      <p class="text-sm leading-relaxed">{AUTHOR.bio}</p>
       <ul class="flex flex-wrap gap-2 pt-1">
-        {SKILLS.map((skill) => (
+        {AUTHOR.skills.map((skill) => (
           <li class={tagVariants()}>{skill}</li>
         ))}
       </ul>
@@ -36,12 +39,12 @@ const SKILLS = ["⭐ IchigoJam検定1級", "📚 技術書執筆"];
       書籍
     </p>
     <p class="text-foreground-strong">
-      「FOR文と配列にチャレンジする
+      「{bookSeries}
       <br class="sm:hidden" />
-      Hana道場式プログラミング」
+      {bookName}」
     </p>
     <a
-      href="https://hanadojo.official.ec/items/90694010"
+      href={AUTHOR.book.url}
       target="_blank"
       rel="noopener noreferrer"
       class="inline-block text-sm font-medium text-link underline underline-offset-4 hover:decoration-2"
