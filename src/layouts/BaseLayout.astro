@@ -8,6 +8,7 @@ import Header from "@/components/Base/Header.astro";
 import JsonLd from "@/components/SEO/JsonLd.astro";
 import ClickShatterBlock from "@/components/ui/click-shatter-block";
 import { SITE_DESCRIPTION } from "@/lib/constants";
+import fontsHref from "@/styles/fonts.css?url";
 
 export type Props = {
   title?: string;
@@ -41,6 +42,22 @@ const fullImageUrl = new URL(image, Astro.site).href;
       type="font/woff"
       crossorigin="anonymous"
     />
+
+    <!-- 日本語フォントの @font-face は描画を止めないよう、スクリプトから追加して非同期で適用する -->
+    <script is:inline define:vars={{ fontsHref }}>
+      const addFontsLink = () => {
+        if (document.head.querySelector(`link[href="${fontsHref}"]`)) {
+          return;
+        }
+        const fontsLink = document.createElement("link");
+        fontsLink.rel = "stylesheet";
+        fontsLink.href = fontsHref;
+        document.head.append(fontsLink);
+      };
+      addFontsLink();
+      // ページ遷移で head が入れ替わると追加した link が消えるため、遷移のたびに戻す
+      document.addEventListener("astro:after-swap", addFontsLink);
+    </script>
 
     <script is:inline>
       function getThemePreference() {

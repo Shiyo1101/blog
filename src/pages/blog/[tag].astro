@@ -55,8 +55,8 @@ const { posts } = Astro.props;
       <TagSearchBar currentTag={tag} />
     </div>
     <BlogCardWrapper>
-      {posts.map((post) => (
-        <BlogCard post={post} />
+      {posts.map((post, index) => (
+        <BlogCard post={post} isPriority={index === 0} />
       ))}
     </BlogCardWrapper>
     <div class="mt-12 text-center">

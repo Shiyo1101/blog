@@ -38,5 +38,9 @@ export default defineConfig({
       langs: [ichigoJamLanguage],
     },
   },
+  build: {
+    // 描画を止める CSS のリクエストをなくすため、HTML に直接埋め込む（日本語フォントの CSS は別途非同期で読み込む）
+    inlineStylesheets: "always",
+  },
   site: "https://uchii-blog.netlify.app",
 });
