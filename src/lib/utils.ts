@@ -7,6 +7,8 @@ const JAPANESE_CHARS_PER_MINUTE = 400;
 const ENGLISH_WORDS_PER_MINUTE = 200;
 /** 読了時間の最小値（分） */
 const MIN_READING_MINUTES = 1;
+/** 日付を表示するタイムゾーン。ビルド環境と閲覧者の環境で日付がずれないよう固定する */
+const DISPLAY_TIME_ZONE = "Asia/Tokyo";
 
 // global.css の @theme で追加した値を登録し、既定の値と同じように上書きできるようにする
 const twMerge = extendTailwindMerge({
@@ -27,6 +29,7 @@ export const formatDate = (date: Date) =>
     year: "numeric",
     month: "long",
     day: "numeric",
+    timeZone: DISPLAY_TIME_ZONE,
   }).format(date);
 
 /**
