@@ -1,9 +1,9 @@
 ---
 import { getCollection } from "astro:content";
 
-import AuthorCard from "@/components/Top/AuthorCard";
-import BlogSelector from "@/components/Top/BlogSelector";
-import MainVisual from "@/components/Top/MainVisual.astro";
+import AuthorProfile from "@/components/author/AuthorProfile.astro";
+import BlogSelector from "@/components/home/BlogSelector";
+import MainVisual from "@/components/home/MainVisual.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 /** トップページに表示する最新記事の数 */
@@ -24,7 +24,7 @@ const recentPosts = allPosts
   <MainVisual />
   <div class="bg-muted">
     <div class="container mx-auto grid grid-cols-1 items-start gap-10 px-4 py-12 sm:px-10 lg:grid-cols-2">
-      <AuthorCard client:visible />
+      <AuthorProfile title="STATUS" class="w-full" />
       <BlogSelector client:visible posts={recentPosts} />
     </div>
   </div>

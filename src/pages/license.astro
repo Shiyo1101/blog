@@ -1,18 +1,18 @@
 ---
 import { BookOpen } from "pixelarticons/react";
 
-import { buttonVariants } from "@/components/ui/button";
-import { RetroWindow } from "@/components/ui/retro-window";
-import Typewriter from "@/components/ui/typewriter";
+import PageContainer from "@/components/layout/PageContainer.astro";
+import { buttonVariants } from "@/components/ui/Button";
+import { RetroWindow } from "@/components/ui/RetroWindow";
+import Typewriter from "@/components/ui/Typewriter";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import GridLayout from "@/layouts/GridLayout.astro";
 
 const linkClass =
   "font-medium text-link underline underline-offset-4 hover:decoration-2";
 ---
 
 <BaseLayout title="ライセンス情報">
-  <GridLayout>
+  <PageContainer>
     <div class="mx-auto max-w-4xl space-y-10">
       <Typewriter
         client:load
@@ -128,5 +128,5 @@ const linkClass =
         </ul>
       </RetroWindow>
     </div>
-  </GridLayout>
+  </PageContainer>
 </BaseLayout>

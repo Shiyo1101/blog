@@ -3,10 +3,10 @@ import { Image } from "astro:assets";
 import { type CollectionEntry, render } from "astro:content";
 import { Calendar, Clock } from "pixelarticons/react";
 
-import AuthorInfo from "@/components/Blog/AuthorInfo.astro";
-import Breadcrumb from "@/components/Blog/Breadcrumb.astro";
-import ShareButtons from "@/components/Blog/ShareButtons.astro";
-import TableOfContents from "@/components/Blog/TableOfContents";
+import AuthorProfile from "@/components/author/AuthorProfile.astro";
+import Breadcrumb from "@/components/blog/Breadcrumb.astro";
+import ShareButtons from "@/components/blog/ShareButtons.astro";
+import TableOfContents from "@/components/blog/TableOfContents";
 import { tagVariants } from "@/components/ui/tag";
 import { calculateReadingTime, formatDate } from "@/lib/utils";
 
@@ -105,7 +105,7 @@ const TOP_IMAGE_SIZES = "(min-width: 768px) 58vw, 100vw";
         <span class="h-1 w-full bg-border"></span>
       </div>
 
-      <AuthorInfo />
+      <AuthorProfile title="ABOUT THE AUTHOR" class="not-prose" />
 
       <div class="mt-8 border-2 border-border bg-card p-5 shadow-pixel-md md:hidden">
         <div class="flex flex-wrap items-center gap-4">

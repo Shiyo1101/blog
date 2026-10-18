@@ -1,0 +1,55 @@
+---
+import type { ClassValue } from "clsx";
+import { BookOpen } from "pixelarticons/react";
+
+import { IJCharacter } from "@/components/ichigojam/IchigoJamText";
+import { RetroWindow } from "@/components/ui/RetroWindow";
+import { tagVariants } from "@/components/ui/tag";
+import { AUTHOR } from "@/lib/author";
+import { IJCharacterCodes } from "@/lib/ichigojam/characters";
+
+type Props = {
+  /** ウィンドウの見出し */
+  title: string;
+  class?: ClassValue;
+};
+
+const { title, class: className } = Astro.props;
+const [bookSeries, bookName] = AUTHOR.book.titleLines;
+---
+
+<RetroWindow title={title} className={className}>
+  <div class="flex flex-col gap-5 sm:flex-row">
+    <div class="mx-auto flex size-24 shrink-0 items-center justify-center border-2 border-border bg-screen text-screen-foreground motion-safe:hover:animate-bob sm:mx-0">
+      <IJCharacter className="text-5xl" characterCodes={IJCharacterCodes.Cat} />
+    </div>
+    <div class="min-w-0 flex-1 space-y-2">
+      <p class="font-display text-xl text-foreground-strong">{AUTHOR.name}</p>
+      <p class="text-sm leading-relaxed">{AUTHOR.bio}</p>
+      <ul class="flex flex-wrap gap-2 pt-1">
+        {AUTHOR.skills.map((skill) => (
+          <li class={tagVariants()}>{skill}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+  <div class="mt-5 space-y-1.5 bg-muted p-3">
+    <p class="flex items-center gap-1.5 font-display text-sm text-muted-foreground">
+      <BookOpen className="size-6" aria-hidden="true" />
+      書籍
+    </p>
+    <p class="text-foreground-strong">
+      「{bookSeries}
+      <br class="sm:hidden" />
+      {bookName}」
+    </p>
+    <a
+      href={AUTHOR.book.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-block text-sm font-medium text-link underline underline-offset-4 hover:decoration-2"
+    >
+      → 購入はこちらから
+    </a>
+  </div>
+</RetroWindow>

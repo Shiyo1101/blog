@@ -1,11 +1,9 @@
-"use client";
-
 import type { CollectionEntry } from "astro:content";
 import { motion, useReducedMotion } from "motion/react";
 import { type KeyboardEvent, useRef, useSyncExternalStore } from "react";
 
-import { buttonVariants } from "@/components/ui/button";
-import { RetroWindow } from "@/components/ui/retro-window";
+import { buttonVariants } from "@/components/ui/Button";
+import { RetroWindow } from "@/components/ui/RetroWindow";
 import { tagVariants } from "@/components/ui/tag";
 import { cn, formatDate } from "@/lib/utils";
 
