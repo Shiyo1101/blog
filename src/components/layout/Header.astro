@@ -1,6 +1,6 @@
 ---
-import HeaderMotionWrapper from "@/components/Base/HeaderMotionWrapper";
 import { IJTypography } from "@/components/ichigojam/IchigoJamText";
+import HideOnScrollHeader from "@/components/layout/HideOnScrollHeader";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 
 const { pathname } = Astro.url;
@@ -11,7 +11,7 @@ const navItems = [
 ];
 ---
 
-<HeaderMotionWrapper client:load>
+<HideOnScrollHeader client:load>
   <div class="flex flex-wrap items-center gap-x-8 gap-y-1">
     <a
       href="/"
@@ -40,4 +40,4 @@ const navItems = [
     </nav>
   </div>
   <ThemeToggle client:idle />
-</HeaderMotionWrapper>
+</HideOnScrollHeader>

@@ -4,9 +4,9 @@ import { getCollection } from "astro:content";
 import BlogCard from "@/components/Blog/BlogCard.astro";
 import BlogCardWrapper from "@/components/Blog/BlogCardWrapper.astro";
 import TagSearchBar from "@/components/Blog/TagSearchBar.astro";
+import PageContainer from "@/components/layout/PageContainer.astro";
 import Typewriter from "@/components/ui/Typewriter";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import GridLayout from "@/layouts/GridLayout.astro";
 
 const DESCRIPTION = "すべてのブログ記事一覧です。";
 
@@ -21,7 +21,7 @@ const sortedPosts = allPosts.toSorted(
 ---
 
 <BaseLayout title="ブログ" description={DESCRIPTION}>
-  <GridLayout>
+  <PageContainer>
     <div class="mb-8 space-y-3" transition:name="blog-list-header">
       <Typewriter
         client:load
@@ -42,5 +42,5 @@ const sortedPosts = allPosts.toSorted(
         ))}
       </BlogCardWrapper>
     </div>
-  </GridLayout>
+  </PageContainer>
 </BaseLayout>
