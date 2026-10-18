@@ -15,6 +15,22 @@
 }
 
 /*
+ * IchigoJam フォントが届くまでの代替フォント。読み込み後に文字の幅や行の高さが変わって
+ * レイアウトがずれないよう、等幅フォント（文字幅 0.6em）を IchigoJam と同じ寸法
+ * （文字幅 1em、ascent 0.875em、descent 0.125em）に合わせる。override は size-adjust 後の値で指定する
+ */
+@font-face {
+  font-family: "IchigoJam Fallback";
+  src:
+    local("Courier New"), local("Menlo"), local("DejaVu Sans Mono"),
+    local("Liberation Mono"), local("Droid Sans Mono");
+  size-adjust: 166.667%;
+  ascent-override: 52.5%;
+  descent-override: 7.5%;
+  line-gap-override: 0%;
+}
+
+/*
  * デザイントークン（Penpot の「00 Tokens」と対応）
  * primitive: 色の段階。直接は使わず、下の semantic から参照する
  */
@@ -215,7 +231,7 @@
     "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", Meiryo,
     sans-serif;
   --font-display: "DotGothic16", var(--font-sans);
-  --font-ichigojam: "IchigoJam", monospace, sans-serif;
+  --font-ichigojam: "IchigoJam", "IchigoJam Fallback", monospace, sans-serif;
 
   /* IchigoJam カーソル（8 ドット中 2 ドット幅の縦棒） */
   --spacing-cursor: 0.25em;
